@@ -1,2366 +1,11761 @@
--- Huge thanks to Kiojeen for his "Magic Teleport" feature.
--- Check out his "Hellboy" project -> https://github.com/Kiojeen/HellBoy
-
-scriptv = {process ='com.tgc.sky.android',version=202986}
-gameinfo = gg.getTargetInfo()
-
-function vcheck()
-	if gameinfo.packageName ~= scriptv.process then
-		gg.alert('[Error] You have selected wrong process!\ngame : ' .. gameinfo.packageName)
-		os.exit()
-	end
-	
-	if tonumber(gameinfo.versionCode) < scriptv.version then
-		gg.alert('[Error] Game version mismatch! \ngame : ' .. tonumber(gameinfo.versionCode) .. '\nscript : ' .. scriptv.version)
-	end
-
-	if tonumber(gameinfo.versionCode) > scriptv.version then
-		gg.alert('[Error] Script needs update! \ngame : ' .. tonumber(gameinfo.versionCode) .. '\nscript : ' .. scriptv.version)
-	end
-end
-
-vcheck()
-
-if gg.isVisible(true) then
-	gg.setVisible(false)
-end
-
-propsid = {
-	{57978849,       "Windmill🏅"},
-	{-677716449,     "Purple Umbrella ☂️"},
-	{-644161211,     "Transparent Umbrella ☂️"},
-	{992885953,      "Table 🪑"},
-	{-1444947170,    "XMas table 🪑"},
-	{3580839943,     "Swing ❤"},
-	{3779226149,     "Campfire 🔥"},
-	{-1030495085,    "Seesaw 🔨"},
-	{3634028466,     "Flower Umbrella🌂"},
-	{2574095143,     "Umbrella ☔"},
-	{3269660804,     "Guitar 🎻"},
-	{2352004821,     "Ukulele 🎸"},
-	{-1382855507,    "Pipa 🎸"},
-	{396560731,      "Flute 🎶"},
-	{1237767078,     "Pan flute 🎺"},
-	{1889256860,     "Piano 🎹"},
-	{3275797515,     "White Piano 🎼"},
-	{3280753494,     "Firework 🎆"},
-	{4246711693,     "Shaker 🔔"},
-	{4196378836,     "Daser"},
-	{900914909,      "Steel Drum 🥁"},
-	{3499881140,     "Big Quilt Drum 🥁"},
-	{2003040587,     "Small Double Drum 🥁"},
-	{2671000446,     "Harp"},
-	{399957901,      "Xiloph"},
-	{1064146256,     "Circle Harp"},
-	{1021011859,     "Horn 📯"},
-	{2186944737,     "Ancestor Jar "},
-	{2041015009,     "Ancestral Kettle"},
-	{776794517,      "Ancestral Spear 🔱"},
-	{-896102798,     "Cornet 🎷"},
-	{1079120316,     "Bookcase 📚"},
-	{1994487329,     "Hammock 🛌"},
-	{-1762117817,    "Torch 🔥"},
-	{-1513173800,    "Tent ⛺"},
-	{-2094712299,    "lantern? 🏮"},
-	{1661108877,     "Hoop 🏀"},
-	{3314486409,     "Tea table 🍵"},
-	{351343999,      'Rose 🌹'},
-	{638976622,      'Star lamp ⭐'},
-	{-1723880395,    'Fox 🦊'},
-	{-777390487,     'Electro guitar 🎸'},
-	{-994414187,     'Birthday flag 🎉'},
-	{1638144370,     'Ocarina 🎵'},
-	{-2058340788,    'Yellow Umbrella ☂️'},
-	{1480625729,     'Double Chair 🪑🪑'},
-	{-1352265746,    'Wooden Double chair 🪑🪑'},
-	{1192794220,     'Pipe'},
-	{9427151,        'Beach ball 🏐'},
-	{-1192675672,    'Beach bed 🛏️'},
-	{1793801900,     'Stone fire 🔥'},
-	{313507026,      'Mini stone fire 🔥'},
-	{90660037,       "Aviary Flag 🏳️‍"},
-	{3772092866,     "Nightbook 🔹"},
-	{3454884039,     "Light Ball 🏐"},
-	{946432484,      "Island Umbrella ⛱️"}, 
-	{660764419,      "Brazier 3 🔥"},
-	{2546683657,     "Pumpkin 🎃"},
-	{2657110838,     "Kalimba 🎹"},
-	{1279207725,     "Mischief Table 🎃🪑"},
-	{-481291981,     "Spell Water 🌊"},
-	{1713655968,     "Spell Earth ⛰️"},
-	{-283779536,     "Spell Wind 💨"},
-	{2026179880,     "Spell Fire 🔥"},
-	{1931354705,     "Snow Globe 🔮"},
-	{-699266735,     "Pillow Xmas"},
-	{2035109393,     "Nothing"},
-	{0,              "Disable ❌"}
+stime = 3500
+MAMSHER = 8065
+sky = {
+    live = {
+        package = 'com.tgc.sky.android',
+        version = 202986,
+    },
+    huawei = {
+        package = 'com.tgc.sky.android.huawei',
+        version = 199070,
+    },
+    beta = {
+        package = 'com.tgc.sky.android.test.gold',
+        version = 200144,
+    }
 }
-
-capesid = {
-	{0,          "Invisible Cape"},
-	{2219120716, "Office Cape 🏢"},
-	{320385458,  "Nintendo Red Cape ➕"},
-	{496297629,  "Nintendo Blue Cape ➖"},
-	{-2049687945, "Brown Cape"},
-	{-4950150, "Yellow Cape"},
-	{2038455273, "Red Cape"},
-	{-1127259402, "Yellow Cape"},
-	{1611389272, "Cyan Cape"},
-	{1676224199, "Blue Cape"},
-	{-828166640, "Purple Cape"},
-	{-285876082, "Pink Cape"},
-	{-12114331, "Black Cape"},
-	{-1652732985, "White Cape"},
-	{-1837707668, "Yellow 2 Cape"},
-	{1589470987, "Red 2 Cape"},
-	{928886892, "Green 2 Cape"},
-	{-630540182, "Cyan 2 Cape"},
-	{-293636075, "Blue 2 Cape"},
-	{-47832514, "Purple 2 Cape"},
-	{-26990752, "Pink 2 Cape"},
-	{1428342959, "Black 2 Cape"},
-	{338030121, "White 2 Cape"},
-	{1433045050, "Xmas Red Cape"},
-	{511060416, "Bloom Cape"},
-	{1462163205, "Rainbow Cape"},
-	{-990430825, "Mischief Leaf Cape"},
-	{1205733815, "Dismiss Cape"},
-	{1516488095, "Petal Cape"},
-	{1740444614, "Wise Grandparent Cape"},
-	{-292359195, "Playfight Cape"},
-	{2091421626, "Butterfly Cape"},
-	{798847432, "Sunbather Cape"},
-	{-120474176, "Water Prophet Cape"},
-	{-1268890918, "Dreams Red Cape"},
-	{1685782319, "LPrince Tattered Cape"},
-	{-1079163088, "LPrince Lamplighter Cape"},
-	{11666630, "Abyss Canoneer Cape"},
-	{-998976810, "Performance Ult Cape"},
-	{1176158362, "Joker Cape"},
-	{1502325329, "Rocksta Cape"},
-	{716837019, "Dark Plant Cape"},
-	{-788868796, "Krill Cape"},
-	{-119428063, "Baby Manta Cape"},
-	{1867773122, "Jellyfish Cape"},
-	{549718023, "Shattering Manta Ult Cape"},
-	{0,          "Disable ❌"}
-}
-
-magicsid = {
-	{'❌none',0,0},
-	{'💫Small',1692428656,0},
-	{'💫Smaller',2142718166,0},
-	{'💫Big',891098028,0},
-	{'💫Bigger',-1879316162,0},
-	{'💫Glow',1097748727,0},
-	{'💫Recharge',1750685908,0},
-	{'💫Floating',1860519737,0},
-	{'💫Anti Dragon',1067647386,0},
-	{'💫Anti Darkness',383062578,0},
-	{'💫Anti rain',-1463943689,0},
-	{'💫A lot of candlelight',-1727483534,0},
-	{'💞Flight Blessing',-1362469224,0},
-	{'💞Friendship Back to Back',1405645877,0},
-	{'💞Friendship Bear Hug',1677246236,0},
-	{'💞Friendship Warp',998754260,0},
-	{'🙀Dark Crab Calling',1725047129,0},
-	{'🙀Jellyfish Calling',-957441587,0},
-	{'🙀Manta Calling',1814753890,0},
-	{'🧸Lantern',1319710173,0},
-	{'🧸Table',256924066,0},
-	{'🧸Harp',-1001892262,0},
-	{'🧸Swing',1064080243,0},
-	{'🧸Seesaw',-2095749161,0},
-	{'🧸Tea table',10058409,0},
-	{'🧸Transparent Umbrella',1167393926,0},
-	{'👗Green Bud Cloak',2079599063,1},
-	{'👗TGC Cloak',540856305,1},
-	{'👗Bat Cloak',625581156,1},
-	{'👗Spider Silk Cloak',930203946,1},
-	{'👗Snowflake Cloak',-784831205,1},
-	{'👗Christmas Cloak',1306675982,1},
-	{'👗White bird cloak',-1623262339,1},
-	{'👗petal cloak',-6043825,1},
-	{'👗Lightseeker bulb',1375571404,1},
-	{'👗Cloak of Spring', -445538750,1},
-	{'👗Sakura Cloak',162066154,1},
-	{'👗Ocean Cloak',329684861,1},
-	{'👗Dream Season Red Velvet Cloak',-308941587,1},
-	{'👗Dream Season Graduation Cloak',-1822337532,1},
-	{'👗Rainbow Cloak', -195929339,1},
-	{'👑Rainbow Flower', 2141511649,2},
-	{'👑Rainbow Tassel', -290700605,2},
-	{'👑Pumpkin Hat',1046521292,2},
-	{'👑Witch Hat',1983755432,2},
-	{'👑Lion Dance Hat',2093744529,2},
-	{'👑Double Maru Head',-2099997114,2},
-	{'👑Felt Hat',-823266018,2},
-	{'👑Sakura Hairstyle',373243257,2},
-	{'👑Dream Season Hair',1059767859,2},
-	{'🤡White Fox Mask', 784922793,2},
-	{'🤡Red Rabbit Mask', 964659005,2},
-	{'🤡Winter Mask with Sharp Mouth', -218615327,2},
-	{'🤡Tauren Mask',-849020465,2},
-	{'🤡Rose Mask',-938578505,2},
-	{'🤡Spring Red Face Mask',-1636163586,2},
-	{'🤡Dream Season Phoenix Mask',771982951,2},
-	{'🤡Dream Season Ultimate Mask',144876107,2},
-	{'🤡Antler',1909998088,2},
-	{'🤡Christmas hat',-1409683913,2},
-	{'🤡Banquet bow tie',8361886,2},
-	{'🤡Ocean Necklace',-1938239955,2},
-	{'👑Orange headgear',-1616733323,2},
-	{'🌠turquoise tail',1318288330,0},
-	{'🌠black tail',-176902809,0},
-	{'🌠blue tail',-1951801352,0},
-	{'🌠Cyan tail',1918290563,0},
-	{'🌠Green tail',637646527,0},
-	{'🌠Purple pink tail',-1527316661,0},
-	{'🌠orange tail',1237283438,0},
-	{'🌠purple tail',470393304,0},
-	{'🌠purple tail',-1071076330,0},
-	{'🌠Red tail',-1304862813,0},
-	{'🌠Yellow tail',-1354381164,0},
-	{'🌠Rainbow trail',147016038,0},
-	{'🧸Fox',2237536272,0},
-	{'👖Pants Sword',3799734077,0},
-	{'👗Scarf Cape',2207305370,1},
-	{'👗Asteroid Jacket',1402240423,1},
-	{'🧸️Chair Wood',3136256372,0},
-	{'🧸Chair Cloth',472595010,0},
-	{'🧸Pipe',2428135093,0},
-	{'👑Hair Pin',4123817368,0},
-	{'🧸️Brazier 2',160072902,0},
-	{'🧸️Summer Umbrella',2878211958,0},
-	{'👑️Summer Hat',2052387583,2},
-	{'🧸️Recliner',2875484078,0},
-	{'👗Golden Cape',330655056,1},
-	{'🙀️Kizuna AI Call',2413103828,0},
-	{'👑️Small rabit',-848739711,0},
-	{'🧸️Winter piano',-1202427550,0},
-	{'🆕️Crab Troll',901504997,0},
-	{'🆕️Anti Krill',3362316915,0}, 
-	{'👗️Canada Cape',769892976,1},
-	{'🆕️Halloween Pants',969946279,0},
-	{'🆕️Halloween Hair 1',116679863,0},
-	{'🆕️Halloween Hair 2',2534225385,0},
-	{'🆕️Halloween Pumpkin',125584301,0},
-	{'🆕️Halloween Chair',3497279169,0},
-	{'🆕️Halloween Horn',1123843208,2},
-	{'🆕️Witch Hat 2',4219181095,2},
-	{'🆕Winter Feast Scarf',70832281,0},
-	{'🆕Winter Feast Hat',2202141658,0}, 
-	{'🆕Winter Feast Cape',1762827508,2},
-	{'🆕Snow Globe',1440439821,0},
-	{'❤️Gondola', 303877523},
-	{'🧸️Triumph Handpan', 454864430},
-	{'🤡Tiger Mask', 475055967},
-	{'👑️Fish Head Acc', 551055685},
-	{'👑️Fish Hood', -1543558130},
-	{'👗️Fish Cape', 573237039},
-	{'❤️Flower Crown', 942365523},
-	{'🧸️Triumph Guitar', 970364197},
-	{'🧸️Triumph Harp', 1275481440},
-	{'👖Rainbow Trousers', 1482655023},
-	{'🧸️Bloom Table 2022', 1598845731},
-	{'🤡Turtle Necklace', 1943995802},
-	{'👗️Turtle Cape', -700035318},
-	{'👑️Kizuna Bant', 2050094531},
-	{'👑️Golden flower Head acc', 2141511649},
-	{'👑️Rainbow Headphones', -1769208928},
-	{'👑️Earings 2022', -1590289609},
-	{'👗️Wisteria Cape 2022', -1244390069},
-	{'👑️Rainbow Double Flower', -1014212311},
-	{'🧸️TGC Anniversary Guitar', 332997197},
+configs = {
+    bdis = 7,
+    awrob = false,
+    devmode = false,
+    fasthome = true,
+    mumu = false,
+    sockets = 6,
+    user = 'Hellboy User-X',
+    pbeta = true,
+    sspark = false,
 };
-
-maps = {
-	{"Home", "CandleSpace"},
-	{"Isle", "Dawn"},
-	{"Trials Cave", "DawnCave"},
-	{"Water Trial", "Dawn_TrialsWater"},
-	{"Earth Trial", "Dawn_TrialsEarth"},
-	{"Air Trial", "Dawn_TrialsAir"},
-	{"Fire Trial", "Dawn_TrialsFire"},
-	{"Prairie Butterfly Field", "Prairie_ButterflyFields"},
-	{"Bird Nest", "Prairie_NestAndKeeper"},
-	{"Sancuary Islands", "Prairie_Island"},
-	{"Prairie Cave", "Prairie_Cave"},
-	{"Prairie Village", "Prairie_Village"},
-	{"8 player puzzle", "DayHubCave"},
-	{"Prairie Temple", "DayEnd"},
-	{"Forest", "Rain"},
-	{"Forest Clearing", "RainForest"},
-	{"Forest Elevated Clearing", "RainShelter"},
-	{"Forest Caves", "Rain_Cave"},
-	{"Forest Boneyard", "RainMid"},
-	{"Forest Temple", "RainEnd"},
-	{"Treehouse", "Rain_BaseCamp"},
-	{"Wind Paths", "Skyway"},
-	{"Valley", "Sunset"},
-	{"Valley Citadel", "Sunset_Citadel"},
-	{"Valley Fly Race", "Sunset_FlyRace"},
-	{"Valley Race", "SunsetRace"},
-	{"Valley Race End", "SunsetEnd"},
-	{"Hermit Valley", "Sunset_YetiPark"},
-	{"Dream Village", "SunsetVillage"},
-	{"Valley Dream Theater", "Sunset_Theater"},
-	{"Valley Music Shop", "SunsetVillage_MusicShop"},
-	{"Valley Colosseum", "SunsetColosseum"},
-	{"Valley Temple", "SunsetEnd2"},
-	{"Wasteland Lobby", "DuskStart"},
-	{"Wasteland", "Dusk"},
-	{"Abyss Area", "Dusk_Triangle"},
-	{"Wasteland Graveyard", "DuskGraveyard"},
-	{"Forgotten Ark", "DuskOasis"},
-	{"Crab Fields", "Dusk_CrabField"},
-	{"Battlefield", "DuskMid"},
-	{"Wasteland Temple", "DuskEnd"},
-	{"Vault", "Night"},
-	{"Vault 2", "Night2"},
-	{"Vault End", "NightEnd"},
-	{"Vault Archive", "NightArchive"},
-	{"Starlight Desert", "NightDesert"},
-	{"Starlight Desert Beach", "NightDesert_Beach"},
-	{"Jar Cave", "Night_JarCave"},
-	{"Infinite Desert", "Night_InfiniteDesert"},
-	{"Planets", "NightDesert_Planets"},
-	{"Office", "TGCOffice"},
-	{"Void of Shattering", "StormEvent_VoidSpace"},
-	{"Days of Mischief", "Event_DaysOfMischief"},
-	{"Nintendo area", "Nintendo_CandleSpace"},
-	{"Eden", "StormStart"},
-	{"Eden mid", "Storm"},
-	{"!!! Eden end !!!", "StormEnd"},
-	{"!!! Orbit !!!", "OrbitMid"},
-	{"!!! Orbit 2 !!!", "OrbitEnd"},
-	{"!!! Heaven !!!", "CandleSpaceEnd"},
-	{"Credits map", "Credits"},
+--Live Offsets--
+ldistances = {
+    candles = 448,
+    flowers = 8,
+    pcandle = 56384,
+    magx = 48,
+    frags = 592,
+    candlespos = 176,
+    mcount = 3072, --Delete later
+    wbuff = 288,
+    npc = 76112,
+    xtonpc = 610944,
 }
-
--- AUTO CANDLE RUN POINTS --
-
-crpoints = {
-	{family = "Isle", name = "Isle", map = "Dawn", x = 198.626495, y = 1.420622, z = 55.874889},
-	{family = "Isle", name = "Isle", map = "Dawn", x = 188.544372, y = 2.123453, z = 282.240264},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -20.885326, y = 116.251564, z = 411.383056},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -6.596107, y = 94.594978, z = 414.994781},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -9.382213, y = 59.176074, z = 411.512390},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -13.865320, y = 51.673225, z = 374.921020},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -13.865320, y = 57.673225, z = 374.921020, e = true}, --Empty
-	{family = "Isle", name = "Isle", map = "Dawn", x = -11.492250, y = 52.585277, z = 372.309295},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -248.728149, y = 87.331031, z = 142.319595},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -236.742660, y = 85.810356, z = 146.746749},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -249.120483, y = 85.576774, z = 151.838165},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -249.120483, y = 91.576774, z = 151.838165, e = true}, --Empty
-	{family = "Isle", name = "Isle", map = "Dawn", x = -250.639999, y = 86.007148, z = 152.727386},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -41.489749, y = 9.738038, z = 212.676239, e = true}, --Empty
-	{family = "Isle", name = "Isle", map = "Dawn", x = -41.489749, y = 3.738038, z = 212.676239},
-	{family = "Isle", name = "Isle", map = "Dawn", x = -40.841159, y = 4.015078, z = 221.758468},
-
-	{family = "Isle", name = "Trials Cave", map = "DawnCave", x = -300.252471, y = 235.625747, z = -2.923966},
-	{family = "Isle", name = "Trials Cave", map = "DawnCave", x = -328.902587, y = 284.778350, z = -12.368432, e = true},
-
-	{family = "Isle", name = "Water Trial", map = "Dawn_TrialsWater", x = -99.710937, y = 65.197624, z = 36.879520},
-	{family = "Isle", name = "Water Trial", map = "Dawn_TrialsWater", x = -210.3384552001953, y = 65.64981079101562, z = -107.05089569091797},
-	{family = "Isle", name = "Water Trial", map = "Dawn_TrialsWater", x = -429.215423, y = 69.571205, z = -1.099857, e = true},
-
-	{family = "Isle", name = "Earth Trial", map = "Dawn_TrialsEarth", x = 6.291422367095947, y = 124.32449340820312, z = 31.029136657714844},
-	{family = "Isle", name = "Earth Trial", map = "Dawn_TrialsEarth", x = -0.2812114357948303, y = 122.03596496582031, z = 18.65877914428711},
-	{family = "Isle", name = "Earth Trial", map = "Dawn_TrialsEarth", x = -25.815471649169922, y = 124.36991882324219, z = -30.730470657348633},
-	{family = "Isle", name = "Earth Trial", map = "Dawn_TrialsEarth", x = -3.719712495803833, y = 122.5062026977539, z = 6.43914794921875},
-	{family = "Isle", name = "Earth Trial", map = "Dawn_TrialsEarth", x = 16.933677673339844, y = 128.23423767089844, z = 0.28745758533477783},
-	{family = "Isle", name = "Earth Trial", map = "Dawn_TrialsEarth", x = 0.8367459774017334, y = 133.91415405273438, z = -12.411553382873535},
-	{family = "Isle", name = "Earth Trial", map = "Dawn_TrialsEarth", x = 4.763298511505127, y = 133.9190673828125, z = -15.527111053466797},
-
-	{family = "Isle", name = "Air Trial", map = "Dawn_TrialsAir", x = -137.189926, y = 104.670616, z = -8.522333, e = true},
-
-	{family = "Isle", name = "Fire Trial", map = "Dawn_TrialsFire", x = -250.02294921875, y = 50.231990814208984, z = -14.466132164001465, e = true},
-
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = -434.9216613769531, y = 196.80934143066406, z = 115.62545776367188},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = -431.51947021484375, y = 196.65725708007812, z = 119.02850341796875},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = -426.94873046875, y = 196.61680603027344, z = 120.97035217285156},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = -20.25689697265625, y = 158.474609375, z = 26.712081909179688},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = 2.556781530380249, y = 150.36204528808594, z = 77.19155883789062},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = 7.2708048820495605, y = 150.7943115234375, z = 58.697471618652344},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = 50.220489501953125, y = 157.8102264404297, z = 81.89761352539062},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = 16.6181697845459, y = 155.23190307617188, z = 103.20137786865234},
-	{family = "Prairie", name = "Prairie Butterfly Fields", map = "Prairie_ButterflyFields", x = 6.3694963455200195, y = 161.8115997314453, z = 144.8772735595703},
-
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 65.85206604003906, y = 187.83665466308594, z = 302.1767578125},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 96.07904815673828, y = 196.78692626953125, z = 282.33734130859375},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 130.31956481933594, y = 202.70079040527344, z = 263.935791015625},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 133.99427795410156, y = 182.4741973876953, z = 296.8442687988281},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 200.1848602294922, y = 181.25865173339844, z = 399.07965087890625},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 210.53382873535156, y = 185.65869140625, z = 410.3680114746094},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 225.5228271484375, y = 180.96774291992188, z = 374.7661437988281},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 203.23948669433594, y = 187.85186767578125, z = 313.656982421875},
-	{family = "Prairie", name = "Prairie Cave", map = "Prairie_Cave", x = 213.3845672607422, y = 193.28684997558594, z = 268.37469482421875},
-
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 232.10833740234375, y = 180.99510192871094, z = 88.81009674072266},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 253.37257385253906, y = 194.7720184326172, z = 99.65469360351562},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 271.91143798828125, y = 198.752197265625, z = 94.46063232421875},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 350.6470947265625, y = 187.63072204589844, z = 90.81703186035156},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 361.661376953125, y = 193.9128875732422, z = 66.8396987915039},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 363.2092590332031, y = 187.15640258789062, z = 65.79632568359375},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 368.4921569824219, y = 185.7384490966797, z = 56.43801498413086},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 357.10992431640625, y = 185.90087890625, z = 48.336578369140625},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 349.0998840332031, y = 184.31912231445312, z = 31.3418025970459},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 325.6683349609375, y = 188.30438232421875, z = -11.511509895324707},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 318.2730712890625, y = 192.30494689941406, z = -15.794111251831055},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 456.2850646972656, y = 250.56715393066406, z = 133.75665283203125},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 477.6221618652344, y = 254.37265014648438, z = 122.10852813720703},
-	{family = "Prairie", name = "Prairie Village", map = "Prairie_Village", x = 317.0993347167969, y = 183.3404998779297, z = -41.32593536376953},
-
-	{family = "Prairie", name = "8 player puzzle", map  = "DayHubCave", x = 1.246108055114746, y = 18.909801483154297, z = -16.016557693481445},
-	{family = "Prairie", name = "8 player puzzle", map  = "DayHubCave", x = 1.1128392219543457, y = 20.225313186645508, z = -7.040935516357422},
-	{family = "Prairie", name = "8 player puzzle", map  = "DayHubCave", x = -45.12632751464844, y = 57.98668670654297, z = -26.872119903564453},
-	{family = "Prairie", name = "8 player puzzle", map  = "DayHubCave", x = 2.6242594718933105, y = 39.48603820800781, z = 6.752442359924316},
-
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 120.34546661376953, y = 180.1386260986328, z = -144.81192016601562},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 118.63809204101562, y = 196.70538330078125, z = -157.4332275390625},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 124.73165130615234, y = 189.20907592773438, z = -181.74571228027344},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 86.0428466796875, y = 170.88027954101562, z = -145.3521728515625},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 53.61101531982422, y = 158.05967712402344, z = -104.67848205566406},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 57.971797943115234, y = 171.68272399902344, z = -102.97749328613281},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 116.60604095458984, y = 158.4626007080078, z = -159.919921875},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 83.18549346923828, y = 177.95904541015625, z = -194.9310302734375},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 86.93468475341797, y = 195.34017944335938, z = -192.39390563964844},
-	{family = "Prairie", name = "Bird Nest", map = "Prairie_NestAndKeeper", x = 86.43867492675781, y = 206.1831512451172, z = -197.75018310546875},
-
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 221.30966186523438, y = 95.4205093383789,  z = 246.12799072265625},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 302.3828430175781, y = 102.43594360351562,z = 55.154842376708984},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 328.4344482421875, y = 55.10648727416992, z = 24.160531997680664},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 330.4920959472656, y = 0.7480080723762512,z = 49.76979446411133},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 331.5647277832031, y = 28.37299346923828, z = 77.81648254394531},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 332.7480773925781, y = 19.45809555053711, z = 109.82171630859375},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 323.9369812011719, y = 19.74265480041504, z = 119.34933471679688},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 360.99853515625, y = 0.8867171406745911,z = 102.09505462646484},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 292.2529602050781, y = 1.7972142696380615,z = 97.39100646972656},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 293.5015869140625, y = 5.671757221221924, z = 93.57311248779297},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 291.7178039550781, y = 4.960348129272461, z = 91.42939758300781},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 297.21112060546875, y = 8.015872955322266,z = 79.08104705810547},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 281.9485778808594, y = 18.21292495727539, z = 75.27326965332031},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 283.03326416015625, y = 13.549970626831055,z = 142.6686248779297},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 395.7971496582031, y = 0.5805166363716125,z = 140.3428497314453},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 402.98358154296875, y = 0.5845025777816772,z = 139.914794921875},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 407.047119140625, y = 1.8199610710144043,z = 133.8062744140625},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 402.7697448730469, y = 1.491576910018921, z = 128.71054077148438},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 408.22515869140625, y = 1.0959080457687378,z = 124.1927719116211},
-	{family = "Prairie", name = "Sanctuary Islands", map = 'Prairie_Island', x = 418.94366455078125, y = 1.346806287765503, z = 114.8463134765625},
-
-	{family = "Forest", name = "Forest", map = "Rain", x = -627.5069580078125, y = 217.14407348632812, z = 132.29254150390625},
-	{family = "Forest", name = "Forest", map = "Rain", x = -616.1636962890625, y = 217.96763610839844, z = 131.7092742919922},
-	{family = "Forest", name = "Forest", map = "Rain", x = -606.6339721679688, y = 219.0542449951172, z = 143.15093994140625},
-	{family = "Forest", name = "Forest", map = "Rain", x = -227.1379852294922, y = 94.59088897705078, z = -0.7697563171386719},
-	{family = "Forest", name = "Forest", map = "Rain", x = -218.19772338867188, y = 95.24683380126953, z = 18.248083114624023},
-	{family = "Forest", name = "Forest", map = "Rain", x = -197.91104125976562, y = 96.91829681396484, z = 20.681482315063477},
-	{family = "Forest", name = "Forest", map = "Rain", x = -190.1367645263672, y = 99.71876525878906, z = 1.693684697151184},
-	{family = "Forest", name = "Forest", map = "Rain", x = -189.6844940185547, y = 99.72039794921875, z = 6.418601036071777},
-	{family = "Forest", name = "Forest", map = "Rain", x = -176.1744384765625, y = 97.58684539794922, z = 27.11359214782715},
-	{family = "Forest", name = "Forest", map = "Rain", x = -152.40316772460938, y = 97.47451782226562, z = 10.711235046386719},
-	{family = "Forest", name = "Forest", map = "Rain", x = -138.90557861328125, y = 99.83920288085938, z = 8.311784744262695},
-	{family = "Forest", name = "Forest", map = "Rain", x = -131.69488525390625, y = 99.02848815917969, z = 15.53860855102539},
-	{family = "Forest", name = "Forest", map = "Rain", x = -145.4907989501953, y = 97.76659393310547, z = 32.29670715332031},
-	{family = "Forest", name = "Forest", map = "Rain", x = -132.453857421875, y = 99.41631317138672, z = 30.74054527282715},
-	{family = "Forest", name = "Forest", map = "Rain", x = -117.27128601074219, y = 98.44124603271484, z = 28.47067642211914},
-
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -108.82130432128906, y = 98.4917984008789, z = 30.08849334716797},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -106.87351989746094, y = 100.36298370361328, z = 26.845001220703125},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -66.9166259765625, y = 106.41206359863281, z = 15.987776756286621},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -71.43730926513672, y = 106.19283294677734, z = 29.42997932434082},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -90.48992156982422, y = 107.46654510498047, z = 68.63447570800781},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -102.53341674804688, y = 112.61001586914062, z = 98.15390014648438},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -61.1483154296875, y = 107.54759979248047, z = 71.29415893554688},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -49.152469635009766, y = 112.6225814819336, z = 106.80461120605469},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -52.2340202331543, y = 106.9559555053711, z = 68.12784576416016},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -44.152137756347656, y = 98.25785064697266, z = 40.652305603027344},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -30.000036239624023, y = 99.83853912353516, z = 89.40448760986328},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -25.262786865234375, y = 99.02619934082031, z = 106.48714447021484},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -3.019312620162964, y = 97.72338104248047, z = 54.3570442199707},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -3.3033363819122314, y = 96.63065338134766, z = 45.61486053466797},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -10.738547325134277, y = 96.560302734375, z = 38.2621955871582},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = 10.920255661010742, y = 96.74674987792969, z = 63.83553695678711},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = 18.17075538635254, y = 103.65972137451172, z = 81.68426513671875},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = 14.015870094299316, y = 103.88633728027344, z = 86.71963500976562},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = 33.499290466308594, y = 99.54107666015625, z = 92.49481201171875},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = 28.90913963317871, y = 97.52631378173828, z = 77.65611267089844},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = 48.61222457885742, y = 100.28351593017578, z = 64.35684204101562},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = 30.346363067626953, y = 102.65869903564453, z = 50.94283676147461},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -2.8514418601989746, y = 105.27145385742188, z = 38.68331527709961},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -25.91470718383789, y = 117.96334838867188, z = 24.574310302734375},
-	{family = "Forest", name = "Forest's Brook", map = "RainForest", x = -12.590641021728516, y = 129.6649627685547, z = 80.07986450195312},
-
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = -56.465213775634766, y = 84.2270736694336, z = 13.129121780395508},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = -53.31209945678711, y = 85.85016632080078, z = -1.164616584777832},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = -31.846580505371094, y = 85.4524917602539, z = -16.620546340942383},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = -10.121115684509277, y = 85.36117553710938, z = -0.4428945779800415},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = -7.689718723297119, y = 84.80403137207031, z = -7.93649435043335},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = 7.335092067718506, y = 93.05524444580078, z = 9.037647247314453},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = 21.534086227416992, y = 96.26712036132812, z = -18.162221908569336},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = 15.145105361938477, y = 93.96243286132812, z = -30.738271713256836},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = 72.56535339355469, y = 90.0170669555664, z = -0.09888890385627747},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = 98.26882934570312, y = 88.79229736328125, z = 16.438302993774414},
-	{family = "Forest", name = "Elevated Clearing", map = "RainShelter", x = 68.35693359375, y = 90.31097412109375, z = 5.658980846405029},
-
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 154.72926330566406, y = 153.88075256347656, z = -80.01103973388672},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 176.21690368652344, y = 136.11322021484375, z = -74.40979766845703},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 220.8597412109375, y = 144.34341430664062, z = -63.919700622558594},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 228.4488983154297, y = 144.74513244628906, z = -69.6482925415039},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 226.59027099609375, y = 137.0164794921875, z = -94.08983612060547},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 213.70126342773438, y = 134.67535400390625, z = -82.23283386230469},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 231.302978515625, y = 134.76483154296875, z = -75.29278564453125},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 225.11880493164062, y = 135.1485595703125, z = -48.195579528808594},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 246.91844177246094, y = 140.66452026367188, z = -24.212379455566406},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 222.1226043701172, y = 135.95423889160156, z = -23.232078552246094},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 198.26341247558594, y = 134.90887451171875, z = -20.693994522094727},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 194.89169311523438, y = 139.90567016601562, z = -21.957490921020508},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 158.82020568847656, y = 137.73153686523438, z = -35.448585510253906},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 165.13662719726562, y = 134.8585662841797, z = -16.541215896606445},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 157.76380920410156, y = 164.9462127685547, z = 120.3241958618164},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 137.87315368652344, y = 135.01556396484375, z = -10.567667007446289},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 113.74283599853516, y = 140.29092407226562, z = -8.871809959411621},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 109.18257904052734, y = 138.18038940429688, z = -5.300501823425293},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 85.58588409423828, y = 138.51504516601562, z = -11.016542434692383},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 11.743234634399414, y = 140.3578643798828, z = 21.9844970703125},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 53.756980895996094, y = 145.73068237304688, z = 45.95403289794922},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 72.4646987915039, y = 144.57154846191406, z = 52.49279022216797},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 107.68956756591797, y = 138.72364807128906, z = 90.01604461669922},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 135.0379180908203, y = 146.3599853515625, z = 73.45281982421875},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 218.6438751220703, y = 135.57656860351562, z = 48.81428146362305},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 220.6811981201172, y = 135.22120666503906, z = 25.96380615234375},
-	{family = "Forest", name = "Boneyard", map = "RainMid", x = 194.08200073242188, y = 137.43736267089844, z = 3.8758304119110107},
-
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = -11.367512702941895, y = 104.92166900634766, z = 7.069022178649902},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = -16.14753532409668, y = 110.67167663574219, z = 15.755743026733398},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = -4.72360897064209, y = 104.92156219482422, z = -16.801280975341797},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = 7.661406517028809, y = 106.77925109863281, z = -13.379182815551758},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = 70.02780151367188, y = 110.11184692382812, z = 8.755701065063477},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = 67.9460678100586, y = 108.55078887939453, z = -9.949658393859863},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = 85.07408142089844, y = 107.62669372558594, z = 18.29657745361328},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = 97.59142303466797, y = 108.91648864746094, z = -10.558381080627441},
-	{family = "Forest", name = "Forest Temple", map = "RainEnd", x = 96.8857192993164, y = 106.91252136230469, z = 0.5247047543525696},
-
-	{family = "Forest", name = "Forest Cave", map = "Rain_Cave", x = -281.12744140625, y = 78.80378723144531, z = 63.43763732910156},
-	{family = "Forest", name = "Forest Cave", map = "Rain_Cave", x = -287.4362487792969, y = 79.96927642822266, z = 64.44855499267578},
-	{family = "Forest", name = "Forest Cave", map = "Rain_Cave", x = -283.3801574707031, y = 80.45760345458984, z = 60.22416687011719},
-	{family = "Forest", name = "Forest Cave", map = "Rain_Cave", x = -366.309814453125, y = 121.33006286621094, z = 1.9712470769882202},
-	{family = "Forest", name = "Forest Cave", map = "Rain_Cave", x = -198.94265747070312, y = 132.4135284423828, z = -53.605995178222656},
-	{family = "Forest", name = "Forest Cave", map = "Rain_Cave", x = -197.06515502929688, y = 132.30697631835938, z = -38.47796630859375},
-	{family = "Forest", name = "Forest Cave", map = "Rain_Cave", x = -194.4332733154297, y = 133.1480255126953, z = -34.38194274902344},
-
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -118.13933563232422, y = 259.9162292480469, z = -102.75277709960938},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -110.9569091796875, y = 267.4853210449219, z = -126.63736724853516},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -149.8379669189453, y = 255.26272583007812, z = -92.76813507080078},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -226.40333557128906, y = 226.99349975585938, z = -150.1130828857422},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -332.85382080078125, y = 198.15284729003906, z = -134.965576171875},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -449.37261962890625, y = 124.79118347167969, z = -64.77295684814453},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -454.82232666015625, y = 87.15667724609375, z = 10.588098526000977},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -478.97021484375, y = 75.27848815917969, z = 67.67167663574219},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -489.9560546875, y = 72.37419128417969, z = 94.00585174560547},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -448.0929870605469, y = 75.04175567626953, z = 156.9442596435547},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -485.6522216796875, y = 44.218658447265625, z = 174.22012329101562},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -547.7459716796875, y = 44.514198303222656, z = 184.8521270751953},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -523.0845336914062, y = 44.423866271972656, z = 220.34423828125},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -519.0438842773438, y = 39.155235290527344, z = 181.5220489501953},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -461.04888916015625, y = 45.51451110839844, z = 299.1689147949219},
-	{family = "Valley", name = "Valley Ice Rink", map = "Sunset", x = -547.7459716796875, y = 51.514198303222656, z = 187.8521270751953},
-
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = 24.30461311340332, y = 480.3187561035156, z = 79.38916015625},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = 0.7730821967124939, y = 471.98883056640625, z = 98.73863220214844},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = 15.789102554321289, y = 476.88525390625, z = 115.07817840576172},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -4.539078712463379, y = 506.80615234375, z = 17.915287017822266},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -38.60588836669922, y = 530.302978515625, z = 26.75312042236328},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -50.825294494628906, y = 530.581298828125, z = 92.44596099853516},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -47.60591506958008, y = 560.2349243164062, z = 95.62406921386719},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -37.603267669677734, y = 558.1720581054688, z = 105.84736633300781},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -27.670698165893555, y = 534.184814453125, z = 112.93629455566406},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -71.6363754272461, y = 478.3817443847656, z = 129.7525634765625},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -91.07054901123047, y = 478.3818359375, z = 105.4310531616211},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -114.208251953125, y = 480.2586364746094, z = 122.66777038574219},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -98.4845962524414, y = 480.25885009765625, z = 142.76773071289062},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -120.6845932006836, y = 485.2546081542969, z = 156.18331909179688},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -132.12664794921875, y = 485.2548522949219, z = 140.38540649414062},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -158.90478515625, y = 494.9086608886719, z = 155.41200256347656},
-	{family = "Valley", name = "Valley Citadel", map = "Sunset_Citadel", x = -143.98617553710938, y = 494.85540771484375, z = 174.80857849121094},
-
-	{family = "Valley", name = "Valley Colosseum", map = "SunsetColosseum", x = -254.30523681640625, y = 168.2843780517578, z = -12.157695770263672},
-	{family = "Valley", name = "Valley Colosseum", map = "SunsetColosseum", x = -156.98855590820312, y = 168.2843780517578, z = 9.336337089538574},
-	{family = "Valley", name = "Valley Colosseum", map = "SunsetColosseum", x = -153.88351440429688, y = 168.28440856933594, z = 100.99378967285156},
-	{family = "Valley", name = "Valley Colosseum", map = "SunsetColosseum", x = -192.94163513183594, y = 155.13572692871094, z = 100.3702621459961},
-	{family = "Valley", name = "Valley Colosseum", map = "SunsetColosseum", x = -251.78379821777344, y = 168.28439331054688, z = 128.69223022460938},
-	{family = "Valley", name = "Valley Colosseum", map = "SunsetColosseum", x = -259.8575744628906, y = 134.6875762939453, z = 55.82533264160156},
-	{family = "Valley", name = "Valley Colosseum", map = "SunsetColosseum", x = -263.8152160644531, y = 136.0878448486328, z = 63.645477294921875},
-
-	{family = "Valley", name = "Valley Fly Race", map = "Sunset_FlyRace", x = 48.9593505859375, y = 1163.4764404296875, z = -426.3514709472656},
-	{family = "Valley", name = "Valley Fly Race", map = "Sunset_FlyRace", x = -99.89083099365234, y = 1034.5791015625, z = 154.72640991210938},
-	{family = "Valley", name = "Valley Fly Race", map = "Sunset_FlyRace", x = 240.6461639404297, y = 272.93902587890625, z = -140.89434814453125},
-	{family = "Valley", name = "Valley Fly Race", map = "Sunset_FlyRace", x = -9.644035339355469, y = 163.5498809814453, z = 49.412017822265625},
-
-	{family = "Valley", name = "Valley Race", map = "SunsetRace", x = 571.593994140625, y = 888.3776245117188, z = 168.59059143066406},
-	{family = "Valley", name = "Valley Race", map = "SunsetRace", x = -570.09375, y = 584.3001708984375, z = 260.0085144042969},
-	{family = "Valley", name = "Valley Race", map = "SunsetRace", x = 264.4042663574219, y = 268.474609375, z = 8.70522403717041},
-	{family = "Valley", name = "Valley Race", map = "SunsetRace", x = -9.91002368927002, y = 164.16592407226562, z = 42.80824279785156},
-
-	{family = "Valley", name = "Dream Village", map = "SunsetVillage", x = 70.97738647460938, y = 50.091190338134766, z = 77.55197143554688},
-	{family = "Valley", name = "Dream Village", map = "SunsetVillage", x = 73.16737365722656, y = 76.686279296875, z = 258.62237548828125},
-
-	{family = "Valley", name = "Hermit Valley", map = "Sunset_YetiPark", x = 683.3143920898438, y = 260.7340087890625, z = -191.4088134765625},
-
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 325.54266357421875, y = 0.7171803712844849, z = 85.6548843383789},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 305.46075439453125, y = 1.1371877193450928, z = 83.43257904052734},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 301.6896667480469, y = 0.4210582971572876, z = 7.377177715301514},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 296.58001708984375, y = 0.4209943115711212, z = -3.981872320175171},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 326.160400390625, y = 2.323960304260254, z = -93.23677825927734},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 227.25306701660156, y = 0.42345771193504333, z = -57.93296813964844},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 236.72752380371094, y = 1.6746928691864014, z = -27.1873779296875},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 235.992919921875, y = 0.8092510104179382, z = -31.845582962036133},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 241.15618896484375, y = 0.8182752132415771, z = -30.821805953979492},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 233.54840087890625, y = 1.0340262651443481, z = 38.81285858154297},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 229.27874755859375, y = 0.5555566549301147, z = 45.96807098388672},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 215.48013305664062, y = 1.0234488248825073, z = -26.13222885131836},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 166.29627990722656, y = 8.562358856201172, z = -78.78106689453125},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 160.53623962402344, y = 10.130057334899902, z = -80.67024993896484},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 243.70608520507812, y = 2.157900094985962, z = -32.00672149658203},
-	{family = "Wasteland", name = "Golden Wasteland", map = "Dusk", x = 164.46588134765625, y = 9.805089950561523, z = -82.57740020751953},
-
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 306.1929016113281, y = 134.1763458251953, z = 148.0145721435547},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 323.9439697265625, y = 124.77117156982422, z = 160.407470703125},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 343.85357666015625, y = 119.17353057861328, z = 138.00852966308594},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 371.95269775390625, y = 124.10951232910156, z = 122.36084747314453},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 386.20697021484375, y = 141.7088165283203, z = 112.7038803100586},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 460.92181396484375, y = 116.39605712890625, z = 106.32915496826172},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 486.12408447265625, y = 109.75221252441406, z = 77.25910186767578},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 501.28094482421875, y = 108.83856964111328, z = 42.512359619140625},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 501.4571228027344, y = 109.3819580078125, z = 60.27128601074219},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 524.3303833007812, y = 108.91081237792969, z = 79.91252136230469},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 510.9862060546875, y = 108.88075256347656, z = 95.27606201171875},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 345.56427001953125, y = 102.90645599365234, z = 285.5562438964844},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 363.22430419921875, y = 103.99573516845703, z = 281.4264831542969},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 348.7824401855469, y = 113.22404479980469, z = 302.89239501953125},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 351.1968994140625, y = 120.8555679321289, z = 287.78558349609375},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 514.4852905273438, y = 115.10224151611328, z = 281.5513916015625},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 531.6036376953125, y = 115.95156860351562, z = 282.4554748535156},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 522.7727661132812, y = 122.58702087402344, z = 301.07073974609375},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 544.7249755859375, y = 120.76127624511719, z = 302.51605224609375},
-	{family = "Wasteland", name = "Forgotten Ark", map = "DuskOasis", x = 555.4881591796875, y = 120.62117004394531, z = 331.4057312011719},
-
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = 258.125732421875, y = 91.07647705078125, z = 69.18386840820312},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = 228.34080505371094, y = 90.17217254638672, z = 44.99552536010742},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = 153.4028778076172, y = 99.33203125, z = 51.87026596069336},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = 142.13650512695312, y = 93.74398040771484, z = 47.037357330322266},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = 138.78053283691406, y = 93.7501449584961, z = 35.12449645996094},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = 120.574951171875, y = 95.17142486572266, z = 40.74140548706055},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -15.21030330657959, y = 67.0012435913086, z = 64.33759307861328},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -60.70269012451172, y = 69.90999603271484, z = 48.82630157470703},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -100.31651306152344, y = 65.903076171875, z = 85.19385528564453},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -156.21961975097656, y = 69.2191390991211, z = 71.32962036132812},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -132.6044464111328, y = 82.42596435546875, z = 44.612709045410156},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -142.8655242919922, y = 77.7611083984375, z = 7.1296892166137695},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -127.0461654663086, y = 85.11608123779297, z = -7.82523250579834},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -133.0246124267578, y = 89.198486328125, z = -8.304845809936523},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -134.4520721435547, y = 89.47970581054688, z = -0.19850149750709534},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -211.3054656982422, y = 69.5741195678711, z = 38.88704299926758},
-	{family = "Wasteland", name = "Graveyard", map = "DuskGraveyard", x = -219.38613891601562, y = 70.64981079101562, z = 40.11408996582031},
-
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 491.164306640625, y = 4.449798583984375, z = -179.68690490722656},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 476.0556335449219, y = 2.060676097869873, z = -189.42762756347656},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 431.59039306640625, y = 0.42155709862709045, z = -200.47726440429688},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 403.80694580078125, y = 1.0894190073013306, z = -192.0066375732422},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 421.1584777832031, y = 0.42153123021125793, z = -172.26559448242188},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 415.8636779785156, y = 3.996347188949585, z = -132.53663635253906},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 378.10076904296875, y = 0.4215579628944397, z = -159.69430541992188},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 366.0085144042969, y = 11.055920600891113, z = -167.72021484375},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 357.328125, y = 7.422126770019531, z = -162.73782348632812},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 431.6722412109375, y = 15.666921615600586, z = -211.5840301513672},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 428.3836669921875, y = 5.863647937774658, z = -269.5289001464844},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 422.6972351074219, y = 7.908556938171387, z = -269.0980529785156},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 425.5579528808594, y = 11.680506706237793, z = -273.95233154296875},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 419.6424560546875, y = 18.240461349487305, z = -290.66522216796875},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 407.0488586425781, y = 29.246938705444336, z = -288.2356262207031},
-	{family = "Wasteland", name = "Crab Fields", map = "Dusk_CrabField", x = 404.56890869140625, y = 31.243824005126953, z = -291.65728759765625},
-
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -78.39532470703125, y = 104.71238708496094, z = -49.61168670654297},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -169.7626953125, y = 121.92787170410156, z = -186.3069610595703},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -167.48765563964844, y = 131.01406860351562, z = -213.3323516845703},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -162.8568878173828, y = 140.9750213623047, z = -212.9852294921875},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -153.74847412109375, y = 118.97736358642578, z = -244.85972595214844},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -184.2496795654297, y = 102.65731811523438, z = -229.24124145507812},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -196.77908325195312, y = 101.55442810058594, z = -251.3762664794922},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -228.65757751464844, y = 101.19095611572266, z = -231.16485595703125},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -234.61509704589844, y = 105.64724731445312, z = -270.49127197265625},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -242.71041870117188, y = 104.25487518310547, z = -217.41465759277344},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -303.28802490234375, y = 97.5525894165039, z = -207.71392822265625},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -285.1036071777344, y = 96.33903503417969, z = -237.7067413330078},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -339.18682861328125, y = 85.06936645507812, z = -275.5760803222656},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -363.18994140625, y = 83.6025161743164, z = -225.4769287109375},
-	{family = "Wasteland", name = "Battlefield", map = "DuskMid", x = -368.695556640625, y = 88.67375183105469, z = -269.3667907714844},
-
-	{family = "Wasteland", name = "Temple", map = "DuskEnd", x = -2.220445394515991, y = 208.1399383544922, z = 3.485891580581665},
-	{family = "Wasteland", name = "Temple", map = "DuskEnd", x = -4.854544162750244, y = 208.32373046875, z = -0.1272975504398346},
-	{family = "Wasteland", name = "Temple", map = "DuskEnd", x = -1.9476174116134644, y = 208.1549072265625, z = -3.3306093215942383},
-	{family = "Wasteland", name = "Temple", map = "DuskEnd", x = 1.9105192422866821, y = 207.26780700683594, z = 0.03473372757434845},
-
-	{family = "Vault", name = "Vault Ground", map = "Night", x = -70.606674, y = 37.364311, z = 6.985261},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = 4.189236, y = 40.599648, z = -0.034227},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = -13.450573, y = 40.922397, z = -60.144744},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = 22.819200, y = 40.668312, z = -60.574802},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = -16.683757, y = 80.668174, z = 11.811931},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = 16.219352, y = 80.804435, z = 16.698659},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = 24.124404, y = 82.328819, z = 12.879674},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = 42.028636, y = 82.557167, z = 29.837903},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = -35.312850, y = 149.129699, z = -15.719433},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = -30.136156, y = 146.913833, z = -3.242324},
-	{family = "Vault", name = "Vault Ground", map = "Night", x = -40.824783, y = 160.067428, z = 35.710411},
-
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 9.900154, y = 129.401641, z = -39.562488},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 9.900154, y = 135.401641, z = -39.562488, e = true}, --Empty
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 9.311541, y = 129.212356, z = -38.534008},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 34.263050, y = 148.153747, z = 24.740060},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 38.724605, y = 160.201873, z = 63.100666},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 41.562381, y = 182.939712, z = 11.265374},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 43.062381, y = 188.939712, z = 11.265374, e = true}, --Empty
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 41.120372, y = 182.449356, z = 8.276473},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = -48.217571, y = 163.976684, z = -16.315469},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = -38.842617, y = 165.501800, z = -68.752708},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 2.090648, y = 294.567474, z = 3.439403},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 6.612639, y = 295.142539, z = -3.225664},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 48.616516, y = 302.333618, z = 6.771073},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 56.743221, y = 306.096588, z = 9.978611},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 59.066856, y = 304.052276, z = -1.819200},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 58.966945, y = 307.144927, z = -11.000758},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 69.967926, y = 310.304016, z = -0.081200},
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 69.967926, y = 316.304016, z = -0.081200, e = true}, --Empty
-	{family = "Vault", name = "Vault Up", map = "Night2", x = 72.401931, y = 309.362030, z = 0.048972},
-
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = 25.960012, y = 541.458923, z = 49.532020},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -17.483531, y = 565.071044, z = 72.817947},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -31.642618, y = 565.072998, z = 72.946655},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -37.640979, y = 551.313110, z = 61.820144},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -13.328448, y = 551.813232, z = 75.945159},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -18.539285, y = 551.813232, z = 56.910717},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -41.341411, y = 543.448059, z = 61.431583},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -41.333190, y = 543.448486, z = 54.674259},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -31.593242, y = 554.311462, z = 85.431785},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -31.494831, y = 554.308959, z = 78.748741},
-	{family = "Vault", name = "Vault Archive", map = "NightArchive", x = -13.159896, y = 541.464477, z = 40.102184},
-
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 75.715270, y = 82.9776, z = 100.838020, e = true}, --Empty
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 75.715270, y = 76.9776, z = 100.838020},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 87.011039, y = 76.013977, z = 89.952133},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 66.691436, y = 72.158546, z = 63.658821},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 158.014846, y = 77.405067, z = 335.245422},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 164.866561, y = 77.405334, z = 352.186462},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 183.502655, y = 77.405265, z = 343.524108},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 573.401184, y = 17.064425, z = 165.830093, e = true}, --Empty
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 573.401184, y = 11.064425, z = 165.830093},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 766.331481, y = 90.628509, z = 402.817291},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 778.703063, y = 91.167816, z = 415.422760},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 792.881042, y = 90.695831, z = 399.077636},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 1041.245239, y = 134.933639, z = 392.586730},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 1026.362060, y = 150.298233, z = 395.193969},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 1025.338745, y = 150.523941, z = 412.695526},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 535.000000, y = 8.000000, z = 450.000000}, --Shipwreck area
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 618.537414, y = 1.227436, z = 600.079589},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 605.406005, y = 0.353380, z = 609.522338},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 580.832763, y = 4.860373, z = 621.304016},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 565.524414, y = 13.000000, z = 440.000000}, --Main Area
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 377.820281, y = 30.000000, z = -82.598495}, -- Bottle Area
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 384.046325, y = 20.765531, z = -111.498588},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 374.793304, y = 20.723329, z = -128.186889},
-	{family = "Vault", name = "Vault Little Prince", map = "NightDesert", x = 370.226623, y = 24.600784, z = -143.685974},
+lliboffsets = {
+    candles = 7108596,
+    rclouds = 20566216,
+    fastflap = 9706968,
+    uncloset = 4053496,
+    pjump = 9745252,
+    emitptr = 21640904,
+    iconsize = 18268108,
+    map = 21691181,
+    guiptr = 24335984,
+    wcharge = 5310704,
+    plain = 7145968,
+    mabsorb = 18578100,
+    sglow = 20670292,
+    pdelay = 5171296,
+    pdive = 9783612,
+    winds = 7060864,
+    unfirework = 8878416,
+    pspeed = 20801804,
+    kjrights = 19002488,
+    mtpcol = 5237524,
+    uitran = 18255084,
+    rwater = 8168884,
+    fasthome = 8870192,
+    unnodes = 8613736,
+    absorb = 11899828,
+    honksound = 18994483,
+    mtprst = 5236996,
+    rportals = 5971188,
+    realisim = 4477576,
+    scooter = 5513488,
+    unemote = 10823528,
+    offline = 8042444,
+    mtpmrt = 5237032,
 }
-
-posits = {
-	{map='CandleSpace',name='BLACKOUT',x=800,y=0.6,z=0},
-	{map='CandleSpace',name='Spawn',x=1.3682793378829956,y=1.1504778861999512,z=-0.7198812365531921},
-	{map='Dawn',name='Season map entrance',x=211.96453857421875,y=4.274348258972168,z=-63.84076690673828},
-	{map='Dawn',name='Exit',x=154.19021606445312,y=103.16753387451172,z=-278.95806884765625},
-	{map='Dawn',name='Rainbow',x=301.889892578125,y=413.0315246582031,z=-301.21563720703125},
-	{map='Dawn',name='Cloudy',x=402.95318603515625,y=115.7956314086914,z=-10.648039817810059},
-	{map='Dawn',name='Isle Elder room',x=117.75272369384766,y=1.006047010421753,z=-1733.9976806640625},
-	{map='DawnCave',name='Water Trial',x=-90.0,y=245.0,z=-305.0},
-	{map='DawnCave',name='Earth Trial',x=-28.13365936279297,y=253.9242401123047,z=-372.3354797363281},
-	{map='DawnCave',name='Air Trial',x=21.34743881225586,y=259.1813049316406,z=-346.86083984375},
-	{map='DawnCave',name='Fire Trial',x=57.113975524902344,y=251.7130889892578,z=-326.27691650390625},
-	{map='Prairie_ButterflyFields',name='Skip first',x=93.07067108154297,y=150.75,z=-5.158041477203369},
-	{map='Prairie_Village',name='Cave',x=157.04954528808594,y=199.9058837890625,z=225.65309143066406},
-	{map='Prairie_Village',name='invisible thing',x=96.71356964111328,y=175.35667419433594,z=265.9364929199219},
-	{map='Prairie_Village',name='8 People Door',x=-48.69554138183594,y=182.15054321289062,z=324.2794189453125},
-	{map='Prairie_Village',name='Temple',x=126.16890716552734,y=254.21255493164062,z=478.1236572265625},
-	{map='Prairie_Cave',name='Prairie soar high OOB',x=314.2340393066406,y=235.1671600341797,z=162.43087768554688}, 
-	{map='DayEnd',name='Forest',x=-128.55003356933594,y=106.04075622558594,z=41.26801681518555},
-	{map='DayEnd',name='Elder Room',x=-529.508544921875,y=8.83392333984375,z=-213.78453063964844},
-	{map='DayHubCave',name='Exit',x=30.72627067565918,y=42.47455596923828,z=0.237472802400589},
-	{map='Prairie_Island',name='Bird Nest',x=272.2238464355469,y=175.1832275390625,z=-26.06362915390625},
-	{map='Prairie_Island',name='First air flower',x=244.09881591796875,y=95.16970825195312,z=221.4185791015625},
-	{map='Prairie_Island',name='waterfall',x=494.17425537109375,y=321.3855285644531,z=393.63873291015625},
-	{map='Prairie_Island',name='Top of center',x=57.3979606628418,y=102.27421569824219,z=300.8200378417969},
-	{map='Prairie_Island',name='big flower',x=90.91666412353516,y=2.906703472137451,z=293.2203063964844},
-	{map='Rain',name='Skip',x=17.024648666381836,y=92.79985046386719,z=-225.68663024902344},
-	{map='RainForest',name='Sunny Forest',x=6.1400275230407715,y=111.99101257324219,z=-61.309600830078125},
-	{map='RainShelter',name='To Cave',x=54.64596939086914,y=68.41414642333984,z=43.7832145690918},
-	{map='RainShelter',name='To Temple',x=15.340384483337402,y=88.6324691772461,z=119.18212890625},
-	{map='RainShelter',name='Forest pit OOB',x=-32.04302215576172,y=206.95440673828125,z=0.1170167475938797}, 
-	{map='Rain_Cave',name='Exit',x=-65.55963134765625,y=210.6380157470703,z=-285.0746154785156},
-	{map='RainMid',name='Exit',x=-17.595956802368164,y=182.86737060546875,z=400.8680114746094},
-	{map='RainEnd',name='Elders Room',x=2.448410749435425,y=8.948872566223145,z=503.58135986328125},
-	{map='Sunset',name='Skip',x=181.40216064453125,y=49.21394348144531,z=-512.7560424804688},
-	{map='Sunset',name='To First Race',x=202.9875030517578,y=56.84459686279297,z=-593.9754638671875},
-	{map='Sunset',name='To Second Race',x=282.1065673828125,y=39.942588806152344,z=-527.995065460546875},
-	{map='Sunset_Citadel',name='Candle run first',x=115.18697357177734,y=477.2147521972656,z=15.642013549804688},
-	{map='Sunset_Citadel',name='Exit',x=199.33934020996094,y=491.9642028808594,z=-195.2884063720703},
-	{map='Sunset_FlyRace',name='Skip',x=124.05903625488281,y=1045.8760986328125,z=-78.43795013427734},
-	{map='Sunset_FlyRace',name='Cloud OOB',x=-812.950927734375,y=1545.5372314453125,z=-505.4371643066406},
-	{map='Sunset_FlyRace',name='Valley castle OOB',x=-478.83294677734375,y=1573.1116943359375,z=76.33606719970703},
-	{map='SunsetRace',name='Skip',x=236.2896728515625,y=599.3069458007812,z=-526.8030395507812},
-	{map='SunsetEnd',name='Skip',x=42.99704360961914,y=166.48251342773438,z=0.7978107333183289},
-	{map='SunsetColosseum',name='Dream',x=133.408065795899844,y=154.74673461914062,z=-171.10191345214844},
-	{map='SunsetColosseum',name='End',x=62.833187103271484,y=145.87591552734375,z=-293.7547607421875},
-	{map='SunsetEnd2',name='OOB Castle',x=308.30621337890625,y=148.89456176757812,z=-775.3768920898438},
-	{map='SunsetVillage',name='Skip',x=-110.77000427246094,y=205.6576385498047,z=487.48956298828125},
-	{map='SunsetVillage',name='OOB Trumpets',x=-65.07833099365234,y=128.78334045410156,z=-33.79042434692383},
-	{map='Dusk',name='To boat',x=150.89471435546875,y=1.2322540283203125,z=46.65181350708008},
-	{map='Dusk',name='To graveyard',x=-90.4443359375,y=12.013911247253418,z=158.87918090820312},
-	{map='DuskGraveyard',name='To battlefield',x=33.067073822021484,y=82.51902770996094,z=-240.50013732910156},
-	{map='DuskGraveyard',name='To Crabfield',x=135.5191192626953,y=97.7408447265625,z=16.016836166381836},
-	{map='DuskMid',name='To end',x=-284.5697326660156,y=92.47919464111328,z=-400.2809753417969},
-	{map='DuskMid',name='To shipwreck',x=54.159915924072266,y=111.84867095947266,z=-264.114990234375},
-	{map='DuskEnd',name='Elders Room',x=-417.28424072265625,y=12.288487434387207,z=410.8535461425781},
-	{map='Dusk_CrabField',name='To battlefield',x=-338.3324279785156,y=36.55388641357422,z=387.93304443359375},
-	{map='Dusk_CrabField',name='Wasteland moon OOB',x=-338.6526184082031,y=185.0042266845703,z=400.361328125},
-	{map='DuskOasis',name='Skip',x=141.16297912597656,y=120.97766876220703,z=351.2036437988281},
-	{map='DuskOasis',name='Exit ship',x=-47.61760330200195,y=141.75379943847656,z=170.869873046875},
-	{map='TGCOffice',name='Vault office space',x=7009.4736328125,y=6921.181640625,z=9078.2421875},
-	{map='Night',name='To Wreck library',x=-35.5402946472168,y=34.19679641723633,z=-97.76521301269531},
-	{map='Night',name='To Desert',x=42.82196807861328,y=36.75535583496094,z=-81.42263793945312},
-	{map='Night',name='2nd floor',x=11.553918838500977,y=80.62894439697266,z=14.284697532653809},
-	{map='Night',name='3rd floor',x=27.935970306396484,y=153.792236328125,z=-39.151798248291016},
-	{map='NightEnd',name='Thunder',x=31.983366012573242,y=347.39166259765625,z=41.15662384033203},
-	{map='NightEnd',name='Elders Vault',x=-0.8692829012870789,y=195.21739196777344,z=6.841609001159668},
-	{map='NightEnd',name='Full moon Vault',x=67.19486236572266,y=240.53509521484375,z=-187.52154541015625},
-	{map='NightArchive',name='Back to first Library',x=40.553749084472656,y=544.6246337890625,z=-25.288280487060547},
-	{map='NightDesert',name='To Jellyfield',x=399.72943115234375,y=4.236130237579346,z=540.1605834960938},
-	{map='NightDesert',name='To Vault of Knowledge',x=29.91564706713867,y=17.69660758972168,z=176.67739868164062},
-	{map='NightDesert',name='To Jar',x=-76.51543426513672,y=28.447778701782227,z=372.2406921386719},
-	{map='NightDesert',name='OOB Golden Skykids',x=-797.5425415039062,y=156.2596435546875,z=916.4702758789062},
-	{map='NightDesert_Beach',name='Back to desert',x=464.6367492675781,y=8.204781532287598,z=552.7400512695312},
-	{map='Night_JarCave',name='Back',x=-81.74847412109375,y=28.22599983215332,z=373.6864013671875},
-	{map='Night2',name='Top',x=-0.18086150288581848,y=294.4930419921875,z=0.7263343930244446},
-	{map='Storm',name='Skip',x=7,y=266,z=-250},
-	{map='Storm',name='End of Cave',x=61.72602462768555,y=272.8486022949219,z=-332.78521728515625},
-	{map='Storm',name='OOB Transparent',x=192,y=8,z=-489},
-	{map='StormStart',name='Skip',x=-2,y=196,z=-19},
-	{map='StormEnd',name='White Child',x=803.8466796875,y=0.6778343915939331,z=-11.73253059387207},
-	{map='OrbitMid',name='Skip',x=923.1694946289062,y=2764.83251953125,z=146.8410186767578},
-	{map='OrbitMid',name='Stones OOB',x=184.6337890625,y=1345.392333984375,z=-831.4788818359375},
-	{map='OrbitEnd',name='Skip',x=-42.1104621887207,y=2465.890380859375,z=2261.208251953125},
-	{map='Prairie_Cave',name='paintingoob',x=280.9242858886719,y=166.0093231201172,z=191.56130981445312},
-	{map='Prairie_Cave',name='castle_oob',x=133.543701171875,y=308.047607421875,z=494.5435791015625},
-	{map='CandleSpaceEnd',name='end',x=0.6592245101928711,y=0.5781212449073792,z=232.74395751953125},
-	{map='DawnCave',name='exit_cave',x=-25.61272430419922,y=192.8677520751953,z=-38.68637466430664},
-	{map='Dawn',name='Skip',x=101.23614501953125,y=2.32336688041687,z=123.376708984375},
-	{map='Dawn',name='Prophecy Cave',x=211.96453857421875,y=4.274348258972168,z=-63.84076690673828},
-	{map='Dawn',name='Temple',x=150.16748046875,y=102.43803405761719,z=-244.5251007080078},
-	{map='Dawn_TrialsWater',name='Start',x=-0.11249076575040817,y=66.35979461669922,z=13.503379821777344},
-	{map='Dawn_TrialsWater',name='Trial Meditation',x=43.719730377197266,y=67.64400482177734,z=-272.9099426269531},
-	{map='Dawn_TrialsWater',name='End',x=0.060450248420238495,y=78.57532501220703,z=-411.5926513671875},
-	{map='Dawn_TrialsEarth',name='Start',x=96.24566650390625,y=127.13948822021484,z=10.877419471740723},
-	{map='Dawn_TrialsEarth',name='Trial Meditation',x=1.2450224161148071,y=127.96000671386719,z=15.725500106811523},
-	{map='Dawn_TrialsEarth',name='End',x=-13.79636001586914,y=133.65394592285156,z=3.316030740737915},
-	{map='Dawn_TrialsAir',name='Start',x=-1.648727297782898,y=30.203773498535156,z=-38.58304214477539},
-	{map='Dawn_TrialsAir',name='Trial Meditation',x=-27.569198608398438,y=90.28909301757812,z=-130.7397003173828},
-	{map='Dawn_TrialsAir',name='End',x=-11.577858924865723,y=105.93589782714844,z=-130.6845703125},
-	{map='Dawn_TrialsFire',name='Start',x=-41.554508209228516,y=46.78275680541992,z=-22.998823165893555},
-	{map='Dawn_TrialsFire',name='Trial Meditation',x=-12.22600269317627,y=50.001827239990234,z=-257.0751953125},
-	{map='Dawn_TrialsFire',name='End',x=-11.194707870483398,y=50.01749038696289,z=-307.281982421875},
-	{map='Prairie_ButterflyFields',name='Isle of Dawn',x=119.0,y=201.0,z=-458.0},
-	{map='Prairie_ButterflyFields',name='Social Area',x=116.6399917602539,y=196.85479736328125,z=-434.001220703125},
-	{map='Prairie_ButterflyFields',name='Prairie Cave',x=206.80516052246094,y=171.53472900390625,z=18.65180778503418},
-	{map='Prairie_ButterflyFields',name='Prairie Birds Nest',x=-16.0,y=169.0,z=-6.0},
-	{map='Prairie_ButterflyFields',name='Prairie Village',x=77.0,y=161.0,z=66.0},
-	{map='Prairie_Village',name='Prairie Butterfly field',x=30.0,y=192.0,z=183.0},
-	{map='Prairie_Village',name='Prairie Cave',x=162.0,y=200.0,z=222.0},
-	{map='Prairie_Village',name='Prairie Birds Nest',x=-67.0,y=202.0,z=206.0},
-	{map='Prairie_Cave',name='Prairie Butterfly Field',x=192.0,y=171.0,z=12.0},
-	{map='Prairie_Cave',name='Prairie Village',x=243.0,y=198.0,z=226.0},
-	{map='DayEnd',name='Prairie Village',x=-62.0,y=85.0,z=41.0},
-	{map='Prairie_NestAndKeeper',name='Prairie Village',x=-109.54730224609375,y=184.3603515625,z=168.52159118652344},
-	{map='DayEnd',name='Hidden Forest',x=-126.30734252929688,y=105.23834991455078,z=41.5018310546875},
-	{map='Prairie_NestAndKeeper',name='Prairie Butterfly field',x=-49.0,y=163.0,z=37.0},
-	{map='Prairie_NestAndKeeper',name='Sanctuary Islands',x=-358.0,y=127.0,z=109.0},
-	{map='Prairie_Island',name='Dirty Water',x=142.66439819335938,y=2.3796894550323486,z=417.6568603515625},
-	{map='Prairie_Island',name='Bell Shrine',x=24.223779678344727,y=55.22944259643555,z=335.5910339355469},
-	{map='Prairie_Island',name='Mother Whale',x=407.8931579589844,y=-0.0814097449183464,z=514.7636108398438},
-	{map='Rain',name='Skip to mid area',x=17.024648666381836,y=92.79985046386719,z=-225.68663024902344},
-	{map='Rain',name='Social Area',x=139.7912139892578,y=216.697265625,z=-621.1143188476562},
-	{map='Rain',name='To Rainforest',x=28.0,y=101.0,z=-115.0},
-	{map='Rain',name='Mini Treehouse',x=57.644893646240234,y=107.6270751953125,z=-140.5428009033203},
-	{map='Rain',name='Forest basecamp start',x=-12.0,y=152.0,z=-478.0},
-	{map='Rain',name='Forest basecamp first gate',x=61.0,y=96.0,z=-165.0},
-	{map='Rain_BaseCamp',name='Shared space',x=19.623136520385742,y=145.4346466064453,z=15.800447463989258},
-	{map='Rain_BaseCamp',name='To first rain',x=21.0,y=150.0,z=152.0},
-	{map='Rain_BaseCamp',name='To middle of first rain',x=-16.0,y=143.0,z=82.0},
-	{map='Rain_BaseCamp',name='To Rainforest basecamp',x=-20.0,y=136.0,z=64.0},
-	{map='Rain_BaseCamp',name='To mid forest',x=-40.0,y=148.0,z=58.0},
-	{map='RainForest',name='Back to rain',x=21.0,y=101.0,z=-135.0},
-	{map='RainForest',name='Mini Treehouse',x=58.60780334472656,y=115.9687271118164,z=-101.88823699951172},
-	{map='RainForest',name='Forest basecamp',x=54.0,y=114.0,z=-114.0},
-	{map='RainForest',name='To Rain mid',x=64.0,y=106.0,z=57.0},
-	{map='RainShelter',name='To Rainforest',x=32.0,y=84.0,z=-67.0},
-	{map='RainShelter',name='To Cave',x=51.0,y=80.0,z=43.0},
-	{map='RainShelter',name='Golden Bell OOB',x=-31.19548988342285,y=74.96634674072266,z=-14.715871810913086},
-	{map='Rain_Cave',name='To Sunny forest',x=-65.55963134765625,y=210.6380157470703,z=-285.0746154785156},
-	{map='Rain_Cave',name='Big Fish OOB',x=-44.68874740600586,y=11.55691909790039,z=-334.6219482421875},
-	{map='Rain_Cave',name='Birds OOB',x=161.14125061035156,y=-0.08140973746776581,z=149.28102111816406},
-	{map='RainMid',name='Back to Rainforest',x=32.0,y=142.0,z=-27.0},
-	{map='RainMid',name='To Sunny forest',x=-88,y=156.0,z=110.0},
-	{map='RainMid',name='To Temple',x=-17.595956802368164,y=182.86737060546875,z=400.8680114746094},
-	{map='RainMid',name='Mini Treehouse',x=-23.81351661682129,y=166.0816192626953,z=-0.289888858795166},
-	{map='RainMid',name='Forest basecamp',x=-16.0,y=157.0,z=-36.0},
-	{map='RainEnd',name='Butterflies',x=-0.6,y=107.0,z=83.0},
-	{map='RainEnd',name='To Valley of Triumph',x=-1.0,y=211.0,z=219.0},
-	{map='Sunset',name='Social Area',x=-30.16819953918457,y=305.6812438964844,z=27.05612564086914},
-	{map='Sunset',name='To Second Race',x=286.0,y=41.0,z=-529.0},
-	{map='Sunset',name='To Village',x=25.0,y=300.0,z=7.0},
-	{map='Sunset',name='Soar High OOB',x=31.0,y=187.0,z=-467.0},
-	{map='Sunset_Citadel',name='To fly race',x=206.0,y=495.0,z=-203.0},
-	{map='SunsetRace',name='To main start',x=159.0,y=935.0,z=688.0},
-	{map='SunsetEnd2',name='To Collosseum',x=8.0,y=147.0,z=-111.0},
-	{map='SunsetEnd2',name='To Wasteland',x=12.0,y=141.0,z=-199.0},
-	{map='SunsetVillage',name='Collosseum',x=-37,y=76.0,z=12.0},
-	{map='SunsetVillage',name='Back to main',x=87.0,y=76.0,z=367.0},
-	{map='SunsetVillage',name='To Yeti-park',x=-107.0,y=205.0,z=496.0},
-	{map='SunsetVillage',name='Dream Guide',x=163.98046875,y=37.079376220703125,z=89.6847915649414},
-	{map='Sunset_YetiPark',name='To Village',x=126.6,y=35.0,z=29.0},
-	{map='DuskStart',name='Whirl pool',x=-171.370361328125,y=47.68985366821289,z=-873.1289672851562},
-	{map='DuskStart',name='Ice Castle OOB',x=-50.03977966308594,y=4735.7001953125,z=-807.4383544921875},
-	{map='DuskStart',name='Social Space',x=-77.0,y=64.0,z=-772.0},
-	{map='DuskStart',name='To Valley',x=10.0,y=140.0,z=-195.0},
-	{map='DuskGraveyard',name='To Dusk',x=54.0,y=97.0,z=362.0},
-	{map='DuskMid',name='To End',x=-284.5697326660156,y=92.47919464111328,z=-400.2809753417969},
-	{map='DuskMid',name='To Shipwreck',x=54.159915924072266,y=111.84867095947266,z=-264.114990234375},
-	{map='DuskMid',name='To Graveyard',x=41.0,y=100.0,z=-41.0},
-	{map='DuskEnd',name='To Vault of knowledge',x=0.0,y=208.0,z=-67.0},
-	{map='Dusk_CrabField',name='To Graveyard',x=-49.0,y=26.0,z=525.0},
-	{map='Night',name='4th floor',x=31.0,y=212.0,z=-40.0},
-	{map='NightDesert',name='The Rose',x=133.8204345703125,y=12.115839004516602,z=347.6593322753906},
-	{map='NightDesert',name='Amphi theater',x=83.05719757080078,y=73.64505767822266,z=62.82310485839844},
-	{map='NightDesert',name='Light Tower',x=336.9781494140625,y=77.53258514404297,z=168.25814819335938},
-	{map='NightDesert',name='Garden',x=227.37709045410156,y=16.496721267700195,z=606.0718383789062},
-	{map='NightDesert',name='Throne',x=399.643310546875,y=92.43084716796875,z=778.90869140625},
-	{map='NightDesert',name='BigBooks',x=408.36773681640625,y=154.7767791748047,z=1037.8370361328125},
-	{map='NightDesert',name='Floating Eggrock',x=144.13259887695312,y=45.12910461425781,z=770.6494750976562},
-	{map='CandleSpace',name='black_room_island',x=-401.7143859863281,y=14.144501686096191,z=413.95562744140625},
-	{map='NightDesertBeach',name='jelly',x=-5397,73779296875,y=2580,5859375,z=6082,1962890625},
-	{map='NightDesert',name='To Infinite Desert',x=-21.14558982849121,y=9.46289348602295,z=547.5945434570312},
-	{map='Night_InfiniteDesert',name='Back to desert',x=635.3980712890625,y=54.36724853515625,z=-85.38371276855469},
-	{map='SunsetVillage',name='ALL_SPIRIT_LOL',x=-419.5585021972656,y=19.289306640625,z=-203.55723571777344},
-	{map='SunsetVillage',name='OOB_STONEPIGpig2_by_MadBoii',x=2.1557862758636475,y=1.2917245626449585,z=0.5072160363197327},
-	{map='Skyway',name='Back to Rain',x=133.41851806640625,y=384.35552978515625,z=281.2737731933594}
+lemitoffsets = {
+    ppose = 4646312,
+    rad = 4633056,
+    wvisible = 4656540,
+    tomshptr = 22774976,
+    xpos = 4633024,
+    ypos = 4633028,
+    zpos = 4633032,
+    gquest = 3275400,
+    wcharge = 4656460,
+    pcape = 4664072,
+    magic = 4705216,
+    closet = 22919620,
+    mportal = 4340184,
+    wings = 4496152,
+    pdamage = 4809384,
 }
-
-fastpoints = {
-	Vault = {
-		{map = "Night", type = "mv", x = 0.23936225473880768, y = 42.3804931640625, z = 0.47766169905662537},
-		{map = "Night", type = "mv", x = 18.126060485839844, y = 82.0923080444336, z = 15.638044357299805},
-		{map = "Night", type = "mv", x = -30.136156, y = 146.913833, z = -3.242324},
-
-		{map = "Night", type = "tp-mv", to_map = "NightDesert", x = 347.528564453125, y = 12.2946138381958, z = 134.120361328125},
-		{map = "NightDesert", type = "mv", x = 1026.362060, y = 150.298233, z = 395.193969},
-
-		{map = "NightDesert", type = "tp-mv", to_map = "NightDesert_Beach", x = 605.5531005859375, y = 0.5945964455604553, z = 606.4830932617188},
-		{map = "NightDesert_Beach", type = "mv", x = 565.524414, y = 13.000000, z = 440.000000, skip = true},
-
-		{map = "NightDesert", type = "tp", to_map = "Night_JarCave"},
-		{map = "Night_JarCave", type = "mv", x = 373.4429626464844, y = 28.68767738342285, z = -77.86063385009766, skip = true},
-
-		{map = "NightDesert", type = "tp", to_map = "NightArchive"},
-		{map = "NightArchive", type = "mv", x = 27.369735717773438, y = 541.7713623046875, z = 30.13688087463379, skip = true},
-
-		{map = "Night", type = "tp", to_map = "TGCOffice"},
-		{map = "TGCOffice", type = "mv", x = -26.367294311523438, y = 61.92649841308594, z = 6.851436138153076, skip = true},
-
-		{map = "Night", type = "tp", to_map = "Night2"},
-		{map = "Night2", type = "mv", x = 56.743221, y = 306.096588, z = 9.978611},
-	}
+lguioffsets = {
+    scrres = -12531036,
+    candles = 11935712,
+    meshared = 23958116,
+    mesharedptr = 23958976,
+    unmovnt = -6201668,
+    gamespeed = -10942896,
+    frags = 22676304,
+    winds = 3094624,
+    sunsetfilter = -2701180,
+    pcandle = - 6180188,
+    flowers = 25589780,
+    candlespos = 17712992,
+    wbuff = 17425912,
 }
-
-
-local old_ranges = gg.getRanges()
-
-bootloader = nil
-player = nil
-sarray = {}
-
--- bootloader to player offset 0x1441FE8
--- bootloader to entity offset  0x172D4D8
--- bootloader to gui offset 0x0x16d0500 (basically search for number us "Ca" 330,712,483,300)
--- entity to nentity offset 0x80505C  (seems like this offset never changes)
--- player to props offset  0x447624
--- player to firework charge amount offset  0x447624 + 0x1540
--- friend_node(each) to node_price offset -2C
--- nentity to portal_off -0x4011F0
--- nentity to darkplants  (511) or (315) or (256)
-
--- PTOPBASE IS 424848
-
--- MOV W0, #0x1 		1,384,120,352 	<- to enable
--- CBZ W8, [PC, #0xC]	872,415,336 	<- Friendship Nodes
--- LDR W8, [X28,#0x28]	-1,186,976,888 	<- Emotes
--- CSET W0, WZR, NE 	446,629,856 	<- Cosmetics
-
-settings = {
-	wdistance = 5.0,
-	useautoburn = true
+--Beta Offsets--
+bdistances = {
+    candles = 448,
+    flowers = 8,
+    pcandle = 56384,
+    magx = 48,
+    frags = 592,
+    candlespos = 176,
+    wbuff = 288,
+    mcount  = 3260, --Temporary 
+    npc = 76112,
+    xtonpc = 610944,
 }
-
-offsets = {
-	ptoemotes = 0xA21A64, -- Thanks to Kiojeen
-	ptocloset = 0x3C90B8, -- Thanks to Kiojeen
-	ptofnodes = 0x815B9C, -- Thanks to Kiojeen
-	ptoplayer = 0x1441FE8, -- 0xb8ce8 from bootloader end ??????
-	ptoentity = 0x172D4D8,
-	ptogui = 0x16d0500, -- Thanks to Kiojeen
-	gamespeed_off = -0xA5EE30, -- Thanks to Kiojeen
-	ptonentity = 0x80505C,
-	wing_charge = 0x4458B4,
-	sleeping = 0x449D10,
-	pose = 0x443118,
-	pos_off = 0x43FCF0,
-	hcandle = 0xBFF6E2C, -- deprecated
-	magic = 0x451510,
-	props_off = 0x447624,
-	famount_off = 0x447624 + 0x1540,
-	cape_off = 0x447608,
-	cape2_off = -0xD2EEFD4, -- old offset, needs update
-	plants = 0xCD2798,
-	-- friend_node = -0x13BF18C, -- deprecated :)
-	node_off = -0x2C,
-	portal_off = 0x4011F0, -- Thanks to Kiojeen
-	vcandles = 0x5521D4,
-	vcandles_dist = 0x70,
-	curmap_off = -0x167FADC,
-	wind_off = -0x879DDC
+bliboffsets = {
+    candles = 6932552,
+    rclouds = 20363848,
+    fastflap = 9496452,
+    uncloset = 3925176,
+    pjump = 9535308,
+    emitptr = 21408808,
+    iconsize = 18110412,
+    map = 21457165,
+    guiptr = 24105584,
+    wcharge = 5168980,
+    plain = 6970288,
+    mabsorb = 18423156,
+    sglow = 20454764,
+    pdelay = 5027740,
+    pdive = 9573664,
+    winds = 6894308,
+    unfirework = 8657336,
+    pspeed = 20576868,
+    kjrights = 18847671,
+    mtpcol = 5095984,
+    uitran = 18097164,
+    rwater = 7958688,
+    fasthome = 8649136,
+    unnodes = 8390516,
+    absorb = 11705416,
+    honksound = 18839914,
+    mtprst = 5095456,
+    rportals = 5848696,
+    realisim = 4331924,
+    scooter = 5377660,
+    unemote = 10609328,
+    offline = 7828652,
+    mtpmrt = 5095492,
 }
-
-gg.setRanges(gg.REGION_C_ALLOC)
-
-on  = '¦✅¦'
-off = '¦❌¦'
-
-function sign(b)
-	if b then return on else return off end
-end
-
-function getadd(add,flag)
-	local a = {
-		[1] = {address = add, flags = flag}
-	}
-
-	b = gg.getValues(a)
-	return tonumber(b[1].value)
-end
-
-function setadd(add,flag,val,bfreeze)
-	local uu = {}
-
-	uu[1] = {
-		address = add,
-		flags = flag,
-		value = val,
-		freeze = bfreeze
-	}
-
-	gg.setValues(uu)
-
-	if bfreeze then 
-		gg.addListItems(uu)
-	else
-		if indexof(sarray,uu[1].address) == -1 then
-			gg.removeListItems(uu)
-		else
-			gg.addListItems(uu)
-		end
-	end
-end
-
-function setstr(addr,range,str)
-	nn = gg.bytes(str)
-	hv = {}
-
-	if #nn < range then
-		mm = range - #nn
-		for i = 1, mm do
-			table.insert(nn,0)
-		end
-	end
-
-	for i = 1, range do
-		table.insert(hv,{address = addr + (i - 1),flags = gg.TYPE_BYTE,value = nn[i]})
-	end
-
-	gg.setValues(hv)
-end
-
-function addtostr(add,amount)
-	mp = ''
-
-	for i = 0, amount do
-		mu = getadd(add + i,gg.TYPE_BYTE)
-
-		if mu < 1 then break end
-
-		mp = mp .. string.char(mu)
-	end
-
-	return mp
-end
-
-function indexof(a,b)
-	for k, v in ipairs(a) do
-		if v == b then
-			return k 
-		end
-	end
-
-	return -1
-end
-
-function has(t, a)
-	for i, v in ipairs(t) do
-		if v == a then
-			return true
-		end
-	end
-
-	return false
-end
-
------------------------------------
-
-function get_map()
-	local c = ""
-	local c1 = ""
-
-	for i = 0, 23 do
-		c1 = getadd(curmap + i, gg.TYPE_BYTE)
-
-		if c1 == 47 then
-			break
-		end
-
-		c = c..string.char(c1)
-	end
-
-	return c
-end
-
-function get_map_name()
-	local c = get_map()
-
-	for i, v in ipairs(maps) do
-		if v[2] == c then
-			return v[1]
-		end
-	end
-
-	return nil
-end
-
-function get_family_by_map(map)
-	local family = nil
-
-	for i, v in ipairs(crpoints) do
-		if v.map == map then
-			family = v.family
-			break
-		end
-	end
-
-	return family
-end
-
-function get_names(list)
-	local nm = {}
-
-	for i, v in ipairs(list) do
-		table.insert(nm, v.name)
-	end
-
-	return nm
-end
-
-function get_pos_by_name(list, name)
-	for i, v in ipairs(list) do
-		if v.name == name then
-			return {x = v.x, y = v.y, z = v.z}
-		end
-	end
-
-	return nil
-end
-
-function make_points_list(map)
-	local m = {}
-
-	for i, v in ipairs(crpoints) do
-		if v.map == map then
-			table.insert(m, v)
-		end
-	end
-
-	return m
-end
-
-function make_fastpoints_list(family)
-	return
-end
-
-function make_map_list(family)
-	local m = {}
-
-	for i, v in ipairs(crpoints) do
-		if v.family == family then
-			if not(has(m, v.name)) then
-				table.insert(m, v.name)
-			end
-		end
-	end
-
-	return m
-end
-
-function make_poisitions(map)
-	local points = {}
-
-	for i, v in ipairs(posits) do
-		if v.map == map then
-			table.insert(points, v)
-		end
-	end
-
-	return points
-end
-
------------------------------------
-
-function find_adds()
-	bootloader = gg.getRangesList('libBootloader.so')[1].start
-	player = getadd(bootloader + offsets.ptoplayer, gg.TYPE_QWORD)
-	player_r = player + offsets.pos_off + 0x20
-	nentity = getadd(bootloader + offsets.ptoentity, gg.TYPE_QWORD) + offsets.ptonentity
-	nentity_test = getadd(nentity, gg.TYPE_DWORD) == 1099746509
-	gui = getadd(bootloader + offsets.ptogui, gg.TYPE_QWORD)
-
-	if not(nentity_test) then
-		gg.searchNumber(1099746509, gg.TYPE_DWORD)
-		
-		if gg.getResultsCount() > 0 then
-			nentity = gg.getResults(1)[1].address
-			nentity_test = getadd(nentity, gg.TYPE_DWORD) == 1099746509
-		end
-	end
-
-	if not(nentity_test) then
-		gg.toast("Error, some functions may not work.")
-	else
-		curmap = nentity + offsets.curmap_off
-	end
-end
-
-function find_pos()
-	local coords = {
-		z = player + offsets.pos_off,
-		y = player + offsets.pos_off + 4,
-		x = player + offsets.pos_off + 8
-	}
-
-	return coords
-end
-
-function find_candles()
-	if nentity_test then
-		local c = {}
-
-		local n = nentity + 0x1D4
-		for i=1, 650 do
-			table.insert(c, {address = n + (i - 1) * 0x1C0, flags = gg.TYPE_FLOAT, value = 0, name = 'cndl', freeze = false})
-		end
-
-		return c
-	else
-		return {}
-	end
-end
-
-function find_plants()
-	if nentity_test then
-		local m = {}
-
-		for i=1, 511 do
-			m[i]= {address = nentity + offsets.plants + ((i - 1) * 8), flags = gg.TYPE_FLOAT}
-		end
-
-		local plants = gg.getValues(m)
-
-		return plants
-	else
-		return {}
-	end
-end
-
-function find_nodes()
-	if nentity_test then
-		local n = {}
-		local offs = nentity + offsets.friend_node
-
-		local mx = 45
-
-		for i = 0, mx do
-			if string.find(addtostr(offs + i * 0x2E8 + 0x1, 20), "accept_") then
-				table.insert(n, {offs + i * 0x2E8 + offsets.node_off, getadd(offs - offsets.node_off, gg.TYPE_DWORD)})
-			end
-		end
-
-		gg.toast("Found "..#n.." friendship nodes")
-		return n
-	else
-		return {}
-	end
-end
-
-find_adds()
-
--- Teleport variables
-coords = find_pos()
-
-candle = coords['x'] - offsets.hcandle
-prop_bckp = nil
-cape_bckp = nil
-
-wind_bckp = {}
-
-custom_teleport_points = {}
-
-mslot = {
-	'❌none',
-	'❌none',
-	'❌none',
-	'❌none',
-	'❌none',
-	'❌none',
-	'❌none',
-	'❌none',
-	'❌none'
+bemitoffsets = { 
+    ppose = 4547144,
+    rad = 4533872,
+    wvisible = 4554908,
+    tomshptr = 22574416,
+    xpos = 4533840,
+    ypos = 4533844,
+    zpos = 4533848,
+    gquest = 3274304,
+    wcharge = 4554828,
+    pcape = 4562648,
+    magic = 4603792,
+    closet = 22730212,
+    mportal = 4236856,
+    wings = 4392728,
+    pdamage = 4555016,
 }
+bguioffsets = {
+    scrres = -12471612,
+    candles = 11945152,
+    pbeta = -2114823,
+    meshared = 23353092,
+    mesharedptr = 23353952,
+    unmovnt = -6126196,
+    gamespeed = -10808128,
+    frags = 197276272,
+    winds = 3094624,
+    sunsetfilter = -2701244,
+    pcandle = -6105036,
+    flowers = 24987284,
+    candlespos = 17167504,
+    wbuff = 16880424,
+}
+--Huawei Offsets--
+hdistances = {
+    candles = 448,
+    flowers = 8,
+    pcandle = 56384,
+    magx = 48,
+    frags = 592,
+    candlespos = 176,
+    mcount = 3072, --Delete later
+    wbuff = 288,
+    npc = 76112,
+    xtonpc = 610944,
+}
+hemitoffsets = {
+    ppose = 4646312,
+    rad = 4633056,
+    wvisible = 4656540,
+    tomshptr = 22774976,
+    xpos = 4633024,
+    ypos = 4633028,
+    zpos = 4633032,
+    gquest = 3275400,
+    wcharge = 4656460,
+    pcape = 4664072,
+    magic = 4705216,
+    closet = 22919620,
+    mportal = 4340184,
+    wings = 4496152,
+    pdamage = 4656648,
+}
+hguioffsets = {
+    scrres = -12531036,
+    candles = 11935712,
+    meshared = 23958116,
+    mesharedptr = 23958976,
+    unmovnt = -6201668,
+    gamespeed = -10942896,
+    frags = 22676304,
+    winds = 3094624,
+    sunsetfilter = -2701180,
+    pcandle = - 6180188,
+    flowers = 25589780,
+    candlespos = 17712992,
+    wbuff = 17425912,
+}
+hliboffsets = {
+    candles = 7108596,
+    rclouds = 20566216,
+    fastflap = 9706968,
+    uncloset = 4053496,
+    pjump = 9745252,
+    emitptr = 21640904,
+    iconsize = 18268108,
+    map = 21691181,
+    guiptr = 24335984,
+    wcharge = 5310704,
+    plain = 7145968,
+    mabsorb = 18578100,
+    sglow = 20670292,
+    pdelay = 5171296,
+    pdive = 9783612,
+    winds = 7060864,
+    unfirework = 8878416,
+    pspeed = 20801804,
+    kjrights = 19002488,
+    mtpcol = 5237524,
+    uitran = 18255084,
+    rwater = 8168884,
+    fasthome = 8870192,
+    unnodes = 8613736,
+    absorb = 11899828,
+    honksound = 18994483,
+    mtprst = 5236996,
+    rportals = 5971188,
+    realisim = 4477576,
+    scooter = 5513488,
+    unemote = 10823528,
+    offline = 8042444,
+    mtpmrt = 5237032,
+}
+gquests = {}
+slocs = {}
+signs = {
+    burn = "",
+    wcharge = "",
+    veffect = {
+        [1] = '',
+        [2] = '',
+        [3] = '',
+    },
+}
+  do
+    do
+      do
+        do       
+scrSoul = {
+    {
+        "CandleSpace",
+        C_Runner = {
+            {
+                11.539933133204, 
+                0.6701133393127, 
+                -9.459851338894
+            },
+            {
+                22.052013313397, 
+                0.8847683133072, 
+                -11.30561333259
+            },
+            {
+                17.585035313324, 
+                0.9086133924195, 
+                -17.31331039810
+            },
+            {
+                11.562813359535,
+                0.7133263479828, 
+                -20.21333083114
+            },
+            {
+                3.2789133041996, 
+                1.3891335415069, 
+                -20.13348686027
+            },
+        },
+        S_Runner = {
 
--- Hack variables
+        },
+        AC_Runner = {
+            {
+                1.2082827091217, 
+                1.2012283802032, 
+                -0.512719154357
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Isle of Dawn",
+                "Daylight Prairie",
+                "Hidden Forest",
+                "Valley of Thriumph",
+                "Golden Wasteland",
+                "Vault of Knowledge",
+                "Storm",
+            },
+            Map_Goto_Cord = {
+                {
+                    11.161083221435, 
+                    0.9142836928367, 
+                    0.9325465559959
+                },
+                {
+                    8.7470312118530, 
+                    1.2399116754531, 
+                    4.7309145927429
+                },
+                {
+                    5.1999459266662, 
+                    1.6750262975692, 
+                    7.4968323707805
+                },
+                {
+                    -2.906772613525, 
+                    1.9695941209793, 
+                    7.6719703631641
+                },
+                {
+                    -6.318190097809,
+                    1.4163452386857,
+                    4.2863454818726
+                },
+                {
+                    -8.284653663635, 
+                    0.9855941534042, 
+                    0.5775117874108
+                },
+                {
+                    -25.52007102966, 
+                    0.0321920141577, 
+                    -14.61861705783
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "BlackRoom",
+                "Respawn",
+            },
+            OOB_Goto_Cord = {
+                {
+                    818.47491455078, 
+                    0.5450349450111, 
+                    -12.17203235626
+                },
+                {
+                    1.2082827091217, 
+                    1.2012283802032, 
+                    -0.512719154357
+                },
+            },
 
-inffire = off
-fakesleep = off
+        },
+    },
+    {
+        "Dawn",
+        C_Runner = {
+            {
+                55.550047926940, 
+                1.7091040040402, 
+                198.05101004168
+            },
+            {
+                282.15072640318, 
+                2.4425950050402, 
+                188.86611938416
+            },
+            {
+                214.37359406191, 
+                4.7282190040232, 
+                -40.40020370416
+            },
+            {
+                220.65199402797, 
+                4.7413730620402, 
+                -41.20217514416
+            },
+            {
+                372.48257404462, 
+                52.889011381383, 
+                -11.34335803416
+            },
+            {
+                410.37152040996, 
+                60.651866911383, 
+                -9.297544474168
+            },
+            {
+                375.00544093164, 
+                51.966579431383, 
+                -13.79668144168
+            },
+            {
+                414.24423217407, 
+                95.114837641383, 
+                -6.726424241681
+            },
+            {
+                411.38400035400,
+                116.57143401383, 
+                -20.91913741689
+            },
+            {
+                142.44414098608, 
+                87.550369261383, 
+                -248.6161641685
+            },
+            {
+                146.74183640547, 
+                86.097747801383, 
+                -236.9835968941
+            },
+            {
+                151.16194152408, 
+                87.273422241383, 
+                -235.9645080941
+            },
+            {
+                157.45409426879, 
+                85.259262081383, 
+                -246.8436737941
+            },
+            {
+                154.78366088868, 
+                86.710266118125, 
+                -252.9646653125
+            },
+            {
+                152.56053401616, 
+                85.897155761383, 
+                -248.9514007941
+            },
+            {
+                141.17515540639, 
+                90.066741941383, 
+                -183.0816955941
+            },
+        },
+        S_Runner = {
+            {
+                52.241867065429, 
+                34.128974914550, 
+                370.05706787109
+            },
+            {
+                117.50862884521, 
+                2.0493776798248, 
+                310.85833740235
+            },
+            {
+                281.90243530274, 
+                2.1199352741241, 
+                189.00869750962
+            },
+            {
+                106.90713500977, 
+                24.090423583975, 
+                50.098274230703
+            },
+            {
+                414.57965087890, 
+                94.707023620607, 
+                -6.714391708323
+            },
+        },
+        AC_Runner = {
+            {
+                176.06900014062, 
+                37.162414550725, 
+                173.88603210922
+            },
+            {
+                406.33255004281, 
+                115.30656433169, 
+                -11.80378055098
+            },
+            {
+                152.56053401616, 
+                85.897155761383, 
+                -248.9514007941
+            },
+            {
+                141.18650811094, 
+                89.765403747576, 
+                -183.0690004062
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prophecy Cave",
+                "Cloudy Mountain",
+                "Isle's Temple",
+                "Daylight Prairie",
+            },
+            Map_Goto_Cord = {
+                {
+                    207.39927673336, 
+                    4.2378420880725, 
+                    -74.51137695312
+                },
+                {
+                    402.95318603519, 
+                    115.79563140864, 
+                    -10.64803981759
+                },
+                {
+                    155.58183288854, 
+                    103.56874089456, 
+                    -291.5599365375
+                },
+                {
+                    478.00915523455, 
+                    209.99610900806, 
+                    -1029.204115625
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Elder Room",
+                "Rainbow",
+                "Water Heart",
+            },
+            OOB_Goto_Cord = {
+                {
+                    117.86082458496, 
+                    1.0572592020034, 
+                    -1733.990722655
+                },
+                {
+                    301.88989257815, 
+                    413.03152465351, 
+                    -301.2156373125
+                },
+                {
+                    125.905517578125,
+                    -0.1115901541321,
+                    -352.01443481431
+                },
+            },
+        },
+    },
+    {
+        "DawnCave",
+        C_Runner = {
+            {
+                -14.01066780039, 
+                303.17068481383, 
+                -327.1871337941
+            },
+            {
+                -2.829216957039, 
+                235.95487971383, 
+                -300.3239440941
+            },
+            {
+                -11.23269844039, 
+                236.14418021383, 
+                -294.6099548941
+            },
+        },
+        S_Runner = {
 
-autoburn = off
-candles = find_candles()
-plants = find_plants()
-cosmetics = off
-friendnode_unlock = off
-friend_nodes = nil -- this has to be found only after logging in
-energy = off
-quick = off
-quick_results = nil
-clouds = off
-clouds_results = nil
-cosmetic_lock = off
-noknock = off
-cur_cape = nil
-cur_world1 = nil
+        },
+        AC_Runner = {
+            {
+                -14.01066780039, 
+                303.17068481383, 
+                -327.1871337941
+            },
+            {
+                -2.829216957039, 
+                235.95487971383, 
+                -300.3239440941
+            },
+            {
+                -11.23269844039, 
+                236.14418021383, 
+                -294.6099548941
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prophecy Guide",
+                "Trial of Water",
+                "Trial of Earth",
+                "Trial of Air",
+                "Trial of Fire",
+                "Isle of Dawn",
+                "Wind Pathes",
+            },
+            Map_Goto_Cord = {
+                {
+                    -12.98758125305, 
+                    236.18531799316, 
+                    -295.2777099375
+                },
+                {
+                    -89.36100006109, 
+                    244.89579772922, 
+                    -304.3028869606
+                },
+                {
+                    -28.36394309996, 
+                    253.78556893047, 
+                    -371.9724469531
+                },
+                {
+                    21.890035629272, 
+                    259.10858156875, 
+                    -347.1521309531
+                },
+                {
+                    56.881584167447, 
+                    251.59532165544, 
+                    -326.2319335975
+                },
+                {
+                    -27.08447456633, 
+                    191.45581058875, 
+                    -19.22831044922
+                },
+                {
+                    -172.1148529044, 
+                    352.74264526719, 
+                    -375.6912841875
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Top",
+                "Darkroom phopecy",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -14.09960651397,
+                    330.22421264648,
+                    -184.2177886906
+                },
+                {
+                    -10.73032855488,
+                    213.64297485362,
+                    -192.0013731562
+                },
+            },
+        },
+    },
+    {
+        "Dawn_TrialsWater",
+        C_Runner = {
+            {
+                37.024269104003, 
+                65.328330993652, 
+                -99.77043151855
+            },
+            {
+                -107.3505783081, 
+                62.601161956787, 
+                -210.5045471192
+            },
+            {
+                -1.057060003280, 
+                69.734062194824,
+                -429.3835449218
+            },
+        },
+        S_Runner = {
+            {
+                -0.095264695584,
+                78.588241577148,
+                -411.9606323242
+            },
+        },
+        AC_Runner = {
+            {
+                37.024269104003, 
+                65.328330993652, 
+                -99.77043151855
+            },
+            {
+                -1.057060003280, 
+                69.734062194824,
+                -429.3835449218
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+            "Trial Start",
+            "Trial End",
+            },
+            Map_Goto_Cord = {
+                {
+                    -0.076024256615, 
+                    66.475166320808, 
+                    13.173970222145
+                },
+                {
+                    0.1578071713448, 
+                    78.656890814062, 
+                    -412.2473728125
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
 
-gg.setRanges(old_ranges)
-gg.clearResults()
+            },
+            OOB_Goto_Cord = {
 
--- Finding Value of Speed of Walk --
+            },
+        },
+    },
+    {
+        "Dawn_TrialsEarth",
+        C_Runner = {
+            {
+                31.315399169921, 
+                124.05870819091, 
+                5.9689574241638
+            },
+            {
+                -21.69558525085, 
+                121.72374725341, 
+                -41.66272735595
+            },
+            {
+                -30.40783691406, 
+                124.10617065429, 
+                -25.67955970764
+            },
+            {
+                -49.18499374389, 
+                120.38970184326, 
+                62.91881940,2,1
+            },
+            {
+                6.3460049629211, 
+                122.24280548095, 
+                -3.774559974670
+            },
+            {
+                -12.54314613342, 
+                133.64665222167, 
+                1.5344601869530
+            },
+        },
+        S_Runner = {
+            {
+                -13.609255790715, 
+                133.663970947606, 
+                3.23006081581189
+            },
+        },
+        AC_Runner = {
 
-gg.setRanges(gg.REGION_C_DATA)
-gg.searchNumber('3.5', gg.TYPE_FLOAT)
-quick_results = gg.getResults(1)
-gg.clearResults()
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Trial Start",
+                "Trial End",
+            },
+            Map_Goto_Cord = {
+                {
+                    94.0441513061534, 
+                    127.228027437985, 
+                    11.2895097732959
+                },
+                {
+                    -16.086963653563, 
+                    133.843963668898, 
+                    1.68830537796059
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
 
-------------------------------------
+            },
+            OOB_Goto_Cord = {
 
------- Finding Value of Clouds -----
+            },
+        },
+    },
+    {
+        "Dawn_TrialsAir",
+        C_Runner = {
+            {
+                -7.838630199432, 
+                104.79708099365, 
+                -135.2816619873
+            },
+            {
+                -5.160975933074, 
+                104.84455871582, 
+                -130.4453527636
+            },
+            {
+                -10.80421924591, 
+                105.92603302001, 
+                -130.8245086669
+            },
+        },
+        S_Runner = {
+            {
+                -10.80421924594, 
+                105.92603302003, 
+                -130.8245086669
+            },
+        },
+        AC_Runner = {
+            {
+                -13.12792205819, 
+                104.64202117922, 
+                -133.9867248562
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Trial Start",
+                "Trial End",
+            },
+            Map_Goto_Cord = {
+                {
+                    -0.469959855079, 
+                    30.376544952398, 
+                    -36.87496185344
+                },
+                {
+                    -13.12792205819, 
+                    104.64202117922, 
+                    -133.9867248562
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
 
-gg.searchNumber('1D;0.15000000596F;0.5F;1.0F;0.40000000596F::25', gg.TYPE_DWORD)
-clouds_results = gg.getResults(1)
-gg.clearResults()
+            },
+            OOB_Goto_Cord = {
 
-------------------------------------
+            },
+        },
+    },
+    {
+        "Dawn_TrialsFire",
+        C_Runner = {
+            {
+                -14.20672988891, 
+                49.972000122070, 
+                -250.1249389648
+            },
+        },
+        S_Runner = {
+            {
+                -11.65470600128, 
+                50.032299041748, 
+                -307.2140502925
+            },
+        },
+        AC_Runner = {
+            {
+                -12.17530059831, 
+                50.194400787356, 
+                -257.1418151869
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Trial Start",
+                "Trial End",
+            },
+            Map_Goto_Cord = {
+                {
+                    -41.55211639407, 
+                    47.024368286181, 
+                    -23.06604957564
+                },
+                {
+                    -12.17530059831, 
+                    50.194400787356, 
+                    -257.1418151869
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
 
-function set_game_speed(speed)
-	setadd(gui + offsets.gamespeed_off, gg.TYPE_FLOAT, speed, false)
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Prairie_ButterflyFields",
+        C_Runner = {
+            {
+                126.24732971406, 
+                196.44734199453, 
+                -434.9498295625
+            },
+            {
+                112.56028748594,
+                196.98828128985,
+                -435.5927234375
+            },
+            {
+                119.39655303578, 
+                196.20004278938, 
+                -423.4341430625
+            },
+            {
+                115.94466401546,
+                197.09620665763,
+                -435.0668029448
+            },
+            {
+                119.13771854500,
+                196.71645644306,
+                -430.6450314959
+            },
+            {
+                120.62158549660, 
+                196.93354543732, 
+                -426.3350661419
+            },
+            {
+                111.58599536525, 
+                196.37399219788, 
+                -421.4454608476
+            },
+            {
+                117.65332071625, 
+                197.58807730775, 
+                -416.6775810494
+            },
+            {
+                123.81385032656, 
+                157.31137849738, 
+                -31.27239279722
+            },
+            {
+                38.672340396706, 
+                156.68092344406, 
+                -17.53947064622
+            },
+            {
+                26.864156723022,
+                158.78468478632, 
+                -20.59331034188
+            },
+            {
+                77.197386070659,
+                150.64555481429, 
+                2.5079245795610
+            },
+            {
+                81.027331206047, 
+                149.84941528323, 
+                0.1186924003085
+            },
+            {
+                58.641217527870, 
+                151.12345580398, 
+                7.3986284534689
+            },
+            {
+                81.502853357469, 
+                156.66355894094, 
+                44.774879467406
+            },
+            {
+                81.879864755837,
+                158.14534336454,
+                50.287767453132
+            },
+            {
+                103.04887966789, 
+                155.52134443691, 
+                16.613234469617
+            },
+            {
+                110.04409796062, 
+                156.15850085125, 
+                23.556427034125
+            },
+            {
+                90.919326825656, 
+                156.42343195638, 
+                45.665515897782
+            },
+            {
+                111.83203176825, 
+                155.90751647922, 
+                50.264965735305
+            },
+            {
+                148.24801635188, 
+                162.55459725462,
+                1.1438622477641
+            },
+            {
+                144.83453972822,
+                162.02455355350,
+                6.1456756461428
+            },
+        },
+        S_Runner = {
+            {
+                125.91149903643, 
+                148.29016114282, 
+                -27.90440940669
+            },
+            {
+                106.28367617644, 
+                174.61514282522, 
+                26.796970366349
+            },
+            {
+                80.917953416210, 
+                160.53271483375, 
+                62.756153106650
+            },
+        },
+        AC_Runner = {
+            {
+                116.47127538684, 
+                196.72525026462, 
+                -434.8934326675
+            },
+            {
+                106.03333282703, 
+                148.89004566562, 
+                -30.24172057496
+            },
+            {
+                89.278778076878, 
+                156.34834289078, 
+                43.936943039922
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prairie's Social Space",
+                "Prairie's Cave",
+                "Prairie's Nest",
+                "Prairie's Village",
+            },
+            Map_Goto_Cord = {
+                {
+                    122.66889190628, 
+                    196.05523681625, 
+                    -440.8715515195
+                },
+                {
+                    169.57208251955, 
+                    162.76017761047, 
+                    7.7188057899418
+                },
+                {
+                    -12.85297584914, 
+                    163.83486938472, 
+                    -3.260887386738
+                },
+                {
+                    78.002746582035, 
+                    160.49879455506, 
+                    66.472923270868
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Prairie_Village",
+        C_Runner = {
+            {
+                26.761598587033, 
+                183.35781860562, 
+                272.56063842774
+            },
+            {
+                88.768508911132, 
+                181.43383789062, 
+                231.97033691406
+            },  
+            {
+                99.616477966308, 
+                195.17988586425, 
+                253.27508544921
+            },  
+            {
+                94.521110534667, 
+                199.18551635742, 
+                271.82351684570
+            },  
+            {
+                97.736679077148, 
+                201.21684265136, 
+                271.32495117187
+            },  
+            {
+                95.308341979980, 
+                201.13305664062, 
+                275.34353637695
+            },
+            {
+                90.956993103027, 
+                188.05679321289, 
+                350.59893798828
+            },
+            {
+                66.657234191894,
+                194.33100891113, 
+                361.42059326171
+            },
+            {
+                68.459640502929, 
+                198.34800720214, 
+                363.90765380859
+            },
+            {
+                64.284057617187, 
+                196.85046386718, 
+                363.58395385742
+            },
+            {
+                65.680313110351, 
+                187.58006286621, 
+                363.31539916992
+            },
+            {
+                56.304920196533, 
+                186.16696166992, 
+                368.37506103515
+            },
+            {
+                48.271022796630, 
+                186.22412109375, 
+                356.81182861328
+            },
+            {
+                31.329730987548, 
+                184.76110839843, 
+                349.32388305664
+            },
+            {
+                -11.69893550872, 
+                188.72993469238, 
+                325.56625366210
+            },
+            {
+                -15.76104450225, 
+                192.69274902343, 
+                318.25674438476
+            },
+            {
+                -17.54316329956, 
+                194.45230102539, 
+                321.06448364257
+            },
+            {
+                -18.69940757751, 
+                194.96020507812, 
+                316.71640014648
+            },
+            {
+                -41.26921081542, 
+                183.77006530761, 
+                317.14538574218
+            },
+            {
+                133.72906494140, 
+                251.00077819824,
+                456.29867553710
+            },
+            {
+                121.95059967041, 
+                254.80429077148, 
+                477.64349365234
+            },
+            {
+                112.52801571875, 
+                253.84471171094, 
+                456.29397583081
+            },
+            {
+                121.46906280517, 
+                255.08024597167, 
+                464.72766113281
+            },
+        },
+        S_Runner = {
+            {
+                101.36183166503, 
+                181.15914916992, 
+                257.14129638675
+            },
+            {
+                66.608711242675, 
+                186.03414916992, 
+                377.02062988225
+            },
+            {
+                27.543596267705, 
+                184.66926574703, 
+                278.82913208781
+            },
+            {
+                137.69639587404, 
+                267.00448608398, 
+                479.28216554375
+            },
+            {
+                146.41270446774, 
+                304.20635986325, 
+                537.48608398435
+            },
+        },
+        AC_Runner = {
+            {
+                26.929542543906, 
+                184.64785761562, 
+                278.60827671875
+            },
+            {
+                90.043136596669, 
+                198.46316528312, 
+                270.37042238125
+            },
+            {
+                121.44505310594, 
+                254.76109314844, 
+                464.65283203125
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prairie's Temple",
+                "Prairie's Cave",
+                "8 Players Door",
+                "Prairie's Bird Nest",
+                "Butterfly Field",
+            },
+            Map_Goto_Cord = {
+                {
+                    130.53022766128, 
+                    254.92947395312, 
+                    485.23568728594
+                },
+                {
+                    163.06300354006, 
+                    199.86106872594, 
+                    223.00238037175
+                },
+                {
+                    -49.61865234375, 
+                    181.70568847625, 
+                    323.52703857875
+                },
+                {
+                    -65.16517639156, 
+                    202.02886962825, 
+                    205.74963378625
+                },
+                {
+                    30.695538183594, 
+                    192.15051289062, 
+                    183.27949453125
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Invisible Boat",
+                "Hidden Vase",
+            },
+            OOB_Goto_Cord = {
+                {
+                    96.713569641118,
+                    175.35667419494,
+                    265.93649291992
+                },
+                {
+                    95.198860168703,
+                    190.21954345125,
+                    272.36227416919
+                },
+            },
+        },
+    },
+    {
+        "DayHubCave",
+        C_Runner = {
+            {
+                -15.48365688326, 
+                19.045511242754, 
+                -0.228996145018
+            }, 
+            {
+                -6.918425559959, 
+                20.324274061035, 
+                -0.142685762555
+            }, 
+            {
+                6.5667262077334, 
+                39.588024139403, 
+                -2.795980451211
+            }, 
+            {
+                2.6794502735134, 
+                39.584136960625, 
+                -6.766692161059
+            }, 
+            {
+                -2.842965126077, 
+                39.583034515386, 
+                -6.723406314835
+            }, 
+            {
+                -6.580890178642, 
+                39.587768554685, 
+                -2.768701791757
+            }, 
+            {
+                -6.623186588235, 
+                39.587638854947, 
+                2.6655912399291
+            }, 
+            {
+                -2.683221817016, 
+                39.585014343272, 
+                6.7469663619912
+            }, 
+            {
+                2.7542986869801, 
+                39.586540222197, 
+                6.6597943305964
+            }, 
+            {
+                6.6902036666872, 
+                39.586437225348, 
+                2.7170045375875
+            }, 
+            {
+                -26.44708061217, 
+                58.153938293703, 
+                -44.49094390840
+            }, 
+        },
+        S_Runner = {
+            {
+                -19.40589714050, 
+                59.163852691650, 
+                27.888128280639
+            },
+        },
+        AC_Runner = {
+            {
+                -26.44708061217, 
+                58.153938293703, 
+                -44.49094390840
+            }, 
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prairie's Village",
+                "Oreo Dog",
+            },
+            Map_Goto_Cord = {
+                {
+                    31.863409042684, 
+                    42.559291859961, 
+                    0.1206782601254
+                },
+                {
+                    -26.44708061217, 
+                    58.153938293703, 
+                    -44.49094390840
+                }, 
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Prairie_Cave",
+        C_Runner = {
+            {
+                302.17147827148, 
+                188.25280761717, 
+                66.075286865234
+            },
+            {
+                279.19360351565, 
+                186.36106872554, 
+                81.708648681662
+            },
+
+            {
+                282.36364746093, 
+                197.21565246588, 
+                96.148216247558
+            },
+            {
+                224.27723693847, 
+                202.86157226568, 
+                149.28736877441
+            },
+            {
+                263.90252685546, 
+                203.07421878500, 
+                130.27061462402
+            },
+            {
+                296.84558105468, 
+                182.87475858593, 
+                134.01870727539
+            },
+            {
+                301.40573120719, 
+                182.28617858672, 
+                141.91256717188
+            },  
+            {
+                399.19952392578, 
+                181.70881685283, 
+                200.34265136718
+            },  
+            {
+                410.25494384765, 
+                186.04826835498, 
+                210.25970458984
+            },  
+            {
+                374.70266723632, 
+                181.39685085859, 
+                225.55091857910
+            },  
+            {
+                313.80096435546, 
+                188.28228875976, 
+                203.16943359375
+            },  
+            {
+                268.45465087890, 
+                193.70919799880, 
+                213.33957216796
+            },
+            {
+                254.73260497980, 
+                194.57379488059, 
+                218.48579870849
+            },
+        },
+        S_Runner = {
+            {
+                348.07641601562, 
+                197.75335693735, 
+                111.54581451416
+            },
+            {
+                290.06408691405, 
+                199.89677429712, 
+                178.67575032428
+            },
+        },
+        AC_Runner = {            
+            {
+                307.26107788094, 
+                187.17100524344, 
+                71.495117189875
+            },
+            {
+                361.99203491094, 
+                180.86645507825, 
+                230.81097412375
+            },
+            {
+                254.73260497980, 
+                194.57379488059, 
+                218.48579870849
+            },
+        
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prairie's Village",
+                "Butterfly Field",
+            },
+            Map_Goto_Cord = {
+                {
+                    242.81555175725, 
+                    198.26222239706, 
+                    225.31506347625
+                },
+                {
+                    192.25468442422, 
+                    172.19241338712, 
+                    12.722650554102
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Green OOB",
+                "Floating Columns",
+            },
+            OOB_Goto_Cord = {
+                {
+                    314.23403930666,
+                    235.16716003417,
+                    162.43087768588
+                },        
+                {
+                    280.13323974375,
+                    191.76315307688,
+                    -90.30506134203
+                },
+            },
+        },
+    },
+    {
+        "Prairie_NestAndKeeper",
+        C_Runner = {
+            {
+                -102.9916915893, 
+                171.81489562988, 
+                57.865177154541
+            },
+            {
+                -104.5889892578, 
+                158.19465637207, 
+                53.476039886474
+            },
+            {
+                -145.3163757324, 
+                171.01614379882,
+                86.042922973632
+            },
+            {
+                -160.0003967285, 
+                158.58560180664, 
+                116.73441314697
+            },
+            {
+                -144.7190399169, 
+                180.27084350585, 
+                120.23119354248
+            },
+            {
+                -157.0586242812, 
+                180.92340087895, 
+                110.11143493344
+            },
+            {
+                -181.8138275146, 
+                189.34616088867, 
+                124.56017303466
+            },
+            {
+                -157.5458221435, 
+                196.84291076660, 
+                118.59837341308
+            },
+            {
+                -194.6605224609, 
+                178.07192993164, 
+                83.213249206542
+            },
+            {
+                -197.3154144094, 
+                179.69238281295, 
+                85.927780151719
+            },
+            {
+                -192.3193969726, 
+                195.48516845703, 
+                86.972747802734
+            },
+            {
+                -197.6837615966, 
+                206.31074523925, 
+                86.421516418457
+            },
+            {
+                -186.2400970458, 
+                183.59744262695, 
+                119.24262237548
+            },
+        },
+        S_Runner = {
+            {
+                -138.3349456787, 
+                159.45515441894, 
+                144.49919128417
+            },
+            {
+                -214.3208618167, 
+                181.07662963867, 
+                152.93890380859
+            },
+        },
+        AC_Runner = {
+            {
+                -102.9916915893, 
+                171.81489562988, 
+                57.865177154541
+            },
+            {
+                -186.2400970458, 
+                183.59744262695, 
+                119.24262237548
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Sanctuary Islands",
+                "Prairie's Village",
+                "Butterfly Field",
+            },
+            Map_Goto_Cord = {
+                {
+                    -358.1956176725, 
+                    127.19594879039, 
+                    109.66181945781
+                },
+                {
+                    -103.4050140594, 
+                    185.12940979006, 
+                    176.09403991622
+                },
+                {
+                    -49.24009705458, 
+                    163.59744963895, 
+                    37.242963875448
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Prairie_Island",
+        C_Runner = {
+            {
+                224.78587341308, 
+                108.78247067031, 
+                197.25914001464
+            }, 
+            {
+                245.07751464843, 
+                95.755989074670, 
+                219.80665588378
+            }, 
+            {
+                142.83232116699, 
+                13.345933916418, 
+                283.13262939453
+            }, 
+            {
+                98.155532836914, 
+                1.9319493776059, 
+                291.73092651367
+            }, 
+            {
+                93.589889526367, 
+                2.5795640945643, 
+                291.73626708984
+            }, 
+            {
+                80.391166687011, 
+                8.6262531628051, 
+                298.41171264648
+            }, 
+            {
+                73.763732910156, 
+                18.470024106888, 
+                281.74844360351
+            }, 
+            {
+                102.49037170410, 
+                1.2571077346680, 
+                361.84432983398
+            }, 
+            {
+                119.39251708984, 
+                20.180796948425, 
+                324.09963989257
+            }, 
+            {
+                110.24756622314, 
+                19.836698532710, 
+                332.74658203125
+            }, 
+            {
+                77.218246459960, 
+                28.670112760986, 
+                331.83135986328
+            }, 
+            {
+                50.978935241699, 
+                1.2248504161783, 
+                332.64523315429
+            }, 
+            {
+                24.203601837158, 
+                55.580947877597, 
+                328.58630371093
+            }, 
+            {
+                140.62750244140, 
+                1.7570650577754, 
+                397.08886718750
+            }, 
+            {
+                139.22798156738, 
+                1.1068031787787, 
+                403.96835327148
+            }, 
+            {
+                132.88359069824, 
+                1.7001550197760, 
+                407.60009765625
+            }, 
+            {
+                123.49575805664,
+                1.5685937480463, 
+                406.53228759765
+            }, 
+            {
+                125.99578857421, 
+                1.0117541557158, 
+                409.77630615234
+            }, 
+            {
+                115.38467407226, 
+                0.7397542597586, 
+                419.21414184570
+            }, 
+            {
+                140.71354675292, 
+                2.3297750947985, 
+                418.76766967773
+            },  
+            {
+                9.9369993209838, 
+                52.295337677700, 
+                335.50384521484
+            },
+        },
+        S_Runner = {
+            {
+                240.97943115234, 
+                94.036788947042, 
+                205.52835083002
+            },
+            {
+                64.060218811035, 
+                94.486358642752, 
+                307.75262451175
+            },
+            {
+                -20.85441207885, 
+                14.445749282714, 
+                382.86010742185
+            },
+            {
+                94.759033203125, 
+                10.804903987404, 
+                361.77139282226
+            },
+            {
+                108.12346649169, 
+                2.2104811667896, 
+                334.25292968785
+            },
+            {
+                61.494056701666, 
+                18.491308217223, 
+                273.72662353625
+            },
+            {
+                78.024398803714, 
+                1.1005517274433, 
+                324.37591552775
+            },
+            {
+                -146.7215576171, 
+                80.352073667946, 
+                119.30541992185
+            },
+        },
+        AC_Runner = {
+            {
+                248.68655390812, 
+                113.45592498797, 
+                219.59768995625
+            },
+            {
+                105.65388488951, 
+                0.9920581579274, 
+                293.38293457125
+            },
+            {
+                121.49706260547, 
+                2.3658447265025, 
+                333.89300537375
+            },
+            {
+                51.122116088819, 
+                54.125610351625, 
+                341.18740844756
+            },
+            {
+                135.90951535938, 
+                1.4011123180384, 
+                411.89227294975
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prairie's Bird Nest",
+                "Cloudy Falls",
+                "Turtule's Island",
+                "Wind Pathes",
+            },
+            Map_Goto_Cord = {
+                {
+                    273.97619628909, 
+                    174.56629943847, 
+                    -26.62649536132
+                },
+                {
+                    494.98394775390, 
+                    322.12222290039, 
+                    388.57382202148
+                },
+                {
+                    -128.4817657003, 
+                    0.8849521875347, 
+                    220.95448303256
+                },
+                {
+                    433.14529418531, 
+                    270.46878051781, 
+                    549.35540771438
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "DayEnd",
+        C_Runner = {
+            {
+                -100.4646759033, 
+                83.672653198242, 
+                43.930564880371
+            },
+            {
+                -106.2526702880, 
+                84.682731628417, 
+                39.619785308837
+            },
+            {
+                -109.6113510131, 
+                87.589202880854, 
+                45.430335998535
+            },
+            {
+                -128.8240051269, 
+                75.487152099604, 
+                42.606517791748
+            },
+            {
+                -93.05754089355, 
+                82.931159973144, 
+                42.054836273193
+            },
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+            {
+                -93.05754089355, 
+                82.931159973144, 
+                42.054836273193
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Prairie's Village",
+                "Hidden Forest",
+            },
+            Map_Goto_Cord = {
+                {
+                    -61.48258666992,
+                    85.136421203628, 
+                    41.607261657714
+                },
+                {
+                    -132.8583068562, 
+                    108.95340728766, 
+                    40.754566192695
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Elder Room",
+                "Forest Ruins",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -529.5084921875,
+                    8.8339233398375,
+                    -213.7845306648
+                },
+                {
+                    -148.3326568156, 
+                    111.41010284428,
+                    44.986660003611
+                },
+            },
+        },
+    },
+    {
+        "Rain",
+        C_Runner = {
+            {
+                136.53555297862, 
+                217.14334105312, 
+                -621.4086914625
+            },
+            {
+                142.74774169875, 
+                217.17816162375, 
+                -619.6439819938
+            },
+            {
+                131.77482604947, 
+                217.35974121095, 
+                -627.3914184312
+            },
+            {
+                132.06048583984, 
+                218.01776123046, 
+                -616.2747802775
+            },
+            {
+                143.46398925785, 
+                219.09010314906, 
+                -605.2359008062
+            },
+            {
+                4.8145203590307, 
+                98.212028503797, 
+                -303.7971496031
+            },
+            {
+                20.352262498242, 
+                93.146865844656, 
+                -255.2375488125
+            },            
+            {
+                20.645915987422, 
+                92.750991829906, 
+                -226.2070468906
+            },
+            {
+                -0.916706860065, 
+                95.096054077148, 
+                -225.9999542236
+            },
+            {
+                14.529891967738, 
+                94.843490958594, 
+                -219.9649505344
+            },
+            {
+                18.600479125976, 
+                95.443328857421, 
+                -218.1202697753
+            },
+            {
+                14.569302558926, 
+                96.973663337812, 
+                -197.2096715078
+            },
+            {
+                21.072761535644, 
+                97.187431335449, 
+                -198.3959655761
+            },
+            {
+                1.8819508552551, 
+                100.00791168212, 
+                -190.5966949462
+            },
+            {
+                6.1810455322625, 
+                99.834999087266, 
+                -189.2057647708
+            },
+            {
+                18.608137130705, 
+                96.855216979047, 
+                -177.2605432422
+            },
+            {
+                27.459402084350, 
+                97.788940429687, 
+                -176.5005798339
+            },
+            {
+                15.354162216123, 
+                96.688735961906, 
+                -168.4214148438
+            },
+            {
+                9.0435285568237, 
+                97.936485290527, 
+                -154.0733184814
+            },
+            {
+                10.772185325622, 
+                99.969001770019, 
+                -138.6617431640
+            },
+            {
+                15.876636505953, 
+                99.363723754881, 
+                -133.1080017438
+            },
+            {
+                31.357984542848, 
+                97.799705553711, 
+                -145.6311492922
+            },
+            {
+                31.027179718017, 
+                99.598197937011, 
+                -132.3287811279
+            },
+            {
+                28.530029296875, 
+                98.123802185058, 
+                -118.6056671142
+            },
+        },
+        S_Runner = {
+            {
+                2.4042584896086, 
+                114.51516772363, 
+                -257.7843933105
+            },
+            {
+                27.431894302381, 
+                98.209846496563, 
+                -117.4623413085
+            },
+        },
+        AC_Runner = {
+            {
+                136.07281490625, 
+                217.56480404844, 
+                -612.3626098812
+            },
+            {
+                17.669103622523, 
+                92.522308349838, 
+                -225.5381465625
+            },
+            {
+                27.112838747188, 
+                97.958663940429, 
+                -118.9297637931
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Raining Forest",
+                "Wind Pathes",
+                "Assembly Base",
+            },
+            Map_Goto_Cord = {
+                {
+                    29.692853927305, 
+                    98.798660278331, 
+                    -109.0821728516
+                },
+                {
+                    -54.33468246461, 
+                    275.85449218775, 
+                    -658.8024902375
+                },
+                {
+                    -11.08688926773, 
+                    152.52606201875, 
+                    -477.3071289025
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Observatory",
+                "Under The Temple",
+                "Boat",
+            },
+            OOB_Goto_Cord = {
+                {
+                    37.286888122894,
+                    182.10356140132,
+                    -270.9597167975
+                },
+                {
+                    158.95265197906,
+                    207.87747192812,
+                    -651.7037353625
+                },
+                {
+                    138.94921888675,
+                    218.88383483872,
+                    -647.7153930662
+                },
+            },
+        },
+    },
+    {
+        "Skyway",
+        C_Runner = {
+            {
+                -121.0308074951, 
+                331.96179199218, 
+                267.35766601562
+            },
+            {
+                -146.0608520507, 
+                366.77066040039, 
+                245.61038208007
+            },
+            {
+                -148.2494964599, 
+                327.09408569335, 
+                273.70498657226
+            },
+            {
+                -138.2816467285, 
+                315.83834838867, 
+                214.22163391113
+            },
+            {
+                -92.69283294677, 
+                350.40093994140, 
+                127.94058227539
+            },
+            {
+                -107.6770553588, 
+                359.19003295898, 
+                123.41738128662
+            },
+            {
+                -134.8680114746, 
+                337.78082275390, 
+                131.76844787597
+            },
+            {
+                -135.2046356201, 
+                323.11553955078, 
+                155.28713989257
+            },
+            {
+                -220.9396514892, 
+                366.58993530273, 
+                325.74673461914
+            },
+            {
+                -214.8797760009, 
+                378.17752075195, 
+                335.48977661132
+            },
+            {
+                -201.4307403564, 
+                362.92279052734, 
+                334.82397460937
+            },
+            {
+                -165.9129638671, 
+                345.20840454101, 
+                361.41241455078
+            },
+            {
+                -151.5859375111, 
+                340.96850585936, 
+                364.90682983398
+            },
+            {
+                -155.0537261962, 
+                331.78497314453, 
+                347.95239257812
+            },
+            {
+                -108.0632402653, 
+                290.62240600585, 
+                243.3513316,2,2
+            },
+            {
+                -154.3724670410, 
+                293.55890533344, 
+                220.5768999,2,2
+            },                         
+            {
+                -148.0121917724, 
+                280.56867967457, 
+                262.7193605,2,2
+            },             
+            {
+                -131.3562164306, 
+                285.28723144531, 
+                285.0506856,2,2
+            },
+            {
+                -89.91304779052, 
+                296.00558471679, 
+                277.0840625,2,2
+            },
+            {
+                338.32376098632, 
+                330.69320678710, 
+                381.71493530273
+            },
+            {
+                523.34289550788, 
+                319.62130737304, 
+                429.56799316406
+            },
+            {
+                525.97705078125, 
+                318.84558105468, 
+                442.20285034179
+            },
+            {
+                581.90563964843, 
+                335.08651733398, 
+                275.60119628906
+            },
+            {
+                691.44458007812, 
+                343.61267089843, 
+                340.77725219726
+            },
+            {
+                388.64193725585, 
+                352.29660034179, 
+                234.94396972656
+            },
+            {
+                374.81805419921, 
+                306.42446899414, 
+                202.76770019531
+            },
+            {
+                218.90238952636, 
+                312.43637084964, 
+                96.939903259277
+            },
+            {
+                632.13214111328, 
+                319.17089843751, 
+                164.63188171386
+            },
+            {
+                418.40115356445, 
+                346.00598144531, 
+                75.352455139160
+            },
+            {
+                -118.8588338828, 
+                317.34036254881, 
+                256.38330078125
+            },
+        },
+        S_Runner = {
+            {
+                -125.0964369967, 
+                313.97643235588, 
+                273.80786632390
+            },
+        },
+        AC_Runner = {
+            {
+                -96.01830419922, 
+                363.93789672856, 
+                120.91712951156
+            },
+            {
+                -154.2238769525, 
+                365.00250240625, 
+                241.55316162375
+            },
+            {
+                -160.4405839062, 
+                343.98150634625, 
+                360.54956059875
+            },
+            {
+                445.31802368106, 
+                344.77639770581, 
+                306.03875731875
+            },
+            {
+                580.11492919988, 
+                334.39108276319, 
+                278.04650878625
+            },
+            {
+                583.47320556662, 
+                303.66043082031, 
+                248.94950866692
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Flight Guide",
+                "Hidden Forest",
+                "Prophecy Cave",
+                "Sanctuary Island",
+                "Forest's Cave",
+                "Yeti Park",
+                "Forgotten Ark",
+                "Starlight Desert",
+            },
+            Map_Goto_Cord = {
+                {
+                    -124.9053649902, 
+                    318.52612304675, 
+                    258.09320069375
+                },
+                {
+                    142.18208312828, 
+                    386.17880249044, 
+                    280.07360839875
+                },
+                {
+                    320.43630984531, 
+                    310.01177978515, 
+                    496.61895751955
+                },
+                {
+                    539.99871829188, 
+                    289.54663085935, 
+                    502.74176025625
+                },
+                {
+                    200.15707397438, 
+                    279.91601569925, 
+                    24.577936172435
+                },
+                {
+                    431.91629028331, 
+                    321.59747314455, 
+                    24.172508239094
+                },
+                {
+                    720.36920166062, 
+                    301.28622436524, 
+                    89.960136413522
+                },
+                {
+                    779.68865966798, 
+                    304.07293701875, 
+                    346.42419433595
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Rain_BaseCamp",
+        C_Runner = {
+            {
+                20.319261550903, 
+                142.72732543945, 
+                105.53892517089
+            },
+            {
+                6.4189581871032, 
+                141.34516906738, 
+                81.934875488281
+            },
+            {
+                7.8969440460205, 
+                140.07603454589, 
+                61.188430786132
+            },
+            {
+                -12.12238025665, 
+                141.67736816406, 
+                60.457740783691
+            },
+            {
+                6.8098764419555, 
+                140.81611633300, 
+                35.265434265136
+            },
+            {
+                -3.928999423980, 
+                147.37580871582, 
+                11.693538665771
+            },
+            {
+                0.1505748033523, 
+                147.34014892578, 
+                6.5426011085510
+            },
+            {
+                0.2756440639495, 
+                152.54711914062, 
+                17.790855407714
+            },
+            {
+                21.566932678222, 
+                146.12966918945, 
+                19.556455612182
+            },
+            {
+                3.8851594924926, 
+                162.36648559570, 
+                19.692092895507
+            },
+            {
+                29.507726669311, 
+                138.03813171386, 
+                34.934867858886
+            },
+        },
+        S_Runner = {
+            {
+                11.143186569217, 
+                137.20802307126, 
+                20.981975555922
+            },
+            {
+                25.204803466795, 
+                160.22637939455, 
+                68.908027642578
+            },
+        },
+        AC_Runner = {
+            {
+                6.6645178796084, 
+                145.34706115756, 
+                21.203031539992
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Assembly Tree",
+                "Hidden Forest",
+                "Raining Forest",
+                "Middle Forest",
+            },
+            Map_Goto_Cord = {
+                {
+                    5.4188013678223, 
+                    142.26933288577, 
+                    27.034524917254
+                },
+                {
+                    -13.78285574512, 
+                    143.91560363753, 
+                    79.840209960375
+                },
+                {
+                    -18.77116584732, 
+                    137.61318966562, 
+                    63.908504486084
+                },
+                {
+                    -37.90637207025, 
+                    148.19372558575, 
+                    58.171356201875
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "RainForest",
+        C_Runner = {
+            {
+                26.681470870971, 
+                100.98651123046, 
+                -106.2150955200
+            },
+            {
+                15.551282882690, 
+                106.26078796386, 
+                -66.52265930175
+            },
+            {
+                31.996553421008, 
+                105.78983384766, 
+                -70.89686582656
+            },
+            {
+                40.850028991699, 
+                98.078010559082, 
+                -44.52095794677
+            },
+            {
+                67.439048767089, 
+                106.70611572265, 
+                -51.92533493041
+            },
+            {
+                68.374176025390, 
+                107.33836364746, 
+                -90.48425292968
+            },
+            {
+                98.243865966796, 
+                112.45525360107, 
+                -103.0503387451
+            },
+            {
+                106.88548278808, 
+                112.30805206298, 
+                -49.01374435424
+            },
+            {
+                71.365203857421, 
+                107.44644927978, 
+                -61.47020339965
+            },
+            {
+                24.315132141113, 
+                117.84616851806, 
+                -25.90477371215
+            },
+            {
+                89.590545654296, 
+                99.712203979492, 
+                -29.99223709106
+            },
+            {
+                106.60452270507, 
+                98.956970214843, 
+                -25.501718521,1
+            },
+            {
+                81.640495300292, 
+                103.32077026367, 
+                18.709953308105
+            },
+            {
+                86.505401611328, 
+                103.78185272216, 
+                14.002906799316
+            },
+            {
+                92.063140869140, 
+                99.629188537597, 
+                34.912124633789
+            },
+            {
+                77.956657409667, 
+                97.519035339355, 
+                28.919864654541
+            },
+            {
+                63.322135925292, 
+                96.876174926757, 
+                10.852358818054
+            },
+            {
+                54.072345733642, 
+                97.810432434082, 
+                -3.609697341918
+            },
+            {
+                45.274871826171, 
+                96.446861267089, 
+                -3.083667278289
+            },
+            {
+                38.311359405517, 
+                96.434028625488, 
+                -10.67539310455
+            },
+            {
+                50.701522827148, 
+                102.53073883056, 
+                31.160280227661
+            },
+            {
+                39.332626342773, 
+                104.66352081298, 
+                -2.297060728073
+            },
+            {
+                80.006408691406, 
+                129.54554748535, 
+                -10.48982715606
+            },
+            {
+                79.851455688476, 
+                129.54315185546, 
+                -14.61493968963
+            },
+            {
+                64.858474744531, 
+                99.799865722625, 
+                49.952079772922
+            },
+            {
+                19.461265563964, 
+                118.41345977783, 
+                -41.99565887451
+            },
+        },
+        S_Runner = {
+            {
+                24.310968399045, 
+                127.11019134524, 
+                -64.85731506348
+            },
+            {
+                103.71266174340, 
+                111.57595825112, 
+                -111.4058683448
+            },
+            {
+                79.237838745119, 
+                129.21878051512, 
+                -11.90115642794
+            },
+            {
+                66.237846374512, 
+                99.785491943938, 
+                45.696357727787
+            },
+        },
+        AC_Runner = {
+            {
+                31.915939054688, 
+                105.66970825192, 
+                -73.49396514578
+            },
+            {
+                77.633071899406, 
+                107.52163696062, 
+                -60.80525970844
+            },
+            {
+                76.944671630938, 
+                129.22474670156, 
+                -12.96403985127
+            },
+            {
+                66.508689880371, 
+                98.901390077836, 
+                41.440334320066
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Forest's Shelter",
+                "Middle Forest",
+                "Assembely Base",
+                "Hidden Forest",
+            },
+            Map_Goto_Cord = {
+                {
+                    -3.392082546878, 
+                    110.87763214128, 
+                    -51.68939590416
+                },
+                {
+                    65.360885620119, 
+                    101.09223937981, 
+                    57.054485321492
+                },
+                {
+                    54.535148620647, 
+                    114.59252166047, 
+                    -113.1569350781
+                },
+                {
+                    21.624711956445, 
+                    98.881790161281, 
+                    -133.5090484606
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "After The Exit",
+                "Cave",
+            },
+            OOB_Goto_Cord = {
+                {
+                    61.737148284911,
+                    112.71725463888,
+                    102.13352966394
+                },
+                {
+                    131.32725502344,
+                    96.046325683375,
+                    -0.232889952114
+                },
+            },
+        },
+    },
+    {
+        "RainShelter",
+        C_Runner = {
+            {
+                14.439384460449, 
+                83.776420593261, 
+                -56.70314025878
+            },
+            {
+                0.6007043123245, 
+                86.153396606445, 
+                -52.45338821411
+            },
+            {
+                -16.05135154724, 
+                85.373046876785, 
+                -32.32175827026
+            },
+            {
+                -7.910358905236, 
+                84.445487976422, 
+                -8.021418472168
+            },
+            {
+                -0.944978058338, 
+                85.290504455566, 
+                -10.68070220947
+            },
+            {
+                8.5600271224975, 
+                92.971130371093, 
+                7.2801713943481
+            },
+            {
+                -17.69957542419, 
+                96.237068176269, 
+                21.321331024169
+            },
+            {
+                -31.19393920898, 
+                93.305458068847, 
+                16.371364593505
+            },
+            {
+                3.9808316230776, 
+                89.987609828125, 
+                67.520652770961
+            },
+            {
+                -0.362245887517, 
+                90.060592651367, 
+                72.608703613281
+            },
+            {
+                16.098192214965, 
+                88.764274597167, 
+                98.631996154785
+            },
+        },
+        S_Runner = {
+            {
+                -20.88676261901, 
+                96.703880300586, 
+                23.232805252807
+            },
+            {
+                -44.34866714479, 
+                103.38836669218, 
+                -19.09643178321
+            },
+        },
+        AC_Runner = {
+            {
+                14.439384460449, 
+                83.776420593261, 
+                -56.70314025878
+            },
+            {
+                -16.05135154724, 
+                85.373046876785, 
+                -32.32175827026
+            },
+            {
+                8.5600271224975, 
+                92.971130371093, 
+                7.2801713943481
+            },
+            {
+                -17.69957542419, 
+                96.237068176269, 
+                21.321331024169
+            },
+            {
+                -0.362245887517, 
+                90.060592651367, 
+                72.608703613281
+            },
+            {
+                16.098192214965, 
+                88.764274597167, 
+                98.631996154785
+            },
+            {
+                4.1082468032891, 
+                90.182662963819, 
+                71.094680783281
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Bread Table",
+                "Forest's Cave",
+                "Middle Forest",
+                "Raining Forest",
+            },
+            Map_Goto_Cord = {
+                {
+                    -29.63214345703, 
+                    88.227104187172, 
+                    -1.595982551507
+                },
+                {
+                    56.538387298584, 
+                    56.175334930492, 
+                    45.524589538422
+                },
+                {
+                    16.886692041914, 
+                    88.113220214375, 
+                    124.43666859961
+                },
+                {
+                    31.741369246523, 
+                    82.599166870119, 
+                    -70.73441697266
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Top The Tree",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -31.15359115586,
+                    207.18598937988,
+                    -1.739166850728
+                },
+            },
+        },
+    },
+    {
+        "RainMid",
+        C_Runner = {
+            {
+                22.098955154418, 
+                140.03381347656, 
+                11.593234062194
+            },
+            {
+                45.650253295898, 
+                145.32972717285, 
+                53.441741943359
+            },
+            {
+                52.369289398193, 
+                144.63571166992, 
+                72.681114196777
+            },  
+            {
+                89.654678344726, 
+                138.74404907226, 
+                106.55421447753
+            },
+            {
+                73.100425720214, 
+                146.35668945312, 
+                135.00170898437
+            },
+            {
+                122.22451019287, 
+                165.02247619628, 
+                156.90721130371
+            },
+            {
+                48.175579071044, 
+                135.30189514160, 
+                218.78819274902
+            },
+            {
+                25.756296157836, 
+                135.11129760742, 
+                220.37118530273
+            }, 
+            {
+                3.8744745254516, 
+                137.26846313476, 
+                193.81985473632
+            },
+            {
+                -10.79251098632, 
+                138.51646423339, 
+                85.757896423339
+            },
+            {
+                -7.284651279463, 
+                139.97384654688, 
+                113.65763091016
+            },
+            {
+                -5.300167560577, 
+                138.29612731933, 
+                109.76450347900
+            },
+            {
+                -10.11285400390, 
+                135.00807189941, 
+                137.45649719845
+            },
+            {
+                -16.45736503601, 
+                136.16183471679, 
+                166.845703125,1
+            },
+            {
+                -35.81773757934, 
+                137.43380737304, 
+                159.35502625117
+            },
+            {
+                -22.11675834617, 
+                139.58053588188, 
+                194.08303833812
+            },
+            {
+                -21.78609657287, 
+                134.74095153808, 
+                199.10813903885
+            },
+            {
+                -23.36007308959, 
+                136.01338195800, 
+                221.912329980,1
+            },
+            {
+                -23.96585273742, 
+                142.26763916015, 
+                248.27897640429
+            },
+            {
+                -47.84635162353, 
+                135.10615539550, 
+                224.95570373551
+            },
+            {
+                -73.71513366699, 
+                134.67134094238, 
+                176.82362365726
+            },
+            {
+                -82.55107116699, 
+                134.68577575683, 
+                213.54396057186
+            },
+            {
+                -94.28832244873, 
+                136.25802612304, 
+                226.88465881476
+            },
+            {
+                -75.26979064941, 
+                134.72181701660, 
+                231.25952148375
+            },
+            {
+                -69.85585784912, 
+                144.36306762695, 
+                228.22363330782
+            },
+            {
+                -63.24356842041, 
+                143.61950683593, 
+                221.62059693828
+            },
+            {
+                -79.50322723388, 
+                153.41175842285, 
+                155.13998418593
+            },
+            {
+                -18.18708801269, 
+                183.00503540039, 
+                399.30383300781
+            },
+        },
+        S_Runner = {
+            {
+                -22.13455390930, 
+                141.75053405761, 
+                273.59094238225
+            },
+            {
+                117.95573425269, 
+                178.40299987797, 
+                157.47032165544
+            },
+            {
+                -50.83581542965, 
+                149.49314880374, 
+                58.715072631835
+            },
+        },
+        AC_Runner = {
+            {
+                22.659095760156, 
+                139.67922973812, 
+                45.772895812928
+            },
+            {
+                89.706176757825, 
+                143.43301391602, 
+                192.36849975538
+            },
+            {
+                -0.054203182563, 
+                135.57144165062, 
+                229.44253540062
+            },
+            {
+                -67.22160335469, 
+                144.88349914558, 
+                230.23429870607
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Forest's Temple",
+                "Assembely Base",
+                "Forest's Shelter",
+                "Raining Forest",
+            },
+            Map_Goto_Cord = {
+                {
+                    -17.94183442383, 
+                    182.87255859375,
+                    402.49404907656
+                },
+                {
+                    -15.19239937695, 
+                    156.53482054062,
+                    -36.22960281307
+                },
+                {
+                    -86.93447875562, 
+                    154.05659484828, 
+                    110.75101470966
+                },
+                {
+                    33.122562407266, 
+                    140.63914489094, 
+                    -24.91844177248
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Hidden DarkPlant [Disable Burn]",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -27.10675621035,
+                    132.21722412175,
+                    248.16395568856
+                },
+            },
+        },
+    },
+    {
+        "Rain_Cave",
+        C_Runner = {
+            {
+                63.237682342529, 
+                78.647033691406, 
+                -281.3520812988
+            },
+            {
+                60.498966217041, 
+                80.540657043457, 
+                -284.6911315917
+            },
+            {
+                63.978092193603, 
+                80.449478149414, 
+                -288.0711975097
+            },
+            {
+                1.9401673078536, 
+                121.30578613281, 
+                -365.7789611816
+            },
+            {
+                -53.76913452148, 
+                132.32369995117, 
+                -198.6355590820
+            },
+            {
+                -37.42416381835, 
+                133.29978942871, 
+                -196.6528167724
+            },
+            {
+                -34.14217758178, 
+                133.17861938476, 
+                -194.3912811279
+            },
+            {
+                -71.50514221106, 
+                210.44055175785, 
+                -286.6265258065
+            },
+        },
+        S_Runner = {
+            {
+                26.233955383307, 
+                78.158836364741, 
+                -416.7607402344
+            },
+            {
+                9.5641126632693, 
+                137.21192932906, 
+                -213.4228515625
+            },
+            {
+                -65.78562164304, 
+                208.43077087404, 
+                -202.0714921875
+            },
+            {
+                -68.95873260447, 
+                210.12521362388, 
+                -295.6334225625
+            },
+        },
+        AC_Runner = {
+            {
+                60.498966217041, 
+                80.540657043457, 
+                -284.6911315917
+            },
+            {
+                -53.76913452148, 
+                132.32369995117, 
+                -198.6355590820
+            },
+            {
+                -37.42416381835, 
+                133.29978942871, 
+                -196.6528167724
+            },
+            {
+                -34.14217758178, 
+                133.17861938476, 
+                -194.3912811279
+            },
+            {
+                -71.50514221106, 
+                210.44055175785, 
+                -286.6265258065
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Forest's Shelter",
+                "Wind Pathes",
+            },
+            Map_Goto_Cord = {
+                {
+                    -59.40465545297, 
+                    210.42742919875, 
+                    -283.0974731445
+                },
+                {
+                    146.93075561538, 
+                    25.575334548195, 
+                    -135.8213197812
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Little Prince",
+                "Whale",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -344.8593678775,
+                    -0.097037477112,
+                    -197.4244384725
+                },
+                {
+                    -45.74275589258,
+                    -0.097855099707,
+                    -336.6859436086
+                },
+            },
+        },
+    },
+    {
+        "RainEnd",
+        C_Runner = {
+            {
+                15.586350440979, 
+                110.65660858154, 
+                -15.97466087341
+            },
+            {
+                6.8063488006591, 
+                104.90660858155, 
+                -11.46365642547
+            },
+            {
+                -16.72680664062, 
+                104.90659332275, 
+                -4.832346916198
+            },
+            {
+                -13.14260768890, 
+                106.76155853271, 
+                7.7804894447326
+            },
+            {
+                8.7538652420043, 
+                110.09090423583, 
+                70.221832275390
+            },
+            {
+                -7.755294799804, 
+                108.67811584472, 
+                69.291885375976
+            },
+            {
+                -10.67100429534, 
+                109.09571075439, 
+                97.785881042480
+            },
+            {
+                18.237096786499, 
+                107.63051605224, 
+                84.918373107910
+            },
+            {
+                -0.357608072783, 
+                106.69399267461, 
+                95.533081054875
+            },
+        },
+        S_Runner = {
+            {
+                32.228591918941, 
+                111.69273376464, 
+                58.455017089843
+            },
+        },
+        AC_Runner = {
+            {
+                0.0224006045126, 
+                107.12294006356, 
+                -13.61776168477
+            },
+            {
+                0.2779104709644, 
+                115.54570770272, 
+                5.9887666702251
+            },
+            {
+                -0.268315583835, 
+                108.08847048438, 
+                64.457168579156
+            },
+            {
+                1.1147356033195, 
+                106.88995361325, 
+                94.148300170844
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Golden Lake",
+                "Valley of Thriumph",
+            },
+            Map_Goto_Cord = {
+                {
+                    1.8626718325806, 
+                    106.88093894531, 
+                    93.326965332125
+                },
+                {
+                    1.3707888126329, 
+                    183.10369873875, 
+                    181.36717221094
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Elder Room",
+                "Under The Shrine",
+                "Sauna Room",
+            },
+            OOB_Goto_Cord = {
+                {
+                    2.4484107435425,
+                    8.9488725662145,
+                    503.58135328125 
+                },
+                {
+                    -2.881236921387, 
+                    111.04280092031, 
+                    0.7469336390453
+                },
+                {
+                    -26.16459083129, 
+                    105.28491973873, 
+                    -26.35310742578
+                },
+            },
+        },
+    },
+    {
+        "Sunset",
+        C_Runner = {
+            {
+                -21.53313827584, 
+                307.31820678784, 
+                23.540302276628
+            },               
+            {
+                -44.30220031281, 
+                305.79040527375, 
+                22.704393386842
+            },  
+            {
+                -32.00589327539, 
+                306.06387321056,
+                0.9067969220459
+            },       
+            {
+                -41.82229232786, 
+                306.59686279275, 
+                8.8395681381229
+            },
+            {
+                -126.6418609619, 
+                267.61322021484, 
+                -111.0756683349
+            }, 
+            {
+                -102.7023086547, 
+                260.01455688476, 
+                -118.0942687988
+            }, 
+            {
+                -92.79676055908, 
+                255.42987060546, 
+                -149.7174530029
+            }, 
+            {
+                -99.59032440185, 
+                251.37301635742, 
+                -165.7502288818
+            }, 
+            {
+                -102.3453674316, 
+                249.74861145019, 
+                -172.7228088378
+            }, 
+            {
+                -105.0158462524, 
+                248.18446350097, 
+                -179.6185607910
+            }, 
+            {
+                -108.2117462158, 
+                246.65115356445, 
+                -186.9659729003
+            }, 
+            {
+                -111.4282684326, 
+                245.10577392578, 
+                -194.3309783935
+            }, 
+            {
+                -121.5807647705, 
+                239.81631469726, 
+                -223.1212158203
+            }, 
+            {
+                -150.0153198242, 
+                227.08404541015, 
+                -226.4661560058
+            }, 
+            {
+                -134.9889678955, 
+                198.30256652832, 
+                -332.7737731933
+            }, 
+            {
+                -64.54291534423, 
+                124.78829193115, 
+                -449.5321960449
+            }, 
+            {
+                10.579345703125, 
+                87.326492309570, 
+                -454.7586669921
+            }, 
+            {
+                67.553298950195, 
+                75.393020629882, 
+                -478.9150390625
+            }, 
+            {
+                94.138671875316, 
+                72.495437622070, 
+                -490.0226745605
+            }, 
+            {
+                156.80010986328, 
+                75.130928039550, 
+                -448.1409301725
+            }, 
+            {
+                159.84741210937, 
+                75.400993347167, 
+                -444.8967590331
+            }, 
+            {
+                174.61256408691, 
+                44.354190826416, 
+                -485.7638244606
+            }, 
+            {
+                170.12318420410, 
+                44.405239105224, 
+                -487.6696166875
+            }, 
+            {
+                173.99955749562, 
+                39.262062036906, 
+                -518.1322027175
+            },
+            {
+                181.28579711914, 
+                39.289852142333, 
+                -519.0606071562
+            }, 
+            {
+                160.98957820703, 
+                44.780948638916, 
+                -531.5534057188
+            },
+            {
+                185.82476800625, 
+                47.751037595625, 
+                -525.6484985162
+            },
+            {
+                163.61552429622, 
+                46.891365075153, 
+                -570.5303345662
+            },
+            {
+                197.04835366906, 
+                48.123104097784, 
+                -560.6045556662
+            },
+            {
+                215.55628967156, 
+                51.298393249172, 
+                -564.3010253925
+            },
+            {
+                237.51925659688, 
+                46.959270477282, 
+                -531.0076904275
+            },
+            {
+                189.22419738763, 
+                48.780380249024, 
+                -519.4595336962
+            },            
+            {
+                185.57267761230, 
+                44.648670196532, 
+                -547.8377195312
+            }, 
+            {
+                190.86962890625, 
+                44.564102172851, 
+                -545.8764038088
+            }, 
+            {
+                220.33567810058, 
+                44.561614990234, 
+                -523.0917358338
+            }, 
+            {
+                221.22642517089, 
+                44.484729766845, 
+                -515.5581054685
+            },      
+            {
+                298.96685791015, 
+                45.642814636230, 
+                -461.0972595244
+            },
+            {
+                176.76861572265, 
+                49.317531585693, 
+                -515.0432128905
+            },
+        },
+        S_Runner = {
+            {
+                -151.8204498291, 
+                263.44940185575, 
+                -149.4082794453
+            },
+            {
+                165.96144104003, 
+                41.386871337625, 
+                -540.5986938562
+            },
+            {
+                198.51058959960, 
+                48.298694610557, 
+                -517.0969238225
+            },
+        },
+        AC_Runner = {  
+            {
+                -38.82683944704, 
+                306.06375122031, 
+                0.7520882487058
+            },
+            {
+                -153.4755401628, 
+                257.03387451875,
+                -190.4804997812
+            },
+            {
+                8.5401477813207,
+                88.009811401719, 
+                -458.1741638184
+            },
+            {
+                143.83364868162, 
+                44.872287750214,
+                -513.0243573438
+            },
+            {
+                236.07720947625, 
+                45.873260498075, 
+                -509.6696166995
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {  
+                "The middle",
+                "Social Space",
+                "Sliding Race",
+                "Valley's Citadel",
+                "Village of Dreams",
+            },
+            Map_Goto_Cord = {   
+                {
+                    176.76861572265, 
+                    49.317531585693, 
+                    -515.0432128905
+                },
+                {
+                    -30.16819953957, 
+                    305.68124389648, 
+                    27.056124086914
+                },
+                {
+                    286.02197412702, 
+                    41.021736539261, 
+                    -529.0524234768
+                },
+                {
+                    202.98750305175, 
+                    56.844596869297, 
+                    -593.9754671875
+                },
+                {
+                    24.836305612863, 
+                    301.31542968756, 
+                    7.5378761250391
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "SunsetVillage",
+        C_Runner = {
+            {
+                77.409301757812, 
+                49.776599884033, 
+                71.053230285644
+            },
+            {
+                258.27597045894, 
+                76.142333984375, 
+                68.068336488164
+            },
+        },
+        S_Runner = {
+            {
+                99.227806091386, 
+                76.925186122656, 
+                146.16244505938
+            },
+            {
+                224.59245300297, 
+                54.346977233872, 
+                95.407844543703
+            },
+            {
+                -70.26893615756, 
+                193.82872009244, 
+                413.29785156625
+            },
+        },
+        AC_Runner = {
+            {
+                79.433319779688, 
+                51.831768035867, 
+                74.653587341306
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Dream's Guide",
+                "Yeti Park",
+                "Performance Theatre",
+                "Valley's Colosseum",
+                "Valley of Thriumph",
+            },
+            Map_Goto_Cord = {
+                {
+                    163.98046871575, 
+                    37.079376220707, 
+                    89.684791569414
+                },  
+                {
+                    -107.2689361575, 
+                    205.26893671575, 
+                    496.26893671575
+                },
+                {
+                    231.36338806152, 
+                    44.312431335449, 
+                    122.94534301757
+                },
+                {
+                    -37.26869772475, 
+                    76.268936741575, 
+                    12.268933671575
+                },
+                {
+                    86.733085632422, 
+                    76.890686515625, 
+                    372.04920996094
+                },             
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Fake Colosseum",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -62.33036427292,
+                    127.95212554864,
+                    -25.03733253004
+                },
+            },
+        },
+    },
+    {
+        "Sunset_Theater",
+        C_Runner = {
+
+        },
+        S_Runner = {
+            {
+                -11.34240722655, 
+                48.770435333219, 
+                -1.854730360522
+            },
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Music Shop",
+                "Village of Dreams",
+            },
+            Map_Goto_Cord = {
+                {
+                    11.065223697656, 
+                    58.087078094482, 
+                    50.145336152305
+                },
+                {
+                    24.103757858367, 
+                    55.776138306406, 
+                    29.212980270742
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "The Penguin",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -18.39187434492, 
+                    105.23886108438, 
+                    -121.9267851562
+                },
+            },
+        },
+    },
+    {
+        "Sunset_YetiPark",
+        C_Runner = {
+            {
+                -190.9658813476, 
+                260.44918823242, 
+                682.94726562795
+            }, 
+            {
+                -191.6364746093, 
+                260.32254032031, 
+                677.55865451562
+            },
+        },
+        S_Runner = {
+            {
+                -197.7991790771, 
+                262.59609985156, 
+                684.72509765625
+            },
+            {
+                -7.359659194949, 
+                193.20527648978, 
+                475.13375854219
+            },
+        },
+        AC_Runner = {
+            {
+                -191.6364746093, 
+                260.32254032031, 
+                677.55865451562
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Wind Pathes",
+                "Village of Dreams",
+            },
+            Map_Goto_Cord = {
+                {
+                    -447.4780273435, 
+                    342.84793090831, 
+                    660.11218171875
+                },
+                {
+                    126.65965919494, 
+                    35.205276489788, 
+                    29.133758545219
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "SunsetRace",
+        C_Runner = {
+            {
+                158.96078491210, 
+                852.34094238285, 
+                475.28741455075
+            },
+            {
+                158.95344543457, 
+                832.20520019531, 
+                415.29052734375
+            },
+            {
+                96.394165039065, 
+                776.22375488289, 
+                146.91635131835
+            },
+            {
+                217.99336242675, 
+                608.62945556649, 
+                -505.5886535644
+            },
+            {
+                240.78273010253, 
+                593.29376220703, 
+                -541.3986206054
+            },
+            {
+                250.66641235351, 
+                588.62487792968, 
+                -556.5349121093
+            },
+            {
+                253.66641235351, 
+                587.62487792968, 
+                -563.5349121093
+            },
+        },
+        S_Runner = {
+            {
+                195.86099243164, 
+                630.66479492187, 
+                -420.9751586914
+            }, 
+            {
+                40.475429534912, 
+                184.79676818847, 
+                72.958709716796
+            }, 
+            {
+                28.026779174804, 
+                183.00999450683, 
+                -278.0988769500
+            },
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Skip Race",
+                "Valley of Thriumph",
+            },
+            Map_Goto_Cord = {   
+                {
+                    253.66641235351, 
+                    587.62487792968, 
+                    -563.5349121093
+                },          
+                {
+                    158.58305378958, 
+                    935.19421386875, 
+                    693.77478027375
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Eden View",
+            },
+            OOB_Goto_Cord = {
+                {
+                    206.65812680547,
+                    720.39147949875,
+                    -325.1586608719
+                },
+            },
+        },
+    },
+    {
+        "Sunset_Citadel",
+        C_Runner = {
+            {
+                58.058326721166, 
+                474.43652343875, 
+                56.666236877406
+            },
+            {
+                79.338348388671, 
+                480.45724487304, 
+                24.335010528564
+            }, 
+            {
+                115.01293182373, 
+                477.02362060546, 
+                15.762286186218
+            }, 
+            {
+                98.719291687011, 
+                472.12738037105, 
+                0.7539903521531
+            },
+            {
+                119.45586395672, 
+                480.99581907969, 
+                -2.838238228833
+            }, 
+            {
+                17.961029052734, 
+                506.94470214845, 
+                -4.367188930575
+            }, 
+            {
+                26.668973922729, 
+                530.44201660156, 
+                -38.58226776237
+            }, 
+            {
+                92.493148803714, 
+                530.71990966796, 
+                -50.72670745844
+            }, 
+            {
+                112.89489746095, 
+                534.32330322562, 
+                -27.70355606116
+            }, 
+            {
+                93.878959655762, 
+                560.87353515657, 
+                -48.59131314453
+            }, 
+            {
+                96.725715637207, 
+                560.87353515625, 
+                -46.23061425781
+            }, 
+            {
+                105.97938537597, 
+                558.31054687765, 
+                -37.48577859375
+            }, 
+            {
+                112.40264129672, 
+                473.71170043931, 
+                -67.94531290785
+            },
+            {
+                129.76931762695, 
+                478.52026367187, 
+                -71.83979033828
+            },       
+            {
+                105.43567657470, 
+                478.52026367187, 
+                -90.89073091797
+            }, 
+            {
+                122.58815765380, 
+                480.39718627929, 
+                -114.1630633164
+            }, 
+            {
+                142.88764953613, 
+                480.39718627929, 
+                -98.44551085781
+            }, 
+            {
+                156.29774475097, 
+                485.39309692381, 
+                -120.6226654044
+            }, 
+            {
+                140.21934509277, 
+                485.39309692328, 
+                -131.9976833231
+            }, 
+            {
+                155.39750671386, 
+                495.04714965821, 
+                -158.9366463475
+            }, 
+            {
+                174.76113891601, 
+                494.99374389844, 
+                -143.8946521094
+            }, 
+            {
+                199.95587158205, 
+                491.76296997731, 
+                -196.0667871975
+            },
+        },
+        S_Runner = {
+            {
+                115.65475463867, 
+                502.38421630859, 
+                -38.89327621459
+            },
+            {
+                84.013427734375, 
+                558.42462158203, 
+                -55.33114624023
+            },
+
+        },
+        AC_Runner = {
+            {
+                115.10074615476, 
+                476.34976196286, 
+                10.340165134629
+            },
+            {
+                21.752538680273, 
+                531.68847656725, 
+                -30.24364662141
+            },
+            {
+                100.52706146244, 
+                556.59613070938, 
+                -44.33283232578
+            },
+            {
+                122.49337005234, 
+                480.57855609375, 
+                -114.0879952344
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Fly Race",
+                "Valley of Thriumph",
+            },
+            Map_Goto_Cord = {
+                {
+                    206.16645812928, 
+                    491.85729980465, 
+                    -202.4133605912
+                },
+                {
+                    80.228858947539, 
+                    414.42599487309, 
+                    380.60977172856
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Sunset_FlyRace",
+        C_Runner = {
+            {
+                192.88909912109, 
+                1187.3557128905, 
+                393.19781494140
+            }, 
+            {
+                188.47898864746, 
+                1186.9621582025, 
+                392.25186328125
+            }, 
+            {
+                183.35714721679, 
+                1186.9621582125, 
+                391.39892988281
+            }, 
+            {
+                178.59202575684, 
+                1186.9619140625, 
+                390.20147078125
+            }, 
+            {
+                173.65562438964, 
+                1186.9621583125, 
+                388.88403320315
+            }, 
+            {
+                189.93316650325, 
+                1186.9621583125, 
+                407.13119506894
+            }, 
+            {
+                185.01028442312, 
+                1186.9698488125, 
+                406.06121826175
+            }, 
+            {
+                180.24771114062, 
+                1186.9620368125, 
+                404.88562011875
+            }, 
+            {
+                175.13777160653, 
+                1186.9791265625, 
+                404.00015258906
+            }, 
+            {
+                170.41078185156, 
+                1186.9621583125, 
+                402.53601074875
+            },
+            {
+                88.113189697262, 
+                1184.7023978125, 
+                396.667457031,1
+            }, 
+            {
+                -85.14091491619, 
+                1175.8482615625, 
+                362.10940175781
+            }, 
+            {
+                113.63072209844, 
+                1048.3199490625, 
+                -71.11888158594
+            }, 
+            {
+                147.23817443656, 
+                1040.0925960156, 
+                -71.53787245312
+            },
+        },
+        S_Runner = {
+            {
+                -397.8774574597, 
+                1163.5575457686, 
+                49.876556899977
+            },
+            {
+                69.908856765757, 
+                1051.7877656747, 
+                -32.56898768897
+            },
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Skip Race",
+                "Valley's Citadel",
+            },
+            Map_Goto_Cord = {
+                {
+                    147.23817443656, 
+                    1040.0925960156, 
+                    -71.53787245312
+                },
+                {
+                    196.41284179675, 
+                    1187.0728759625, 
+                    401.25250244125
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Black & Gold",
+                "Temple One",
+                "Temple Two",
+                "Golden Horizon",
+                "Clouds",
+            },
+            OOB_Goto_Cord = {
+                {
+                    109.92462921428,
+                    901.23022460935,
+                    2269.6267089843
+                },
+                {
+                    -472.1725769069,
+                    1249.2215576175,
+                    -52.04005898633
+                },
+                {
+                    -478.6821594281,
+                    1564.5404052775,
+                    88.100814819394
+                },
+                {
+                    4143.9067382125,
+                    5385.2104492188,
+                    -1443.912846875
+                },
+                {
+                    -824.8135986125,
+                    1549.0378416875,
+                    -430.1322937719
+                },
+            },
+        },
+    },
+    {
+        "SunsetEnd",
+        C_Runner = {
+            {
+                11.649492263793, 
+                312.75564575195, 
+                387.07666015578
+            },
+            {
+                10.909109115600, 
+                268.10208129882, 
+                264.33517456054
+            },
+            {
+                52.308292388916, 
+                174.48767089843, 
+                35.013637542724
+            },
+            {
+                48.651847839355, 
+                167.01831054687, 
+                4.1076931953430
+            },
+            {
+                57.702232360839, 
+                132.35842895507, 
+                -195.93379688,1
+            }, 
+            {
+                78.006599426269, 
+                131.98063659667, 
+                -210.2630615375
+            }, 
+            {
+                84.904426574707, 
+                133.43931579589, 
+                -221.9564284375
+            }, 
+            {
+                69.892509460449, 
+                131.10452270507, 
+                -232.4457367188
+            }, 
+            {
+                60.032138824469, 
+                133.09295654295, 
+                -244.8497629062
+            }, 
+            {
+                47.335174560546, 
+                130.91708373438, 
+                -232.4038828125
+            }, 
+            {
+                31.493436813354, 
+                133.57623215625, 
+                -227.8029392578
+            }, 
+            {
+                36.882205963134, 
+                131.90249633762, 
+                -224.6617558594
+            }, 
+            {
+                44.885677337646, 
+                132.54476928718, 
+                -211.9600660156
+            }, 
+            {
+                58.522827148437, 
+                132.44879150325, 
+                -195.6243585938
+            }, 
+            {
+                57.882617950439, 
+                132.19241333012, 
+                -209.3764932812
+            }, 
+            {
+                69.167488098153, 
+                132.18293762703, 
+                -220.1134882812
+            },
+        },
+        S_Runner = {
+            {
+                40.382938385066, 
+                185.28033447225, 
+                73.504737854009
+            },
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Valley's Colosseum",
+            },
+            Map_Goto_Cord = {
+                {
+                    47.020088195878, 
+                    167.03833007812, 
+                    3.5743873119425
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {   
+        "SunsetColosseum",
+        C_Runner = {
+            {
+                -12.02710342407, 
+                168.42306518688, 
+                -254.3780822753
+            },
+            {
+                9.2842445373536, 
+                168.42297363125, 
+                -157.1219421875
+            },
+            {
+                101.03507995469, 
+                168.42288207812, 
+                -153.8131515625
+            },
+            {
+                100.42981710703, 
+                155.27400207953, 
+                -192.9686431656
+            },
+            {
+                128.65863037375, 
+                168.42283631094, 
+                -251.8283996312
+            },
+            {
+                55.926033020013, 
+                134.82479858438, 
+                -259.9284973531
+            },
+            {
+                63.681419372594, 
+                136.23826591094, 
+                -263.9766235325
+            },
+            {
+                25.019535064266, 
+                137.69563345703, 
+                -218.8724365275
+            },
+            {
+                89.546562194822, 
+                137.69569392656, 
+                -213.2934112828
+            },
+            {
+                60.170810699289, 
+                138.06398053906, 
+                -279.9239197344
+            }, 
+        },
+        S_Runner = {
+            {
+                28.028461456298, 
+                183.26412963867, 
+                -278.0114746093
+            },
+
+        },
+        AC_Runner = {
+            {
+                -12.02710342407, 
+                168.42306518688, 
+                -254.3780822753
+            },
+            {
+                100.42981710703, 
+                155.27400207953, 
+                -192.9686431656
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Valley's Temple",
+                "Village of Dreams",
+            },
+            Map_Goto_Cord = {
+                {
+                    60.938243869668, 
+                    138.26496887203, 
+                    -292.8519609375
+                },
+                {
+                    136.38674927812, 
+                    154.63574218875, 
+                    -168.8068237305
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "SunsetEnd2",
+        C_Runner = {
+            {
+                9.3106279373165, 
+                141.12466430062, 
+                -187.5173496406
+            }, 
+            {
+                9.3709688186645, 
+                141.12467956597, 
+                -189.6623229988
+            }, 
+            {
+                -30.40855789184, 
+                147.00306701656, 
+                -149.5952453812
+            }, 
+            {
+                -30.89359664912, 
+                140.36236572625, 
+                -147.9670867919
+            }, 
+            {
+                -20.24668121906, 
+                153.51036071744, 
+                -126.6515045166
+            }, 
+            {
+                -11.54897403741, 
+                153.50703430578, 
+                -118.2583770731
+            }, 
+            {
+                -28.58100318914, 
+                141.31132507322, 
+                -143.6330413594
+            },  
+            {
+                9.4763431549077, 
+                137.91827392575, 
+                -165.4556884725
+            },
+        },
+        S_Runner = {
+            {
+                -26.87748527526, 
+                150.36268615722, 
+                -164.4611358642
+            },
+        },
+        AC_Runner = {
+            {
+                -28.58100318914, 
+                141.31132507322, 
+                -143.6330413594
+            },
+            {
+                9.4763431549077, 
+                137.91827392575, 
+                -165.4556884725
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Valley's Colosseum",
+                "Wasteland Portal",
+            },
+            Map_Goto_Cord = {
+                {
+                    8.4611356748642,
+                    147.98652648578,
+                    -111.0883789062
+                },
+                {
+                    12.346468777433,
+                    141.34769865500,
+                    -199.4980579635
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Temple",
+                "Enders Room",
+                "Tower",
+            },
+            OOB_Goto_Cord = {
+                {
+                    9.2510662078842, 
+                    137.98652648578, 
+                    -176.0883789062
+                },
+                {
+                    308.30637890625,
+                    148.89456177812,
+                    -775.3768920438
+                },
+                {
+                    -50.51851171875, 
+                    181.36268612656, 
+                    -790.6363525625
+                },
+            },
+        },
+    },
+    {
+        "DuskStart",
+        C_Runner = {
+            {
+                -70.17276976562, 
+                66.463439941425, 
+                -759.2860717438
+            },
+            {
+                -96.72460978375, 
+                65.056808477969, 
+                -776.3312379688
+            },
+            {
+                -97.46804046086, 
+                63.261409751484, 
+                -789.3527832125
+            },
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+            {
+                -95.49263477395, 
+                64.552993577446, 
+                -779.6611022188
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Social Space",
+                "Underground Tornado",
+                "Aybass Boat",
+                "Nintendo Park",
+            },
+            Map_Goto_Cord = {
+                {
+                    -79.98738064531, 
+                    64.501747131766, 
+                    -767.7150554688
+                },
+                {
+                    -144.8478088372,
+                    66.706222534179,
+                    -795.8886108438
+                },
+                {
+                    -51.17010498075, 
+                    63.538078308107,
+                    -821.5080488225
+                },
+                {
+                    -102.6853103653,
+                    71.887092590203,
+                    -709.6511840312
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "OOB Temple",
+                "Tower",
+                "Eden View",
+            },
+            OOB_Goto_Cord = {
+                {
+                    9.4382123947355, 
+                    137.98654174688, 
+                    -169.0309441875
+                },
+                {
+                    -51.30135349844, 
+                    181.36267089875, 
+                    -789.2449951875
+                },
+                {
+                    -50.03977908594,
+                    4735.7001953125,
+                    -807.4383544185
+                },
+            },
+        },
+    },
+    {
+        "Dusk_Triangle",
+        C_Runner = {
+            {
+                191.46955815823,
+                3.1485271453872,
+                -4.362907865057
+            },
+            {
+                183.46958715803,
+                4.1485271538572,
+                -5.362907885027
+            },
+            {
+                179.69281059375,
+                5.6119604107877,
+                -8.053990640707
+            },
+            {
+                93.916542052766,
+                3.3303294812373,
+                37.192249280957
+            },
+            {
+                -28.47271785155,
+                16.637268064025,
+                62.924068459234
+            },
+            {
+                100.38725207619,
+                10.641655219365,
+                -98.04189305711
+            },
+            {
+                83.387252847619,
+                2.6414655929365,
+                45.654189305711
+            },
+        },
+        S_Runner = {
+            {
+                11.853541374203, 
+                -48.14470677422, 
+                -167.8906763672
+            },
+        },
+        AC_Runner = {
+            {
+                93.916542052766,
+                3.3303294182373,
+                37.192249290957
+            },
+            {
+                -28.47271285155,
+                16.637268664025,
+                62.924068409234
+            },
+            {
+                100.38725807619,
+                10.641655219365,
+                -98.04183005711
+            },
+            {
+                83.387252807619,
+                2.6414659219365,
+                45.654189705711
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Dusk_TriangleEnd",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Nintendo_CandleSpace",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Dusk",
+        C_Runner = {
+            {
+                77.371337890625, 
+                0.3745606210382, 
+                317.79406738125
+            },
+            {
+                85.654884338379, 
+                0.7171803748492, 
+                325.54266351875
+            }, 
+            {
+                83.432579040527, 
+                1.1371877193458, 
+                305.46075453125
+            },
+            {
+                13.930708892871, 
+                1.0488020185884, 
+                308.36480712625
+            }, 
+            {
+                7.8864469528194, 
+                0.5719690918922, 
+                301.79925537105
+            },
+            {
+                -3.981872320171, 
+                0.4209943115212, 
+                296.58001708375
+            }, 
+            {
+                -11.89043712615, 
+                0.7997109293683, 
+                293.74411014219
+            },
+            {
+                -21.31751251203, 
+                3.6552433967593, 
+                277.14660643125
+            },          
+            {
+                -16.72063639785, 
+                6.7549233436587, 
+                268.85626220725
+            },
+            {
+                -57.02548980716, 
+                4.8745551109365, 
+                222.96141052294
+            },
+            {
+                -45.52679061484, 
+                3.2617118358606,
+                193.82435607956
+            },
+            {
+                -23.11991119629, 
+                1.9118396591675, 
+                221.51222807172
+            },
+            {
+                43.931041775293, 
+                0.3946192866325, 
+                228.36323573628
+            },      
+            {
+                -93.23677825924, 
+                2.3239603042254, 
+                326.16040039065
+            }, 
+            {
+                -57.93296813964, 
+                0.4234577119350, 
+                227.25306760156
+            },         
+            {
+                -22.53366851806, 
+                0.7161922454884, 
+                225.30506896956
+            },
+            {
+                -27.18737792965, 
+                1.6746928691814, 
+                236.72752371094
+            }, 
+            {
+                -32.00672149652, 
+                2.1579000949862, 
+                243.70608520512
+            },
+            {
+                -31.84558296203, 
+                0.8092510104182, 
+                235.99291991875
+            }, 
+            {
+                -30.82180595392, 
+                0.8182752132471, 
+                241.15618864845
+            }, 
+            {
+                38.812858581597, 
+                1.0340262653481, 
+                233.54840087625
+            }, 
+            {
+                33.031944272344, 
+                0.2857602536674, 
+                236.04739379882
+            },
+            {
+                45.968070983886, 
+                0.5555566549307, 
+                229.27874755375
+            },       
+            {
+                44.020713806344, 
+                0.5088962316512, 
+                238.11570797094
+            },
+            {
+                -26.13222885136, 
+                1.0234488248073, 
+                215.48005664062
+            }, 
+            {
+                -82.63883209516, 
+                9.5976247787475, 
+                164.53666687011
+            },
+            {
+                -80.67024993894, 
+                10.130057399902, 
+                160.53623962444
+            },
+            {
+                -78.78106689425, 
+                8.5623588562012, 
+                166.29627922656
+            }, 
+        },
+        S_Runner = {
+            {
+                97.530845642089, 
+                45.409198760986, 
+                367.82849121093
+            },
+            {
+                28.591903686523, 
+                0.4718998074531, 
+                343.08151245117
+            },
+
+        },
+        AC_Runner = {
+
+            {
+                58.912986771094, 
+                4.6200566291808, 
+                298.15884399406
+            },
+            {
+                -22.19000816215, 
+                8.0557069778448, 
+                263.75042724675
+            },
+            {
+                -87.20805358719, 
+                3.5997834208744, 
+                327.96957397464
+            },
+            {
+                -69.77503245703, 
+                8.2265472412938, 
+                169.59123229947
+            },
+            {
+                46.125465396406, 
+                0.7260575890547, 
+                230.98258972197
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Graveyard",
+                "Ark Boat",
+            },
+            Map_Goto_Cord = {
+                {
+                    -92.95290415039, 
+                    12.120243072506, 
+                    157.24409484828
+                },
+                {
+                    150.77967834656, 
+                    1.1038250923138, 
+                    46.679084777803
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "DuskOasis",
+        C_Runner = {
+            {
+                147.59660339355, 
+                133.77110290527, 
+                306.44064331054
+            },
+            {
+                160.64848327636, 
+                124.58898162841, 
+                323.70407104499
+            },
+            {
+                138.08192443847, 
+                118.96216583251, 
+                343.80623455745
+            },
+            {
+                122.67705535888, 
+                123.94204711914, 
+                372.15316754539
+            },
+            {
+                112.72045135498, 
+                141.76077270502, 
+                385.72219848631
+            },
+            {
+                77.290191650390, 
+                109.52460479738, 
+                485.96252441406
+            },
+            {
+                77.524360673828, 
+                109.92911541016, 
+                485.91793824219
+            },
+            {
+                42.344898227695, 
+                108.87733472656, 
+                501.50143613281
+            },
+            {
+                80.300666808203, 
+                109.11887861328, 
+                524.12646484375
+            },
+            {
+                94.778335528906, 
+                108.70041659414, 
+                510.14385928125
+            },
+            {
+                60.663230996094, 
+                109.41239999219, 
+                500.84106445125
+            },
+            {
+                281.35345458975, 
+                114.88912963888, 
+                514.36676730925
+            },
+            {
+                300.75039672856, 
+                122.39187622072, 
+                522.50653076188
+            },
+            {
+                303.40280151369, 
+                120.78438568114, 
+                540.93853759762
+            },
+            {
+                331.42803955078, 
+                120.45508575439, 
+                557.00537109375
+            },
+            {
+                281.67712402343, 
+                103.70035552916, 
+                363.22293090821
+            },
+            {
+                284.39031982421, 
+                102.77584075924, 
+                346.00405883906
+            },
+            {
+                302.19992065429, 
+                113.05861663816, 
+                349.97750449219
+            },
+            {
+                286.83377075191, 
+                120.35890960693, 
+                351.80654722656
+            },    
+        },
+        S_Runner = {
+            {
+                112.74694824218, 
+                141.64112854003, 
+                385.64486694335
+            },
+            {
+                304.87118530273, 
+                121.86000061035, 
+                559.51690673828
+            },
+        },
+        AC_Runner = {
+            {
+                142.42260748875, 
+                122.18070983719, 
+                354.66345214375
+            },
+            {
+                66.076637268064, 
+                108.00908660672, 
+                497.16506958081
+            },
+            {
+                117.08913423086, 
+                121.81314853516, 
+                472.02062988125
+            },
+            {
+                276.91116333081, 
+                113.86463163203, 
+                519.37231445325
+            },
+            {
+                313.57543945325, 
+                120.79293822188, 
+                561.34271240438
+            },
+            {
+                298.20739749375, 
+                112.79660791914, 
+                354.37231445125
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Enchantment Guide",
+                "The Boat",
+                "Wind Pathes",
+            },
+            Map_Goto_Cord = {
+                {
+                    119.24184412461, 
+                    114.63999172539, 
+                    323.47680664625
+                },
+                {
+                    -53.93397972656, 
+                    142.09533691405, 
+                    166.76020818828
+                },
+                {
+                    -89.03162384203, 
+                    142.94610595125, 
+                    429.15158081469
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "DuskGraveyard",
+        C_Runner = {
+            {
+                69.450500488285, 
+                90.746414184571, 
+                258.92761230465
+            },
+            {
+                45.003562927246, 
+                89.474349975585, 
+                228.06069946289
+            },
+            {
+                51.369712829589, 
+                99.124923706054, 
+                154.58050537105
+            },
+            {
+                41.545875549316, 
+                95.482940673828, 
+                119.72190093914
+            },
+            {
+                47.909107208255, 
+                93.528404235839, 
+                142.89070129393
+            },
+            {
+                63.752807617187, 
+                66.513824462890, 
+                -15.06167507309
+            },
+            {
+                48.674980163572, 
+                69.750343322753, 
+                -60.99214935302
+            },
+            {
+                8.0781183242795, 
+                78.030082702636, 
+                -144.0747222900
+            },
+            {
+                -7.646578311926, 
+                86.916755676269, 
+                -131.3642120368
+            },
+            {
+                -7.881361484588, 
+                85.596122741699, 
+                -129.6826477052
+            },
+            {
+                -7.623327732082, 
+                84.814178466796, 
+                -126.9023437575
+            },
+            {
+                -5.965239048005, 
+                83.156440734863, 
+                -124.5726470947
+            },
+            {
+                0.6916352510457, 
+                88.964096069334, 
+                -134.5304718018
+            },
+            {
+                85.041656494142, 
+                65.692787170416, 
+                -100.2375106811
+            },
+            {
+                71.559753417965, 
+                69.014099121093, 
+                -156.5313720703
+            },
+            {
+                35.887187957767, 
+                69.372550596437, 
+                -214.0181121822
+            },
+            {
+                49.344718933107, 
+                75.968544006346, 
+                -228.8036346435
+            },
+            {
+                44.266765594242, 
+                81.997634889531, 
+                -132.8936463438
+            },
+            {
+                39.146141052094, 
+                70.274681091086,
+                -219.6222686778
+            },
+            {
+                116.38684844970, 
+                65.439598083491, 
+                -44.79402542114
+            },
+        },
+        S_Runner = {
+            {
+                83.742225646972, 
+                92.520576477050, 
+                185.89820861816
+            }, 
+            {
+                67.508056640625, 
+                98.883094787597, 
+                120.85146331787
+            }, 
+            {
+                91.689392089843, 
+                77.958930969238, 
+                -55.88326644897
+            }, 
+            {
+                15.445703506469, 
+                83.868019104003, 
+                -139.2164611816
+            }, 
+            {
+                -12.19438362121, 
+                64.999397277832, 
+                -91.31414031982
+            }, 
+            {
+                28.186920166015, 
+                71.109375000000, 
+                -222.4510345458
+            },
+
+        },
+        AC_Runner = {
+            {
+                60.794216796875, 
+                91.529129028331, 
+                244.22984314844
+            },
+            {
+                53.718326568516, 
+                99.200119018469, 
+                129.55772302344
+            },
+            {
+                63.346504211478, 
+                72.228889533203, 
+                -21.90197753625
+            },
+            {
+                42.146312713385, 
+                79.497436582375, 
+                -64.31107322266
+            },
+            {
+                82.471214299336, 
+                71.394134521488, 
+                -113.2323683828
+            },
+            {
+                52.998291015625, 
+                78.329238890156, 
+                -151.8545338672
+            },
+            {
+                15.515132902734, 
+                78.858230590031, 
+                -145.9744710938
+            },
+            {
+                38.368598937828, 
+                71.276130967953,
+                -221.6977346094
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Wasteland",
+                "The Sinking Ship",
+                "Krills Field",
+            },
+            Map_Goto_Cord = {
+                {
+                    55.150875552734, 
+                    92.687889098211, 
+                    362.34075924375
+                },
+                {
+                    191.02172851565, 
+                    68.364334106531, 
+                    -71.76231384274
+                },
+                {
+                    33.163875579984, 
+                    78.794486999572, 
+                    -255.4049235156
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Dusk_CrabField",
+        C_Runner = {
+            {
+                -181.3859710694, 
+                3.6519963741309, 
+                492.72552490375
+            },
+            {
+                -188.1598815988, 
+                1.8774749040638, 
+                476.57284545844
+            },
+            {
+                -200.2597351078, 
+                1.3410919904702, 
+                430.88894653320
+            },
+            {
+                -213.4281152656, 
+                15.710387219434, 
+                428.03768929844
+            },
+            {
+                -171.7379913338, 
+                0.5510778427123, 
+                421.20867919975
+            },
+            {
+                -132.1750183108, 
+                3.8870532512665, 
+                416.76864624023
+            },
+            {
+                -158.5584259033, 
+                0.2302118539807, 
+                377.32583618106
+            },
+            {
+                -189.0801696738, 
+                0.7528222799347, 
+                403.83865356431
+            },
+            {
+                -166.6063079834, 
+                10.564010620188, 
+                365.66656494625
+            },
+            {
+                -161.8746185344, 
+                6.9251830407715, 
+                357.60043334094
+            },
+            {
+                -269.0017089845, 
+                5.8818883895872, 
+                428.11404418931
+            },
+            {
+                -268.5688171719, 
+                6.8618574142455, 
+                423.56469726575
+            },
+            {
+                -273.6287841775, 
+                11.089472770698, 
+                426.61276245119
+            },
+            {
+                -289.1820068355, 
+                18.585878372193, 
+                419.59329223632
+            },
+            {
+                -289.6843261715, 
+                29.507257461545, 
+                405.63800048825
+            },  
+        },
+        S_Runner = {
+            {
+                -27.35903739929, 
+                39.261333465576, 
+                524.44494628906
+            },
+            {
+                -165.0208587646, 
+                1.6629854440689, 
+                369.98297119140
+            },
+            {
+                -293.0916137695, 
+                3.2144246101379, 
+                335.54418945310
+            },
+
+        },
+        AC_Runner = {
+            {
+                -131.7653044297, 
+                5.7304058074957, 
+                411.03732299869
+            },
+            {
+                -164.1964874268, 
+                9.4794673919673, 
+                375.84466552775
+            },
+            {
+                -192.6351621562, 
+                7.2719597816285, 
+                478.21673583975
+            },
+            {
+                -199.8372495938, 
+                1.5046497583382, 
+                412.92526241719
+            },
+            {
+                -289.2402954625, 
+                29.466814041695, 
+                413.06524658125
+            },
+            {
+                -213.4125223047, 
+                15.907491683951, 
+                429.15438842344
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Krills Field",
+                "Graveyard",
+            },
+            Map_Goto_Cord = {
+                {
+                    -347.4880806969, 
+                    35.086185465536, 
+                    384.94552608469
+                },
+                {
+                    -46.52630684375, 
+                    26.536390304543, 
+                    527.55578613125
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "DuskMid",
+        C_Runner = {
+            {
+                -49.17710113525, 
+                104.61945343017, 
+                -77.27023315496
+            },
+            {
+                -186.2926635745, 
+                121.32110595703, 
+                -170.1503753664
+            },
+            {
+                -214.0945129312, 
+                140.77784729003, 
+                -163.6229095458
+            },
+            {
+                -212.9920509844, 
+                130.71766662596, 
+                -167.4254150625
+            },
+            {
+                -245.1495666503, 
+                118.70918273921, 
+                -153.1770324702
+            },
+            {
+                -228.7631835937, 
+                102.26531982421, 
+                -183.9675140384
+            },
+            {
+                -251.3509063703, 
+                101.28320312567, 
+                -196.4742431640
+            },
+            {
+                -270.7358703613, 
+                105.31674957279, 
+                -234.4688873291
+            },
+            {
+                -231.0219879156, 
+                100.07679748536, 
+                -229.6079711925
+            },
+            {
+                -217.1671905578, 
+                103.86759191016, 
+                -242.9450836406
+            },
+            {
+                -237.4819641112, 
+                95.928161621095, 
+                -285.5130920416
+            },           
+            {
+                -208.2674713156, 
+                96.299903869629, 
+                -305.3411254885
+            },
+            {
+                -226.7932434082, 
+                83.072036743166, 
+                -361.3031921386
+            },
+            {
+                -275.4762268066, 
+                84.693557739251, 
+                -339.0612487792
+            },
+            {
+                -270.0598449707, 
+                88.325431823730, 
+                -369.3440856934
+            }, 
+        },
+        S_Runner = {
+            {
+                -205.2534637451, 
+                130.28048706054, 
+                -160.4869995117
+            },
+            {
+                -238.1580352783, 
+                86.039207458496, 
+                -394.4575195312
+            },
+        },
+        AC_Runner = {
+            {
+                -51.04799279883, 
+                104.36713403828, 
+                -80.17066955566
+            },
+            {
+                -230.8029026797, 
+                128.76542657422, 
+                -155.1765131875
+            },
+            {
+                -256.8525390625, 
+                104.70501704375, 
+                -221.3316192953
+            },
+            {
+                -224.0580248047, 
+                95.286918640172, 
+                -298.7842150781
+            },
+            {
+                -268.6379055469, 
+                90.554054260939, 
+                -375.0806274625
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Graveyard",
+                "Sinking Ship",
+                "Wasteland's Temple",
+            },
+            Map_Goto_Cord = {
+                {
+                    42.020240691406, 
+                    93.140922546372, 
+                    -43.85043309375
+                },
+                {
+                    57.681274414625, 
+                    113.86144256797, 
+                    -261.4266052294
+                },
+                {
+                    -288.0849609375, 
+                    92.996986389116, 
+                    -404.2009589531
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Demons Prison",
+                "Spawn",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -416.2230224375,
+                    12.170680081543,
+                    410.91101074987
+                },
+                {
+                    1.7065873905713, 
+                    102.49025136719, 
+                    -52.23664017578
+                },
+            },
+        },
+    },
+    {
+        "DuskEnd",
+        C_Runner = {
+            {
+                -3.438915491104, 
+                207.79264831542, 
+                -1.841788768768
+            },
+            {
+                -0.054561343044, 
+                207.97463989252, 
+                -4.911978721612
+            },
+            {
+                3.3695945739746, 
+                207.79272460935, 
+                -1.863260149495
+            },
+            {
+                -0.017383426427, 
+                206.92053222656, 
+                1.8564851284071
+            }, 
+        },
+        S_Runner = {
+            {
+                4.1799087524414, 
+                202.43261718750, 
+                32.216510772705
+            },
+        },
+        AC_Runner = {
+            {
+                -0.031368126721, 
+                208.73547363125, 
+                -1.968906163115
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Vault of Knowledge",
+            },
+            Map_Goto_Cord = {
+                {
+                    0.0444635225784, 
+                    207.88650512692, 
+                    -66.52736663836
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Elder Room",
+                "Shrine",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -416.2230224375,
+                    12.170680081543,
+                    410.91101074987
+                },
+                {
+                    -0.002804073824, 
+                    208.72766113225, 
+                    -1.835969804683
+                },
+            },
+        },
+    },
+    {
+        "Night",
+        C_Runner = {
+            {
+                28.474092483528, 
+                37.375598904707, 
+                -134.6547851562
+            },
+            {
+                31.758943557258, 
+                47.141708372344, 
+                -137.4828387188
+            },
+            {
+                39.149700164492, 
+                47.149227143984, 
+                -126.3129828125
+            },
+            {
+                34.362564086914, 
+                42.332126617464, 
+                -118.4505762656
+            },
+            {
+                6.8786377906932, 
+                37.754905700694, 
+                -70.72533416047
+            },          
+            {
+                8.5572910308789, 
+                36.320026397708, 
+                -64.42597961781
+            },
+            {
+                -9.311757087752, 
+                37.780628204357, 
+                -57.70224761906
+            },
+            {
+                0.0174525305655, 
+                40.946224212644, 
+                4.4228782653809
+            },
+            {
+                16.707687377688, 
+                40.686889648475, 
+                -13.58652876172
+            },
+            {
+                -7.250173091428, 
+                40.156665802095, 
+                -5.957600116736
+            },     
+            {
+                -3.709220170974, 
+                40.120834350594, 
+                -31.21868516484
+            },
+            {
+                -23.61522674547, 
+                40.601371763672, 
+                -4.441322803145
+            },
+            {
+                -60.10163116458, 
+                41.291240213867, 
+                -13.45451627637
+            },
+            {
+                -60.67078018186, 
+                41.077423095705, 
+                22.994799194336
+            },
+            {
+                -19.17076492703, 
+                41.962001800511, 
+                -0.344039387726
+            },
+            {
+                -14.32716174043, 
+                41.183197021475, 
+                -19.39452743734
+            },
+            {
+                -0.454628525923, 
+                40.658519744305, 
+                24.907859802294
+            },
+            {
+                11.780025482174, 
+                81.054862976022, 
+                -16.73074551758
+            },
+            {
+                16.780996322836, 
+                81.191093482422, 
+                16.236223225195
+            },
+            {
+                19.097505568008, 
+                79.649749755838, 
+                -2.720201015412
+            },
+            {
+                6.7297801973555, 
+                80.451370239781, 
+                17.970901487812
+            },
+            {
+                21.095949173633, 
+                79.021720886047, 
+                6.2935824394607
+            },
+            {
+                -21.87923240621, 
+                78.796607971184, 
+                -7.889876365621
+            },
+            {
+                12.726294517519, 
+                82.715209960975, 
+                24.092195510258
+            },
+            {
+                29.849941253611, 
+                82.943099975594, 
+                41.959526062172
+            },
+            {
+                -15.84587860119, 
+                149.49874829688, 
+                -35.34307098672
+            },
+            {
+                -3.202060699906, 
+                147.31858823594, 
+                -30.02383991523
+            },
+            {
+                35.844821929934, 
+                160.42565917875, 
+                -40.89717102051
+            },
+    
+        },
+        S_Runner = {
+            {
+                20.490139007568, 
+                46.671905517578, 
+                -67.83885955810
+            },
+            {
+                33.860950469970, 
+                160.66522216796, 
+                -41.64305114746
+            },
+        },
+        AC_Runner = {
+            {
+                1.2594480514527, 
+                31.962703733984, 
+                -88.96246337625
+            },
+            {
+                0.5493590831592, 
+                42.077457427516, 
+                -0.480985004443
+            },
+            {
+                10.627416610773, 
+                80.298393249512, 
+                15.289906507002
+            },
+            {
+                -14.72156047045, 
+                148.76473999438, 
+                -33.96760559031
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Vault's Archive X",
+                "Second Floor",
+                "Third Floor",
+                "Fourth Floor",
+                "Starlight Desert",
+                "Office Portal[Cape Nedded]",
+            },
+            Map_Goto_Cord = {                 
+                {
+                    -44.44785308836, 
+                    39.764999389644, 
+                    -97.29706573328
+                },
+                {
+                    11.553918838507, 
+                    80.628944397266, 
+                    14.284532653809
+                },
+                {
+                    27.935970306394, 
+                    153.79223632812, 
+                    -39.15179824826
+                },           
+                {
+                    31.803033828735, 
+                    216.55860900876, 
+                    -42.47412872313
+                },
+                {
+                    42.821968078613, 
+                    36.755355834094, 
+                    -81.42263793312
+                },
+                {
+                    7009.4736328125, 
+                    6921.1815640625, 
+                    9078.2421454875
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "TGCOffice",
+        C_Runner = {
+            {
+                0.1949972029938, 
+                64.382759094228, 
+                -10.98140335078
+            },
+            {
+                0.2008173693924, 
+                64.382781972188, 
+                -5.547325134244
+            },
+            {
+                -10.73098659809, 
+                63.291069030172, 
+                2.4283483028865
+            },
+            {
+                -11.10198116902, 
+                63.290981292761, 
+                6.5677919387838
+            },
+            {
+                7.6979284286402, 
+                63.205051422914, 
+                -16.81070516523
+            },
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+            {
+                -11.10198116902, 
+                63.290981292761, 
+                6.5677919387838
+            },
+            {
+                7.6979284286402, 
+                63.205051422914, 
+                -16.81070516523
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Vault",
+            },
+            Map_Goto_Cord = {
+                {
+                    7.0312218666666, 
+                    61.986282348281, 
+                    -26.53548240621
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "TGC Satellite",
+                "Office",
+            },
+            OOB_Goto_Cord = {
+                {
+                    7009.4736328125,
+                    6921.1816450625,
+                    9078.2425461875
+                },
+                {
+                    7.6979284286402, 
+                    63.205051422914, 
+                    -16.81070516523
+                },
+            },
+        },
+    },
+    {
+        "Night2",
+        C_Runner = {
+            {
+                -39.03101730668, 
+                129.39755249438, 
+                9.4872417449117
+            }, 
+            {
+                -44.69918067344, 
+                140.06964118125, 
+                10.518841749238
+            }, 
+            {
+                -68.62863922114, 
+                165.88600158406, 
+                -38.73633193969
+            }, 
+            {
+                -16.76027488706, 
+                164.27270507815, 
+                -49.17295074466
+            },
+            
+            {
+                13.497184753419, 
+                183.28681945878, 
+                42.127361297642
+            },
+            {
+                63.122066497804, 
+                160.58869934083, 
+                38.856674194335
+            }, 
+            {
+                9.7553844451943, 
+                183.21347044378, 
+                41.659362792965
+            },
+            {
+                25.292501449586, 
+                148.53373718262, 
+                34.495464324957
+            }, 
+            {
+                -7.277364253903, 
+                133.11944580125, 
+                -37.45455551161
+            },
+            {
+                -20.60762782344, 
+                138.16889361328, 
+                -47.90115722656
+            },
+            {
+                3.3815910816197, 
+                294.95669555664, 
+                2.0009117126444
+            },
+            {
+                -4.476344585701, 
+                294.14456175781, 
+                -0.856916541077
+            },
+            {
+                -3.168526172635, 
+                295.51892089875, 
+                6.5658740997314
+            },
+            {
+                6.7318286895755, 
+                302.72262573249, 
+                48.545757293717
+            }, 
+            {
+                8.9747104649539, 
+                303.52697750625, 
+                51.419868469828
+            },
+            {
+                9.9122791290289, 
+                306.49014282256, 
+                56.757987976072
+            }, 
+            {
+                -1.881003618244, 
+                304.43795776367, 
+                59.054458618166
+            }, 
+            {
+                -11.08990859983, 
+                307.52114868166, 
+                58.947040557863
+            }, 
+            {
+                0.0500598810616, 
+                309.60235595125, 
+                72.889587402345
+            },
+            {
+                0.0693485736838, 
+                309.59786987469, 
+                63.546276925293
+            },
+        },
+        S_Runner = {
+            {
+                -39.13876342773, 
+                140.52825927743, 
+                9.5178023846435
+            },
+            {
+                13.488229751586, 
+                183.04446411328, 
+                41.995199096679
+            },
+            {
+                47.849140167236,
+                228.16308597500, 
+                9.2014372651465
+            },
+            {
+                -0.301494717597, 
+                303.45712202734, 
+                58.077855226094
+            },
+
+        },
+        AC_Runner = {
+            {
+                -38.70960235503, 
+                129.55160522938, 
+                9.2645425796879
+            },
+            {
+                55.999851220664, 
+                161.04713431406, 
+                51.821758270367
+            },
+            {
+                30.942007064336, 
+                184.50595092438, 
+                43.768520322461
+            },
+            {
+                -14.26334667105, 
+                164.20660400325, 
+                -47.54933923594
+            },
+            {
+                0.3577706217808, 
+                295.38552856431, 
+                10.313385963441
+            },
+            {
+                0.0362490788996, 
+                309.66580200131, 
+                60.671302790156
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Top",
+                "The Shrine",
+            },
+            Map_Goto_Cord = {
+                {
+                    0.2997440695764, 
+                    294.58334350594, 
+                    4.5544605255125
+                },
+                {
+                    -0.112633943926, 
+                    309.67788696286, 
+                    66.827789306662
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "NightArchive",
+        C_Runner = {
+            {
+                49.381904602058, 
+                541.83740234375, 
+                25.858709335315
+            }, 
+            {
+                72.756118774406, 
+                565.45751953125, 
+                -17.40576362633
+            }, 
+            {
+                72.911605834964, 
+                565.45812988285, 
+                -31.61145401766
+            }, 
+            {
+                61.847484588625, 
+                551.69927978515, 
+                -37.61878585813
+            }, 
+            {
+                75.993713378906, 
+                552.19927978562, 
+                -13.26984119432
+            }, 
+            {
+                56.858173370333, 
+                552.19921878875, 
+                -18.40378570406
+            }, 
+            {
+                54.561077117992, 
+                543.83502197262, 
+                -41.36611557036
+            }, 
+            {
+                61.444458007815, 
+                543.83386230875, 
+                -41.23351669314
+            }, 
+            {
+                85.372756958081, 
+                554.69671630838, 
+                -31.52939033508
+            }, 
+            {
+                78.674331665006, 
+                554.69519042875, 
+                -31.48692512517
+            }, 
+            
+        },
+        S_Runner = {
+            {
+                55.607307434082, 
+                540.61016845703, 
+                -34.17718505859
+            },
+            {
+                79.024665832519, 
+                554.30578613281, 
+                -40.95727157592
+            },
+        },
+        AC_Runner = {
+            {
+                67.093620329297, 
+                541.55218505938, 
+                27.798276924117
+            },
+            {
+                58.152614593586, 
+                562.42883300725, 
+                -12.11826328906
+            },
+            {
+                69.298622134766, 
+                562.42889409688, 
+                -36.51779556414
+            },
+            {
+                69.626579284697, 
+                551.66046142512, 
+                -36.29650116797
+            },
+            {
+                58.987457275625, 
+                551.63305690625, 
+                -13.47164440293
+            },
+            {
+                83.471221923812, 
+                548.91503909625,
+                -36.43446737383
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Vault of Knowledge",
+            },
+            Map_Goto_Cord = {
+                {
+                    40.679660797114, 
+                    541.79589843675, 
+                    -23.61368560756
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "NightDesert",
+        C_Runner = {
+            {
+                165.67700195325, 
+                11.467055339746, 
+                573.20452880838
+            }, 
+            {
+                402.70706176751, 
+                91.028099060586, 
+                766.48022469375
+            }, 
+            {
+                415.28723144535, 
+                91.568244934083, 
+                778.63299560588
+            }, 
+            {
+                398.98120117185, 
+                91.097282409667, 
+                792.90447998048
+            }, 
+            {
+                412.68499755975, 
+                150.91204833985, 
+                1025.2669677775
+            }, 
+            {
+                395.25494384625, 
+                150.68644714347, 
+                1026.3712158125
+            }, 
+            {
+                392.61962890625, 
+                135.32165527375, 
+                1041.2110595125
+            }, 
+            {
+                343.39343261715, 
+                77.791633605903, 
+                183.47731018406
+            }, 
+            {
+                335.25216674809, 
+                77.791908266016, 
+                158.12371821875
+            }, 
+            {
+                352.12088012691, 
+                77.791503906295, 
+                164.90344238225
+            }, 
+            {
+                89.894142150878, 
+                76.407623291562, 
+                87.088615417487
+            }, 
+            {
+                100.93160247834, 
+                77.375305175125, 
+                75.615974426953
+            }, 
+            {
+                63.618473052916, 
+                72.560768127414, 
+                66.565811157256
+            }, 
+        },
+        S_Runner = {
+            {
+                -96.44934082031, 
+                64.377983093261, 
+                388.34783935546
+            },
+            {
+                339.97970581054, 
+                111.07629394531, 
+                170.51702880859
+            },
+            {
+                401.28558349609, 
+                75.494659423828, 
+                776.52569580078
+            },
+        },
+        AC_Runner = {
+            {
+                78.103515678625, 
+                73.838241514844, 
+                67.291152954156
+            },
+            {
+                171.05500795703, 
+                13.188585281207, 
+                569.81274414025
+            },
+            {
+                399.70675917969, 
+                92.620971679675, 
+                778.44396975625
+            },
+            {
+                402.68057257656, 
+                150.51773071262, 
+                1018.8953247312
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Rose Guide",
+                "The Theater",
+                "Jar Cave",
+                "JellyFish Beach",
+                "Wind Pathes",
+                "Infinite Desert",
+                "Vault of Knowledge",
+            },
+            Map_Goto_Cord = {
+                {
+                    133.08966064455, 
+                    12.022131919864, 
+                    346.96282958975
+                },
+                {
+                    79.106628417975, 
+                    73.838272094726, 
+                    65.021270751312
+                },
+                {
+                    -78.98799896234, 
+                    29.797973632825, 
+                    377.49728393469
+                },
+                {
+                    405.60186767125, 
+                    3.8053691387174, 
+                    537.76263427938
+                },
+                {
+                    237.10614011875, 
+                    16.799419403072, 
+                    941.83557128925
+                },
+                {
+                    4.3910126686619, 
+                    4.3902668952895, 
+                    566.13067626952
+                },
+                {
+                    25.711566925028, 
+                    17.596036911042, 
+                    169.06643676712
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Golden kids",
+                "Mysterious Star",
+            },
+            OOB_Goto_Cord = {
+                {
+                    -797.5425415039, 
+                    156.25964355475, 
+                    916.47027587890
+                },
+                {
+                    551.66864013688,
+                    407.59988403331,
+                    336.75701906875
+                },
+            },
+        },
+    },
+    {
+        "Night_JarCave",
+        C_Runner = {
+            {
+                -111.5105438239, 
+                21.142538070671, 
+                384.07177734375
+            }, 
+            {
+                -128.2429351806, 
+                21.106355667118, 
+                374.82376098681
+            }, 
+            {
+                -143.6011505123, 
+                25.003812789912, 
+                370.31155395501
+            }, 
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+            {
+                -143.6011505123, 
+                25.003812789912, 
+                370.31155395501
+            }, 
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Starlight Desert",
+            },
+            Map_Goto_Cord = {
+                {
+                    -77.87921905578, 
+                    29.884782791195, 
+                    377.39624023437
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "NightDesert_Beach",
+        C_Runner = { 
+            {
+                600.07110595702, 
+                1.6242413520888, 
+                618.57495117175
+            },
+            {
+                609.41748046875, 
+                0.7359067428589, 
+                605.42315673822
+            },
+            {
+                621.23449707035, 
+                5.2496514320373, 
+                580.87713624688
+            },
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+            {
+                600.07110595702, 
+                1.6242413520888, 
+                618.57495117175
+            },
+            {
+                609.41748046875, 
+                0.7359067428589, 
+                605.42315673822
+            },
+            {
+                621.23449707035, 
+                5.2496514320373, 
+                580.87713624688
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Starlight Desert",
+            },
+            Map_Goto_Cord = {
+                {
+                    461.14593505975,
+                    8.0011701583623, 
+                    549.59698486312
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "NightDesert_Planets",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Night_InfiniteDesert",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "CampFire",
+                "Starlight Desert",
+            },
+            Map_Goto_Cord = {
+                {
+                    444.45315551781,
+                    61.997947692874,
+                    145.27032470125
+                },
+                {
+                    595.27697753905, 
+                    54.661212921158, 
+                    -92.36595916747
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Event_DaysOfMischief",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "NightEnd",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Home",
+                "Storm",
+            },
+            Map_Goto_Cord = {
+                {
+                    10.645859718324, 
+                    327.42312627031, 
+                    13.863910675828
+                },
+                {
+                    -0.467188770758, 
+                    328.61135864281, 
+                    34.405952451328
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Moonlight Island",
+                "Elders Room",
+                "Thunder Wall",
+                "Mini Eden",
+            },
+            OOB_Goto_Cord = {
+                {
+                    69.366737365726,
+                    240.42951965203,
+                    -184.5645751955
+                },
+                {
+                    -0.042129882645,
+                    195.09114074703,
+                    8.1545667648543
+                },
+                {
+                    23.851423263545,
+                    347.43353271475,
+                    41.490314483658
+                },
+                {
+                    -1.229799033037,
+                    336.31744384725,
+                    63.518142700131
+                },
+            },
+        },
+    },
+    {
+        "StormStart",
+        C_Runner = {
+
+        },
+        S_Runner = {
+            {
+                -3.017127513885, 
+                196.82383728020, 
+                -21.47331619262
+            },
+        },
+        AC_Runner = {
+
+        },
+        AK_Runner = {
+            {
+                -1.702196478689, 
+                194.12103274375, 
+                -15.24947834926
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Krills Field",
+            },
+            Map_Goto_Cord = {
+                {
+                    -5.897002805176, 
+                    198.38143920838, 
+                    -23.93846130378
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Blue Box",
+            },
+            OOB_Goto_Cord = {
+                {
+                    32.826431274416,
+                    131.57926940797,
+                    81.468597412138
+                },
+            },
+        },
+    },
+    {
+        "StormEnd",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        AK_Runner = {
+            {
+                17.355066298477, 
+                84.627052307189, 
+                53.104377746583
+            },
+            {
+                11.263713869922, 
+                84.627044677438, 
+                49.922973632125
+            },
+            {
+                14.710755205566, 
+                84.626930238164, 
+                44.605232238953
+            },
+            {
+                -5.259079166504, 
+                84.627052307289, 
+                37.663223260156
+            },
+            {
+                0.5626231496106, 
+                84.626708984375, 
+                31.850507736055
+            },
+            {
+                -0.807203778076, 
+                84.626686096914, 
+                28.173397068984
+            },
+            {
+                1.1759291883325, 
+                84.953483581597,
+                23.554742811035
+            },
+            {
+                9.6760330200531, 
+                84.627052371289, 
+                39.493091325195
+            },
+            {
+                10.198354721036, 
+                84.879692073672, 
+                35.379089355875
+            },
+            {
+                12.916968344209,
+                85.064735419766, 
+                21.374755859375
+            },
+            {
+                17.569200515707, 
+                88.053703308147, 
+                19.978340142578
+            },
+            {
+                4.1379648657227, 
+                84.627159118634, 
+                20.150930404686
+            },
+            {
+                4.1956028829346, 
+                84.627021955078, 
+                17.405387841797
+            },
+            {
+                6.6111264298208, 
+                86.012092533203, 
+                4.5489416243652
+            },
+            {
+                -9.284827232084, 
+                84.627098034961, 
+                23.944705964766
+            },
+            {
+                -17.99355942383, 
+                84.626968378906, 
+                10.849864004248
+            },
+            {
+                -6.402995181055, 
+                84.763870239251, 
+                7.7252340317246
+            },
+            {
+                -18.33227920266, 
+                84.626976031836, 
+                1.1114754676848
+            },
+            {
+                -8.130484583652, 
+                84.727043185547, 
+                -0.122433632284
+            },
+            {
+                -19.83816146856, 
+                84.626968383906, 
+                -14.44546039043
+            },
+            {
+                10.945940374512, 
+                84.626968383706, 
+                -16.29155936035
+            },
+            {
+                -23.72734688086, 
+                84.637535095484,
+                -37.34619527266
+            },
+            {
+                -4.946400642195,
+                84.761436460234,
+                -123.8980026272
+            },
+            {
+                -1.343132378374, 
+                84.748870849638, 
+                -24.48412513291
+            },
+            {
+                4.8223466868945, 
+                84.626937866094, 
+                -24.70871165508
+            },
+            {
+                -7.996686456465, 
+                84.701744079584, 
+                -13.56726360045
+            },
+            {
+                -1.768776706433, 
+                84.707466125428, 
+                -32.64457703619
+            },
+            {
+                -4.816444878145, 
+                84.760704040534, 
+                -40.11599349586
+            },
+            {
+                -11.69698715961, 
+                84.626808166539, 
+                -57.66355516367
+            },
+            {
+                5.4849314689623, 
+                84.802818293984, 
+                -48.58281323945
+            },
+            {
+                5.1126651763902, 
+                84.868499755938, 
+                -52.30728530789
+            },
+            {
+                14.760626792715, 
+                84.626892084375, 
+                -53.57762526582
+            },
+            {
+                6.0866737362266, 
+                84.839424133378, 
+                -50.55735058594
+            },
+            {
+                14.558087348988, 
+                84.626907348681, 
+                -51.99166107344
+            },
+            {
+                -13.18838599941, 
+                84.622024536131, 
+                -75.23705291748
+            },
+            {
+                -12.14041423074, 
+                84.626838684203, 
+                -73.17264554766
+            },
+            {
+                8.2760725021363, 
+                84.626785278331, 
+                -91.73703029688
+            },
+            {
+                18.886049270883, 
+                84.878555297156, 
+                -89.81443023164
+            },
+            {
+                18.797172548672, 
+                85.235137945312, 
+                -92.73484039364
+            },
+            {
+                0.8689934611496, 
+                84.756492647461, 
+                -103.6677975586
+            },
+            {
+                11.830993652375, 
+                84.717628479039, 
+                -108.2399361328
+            },
+            {
+                2.8214058876098, 
+                84.671783447562, 
+                -118.7059408203
+            },
+            {
+                2.3863306045527, 
+                84.706047058147, 
+                -133.4871673844
+            },
+            {
+                -1.410781502938, 
+                84.752967834476, 
+                -139.4387664722
+            },
+            {
+                1.4523366682007, 
+                84.754722595214, 
+                -143.3987731938
+            },
+            {
+                16.837905883062, 
+                84.626724243406, 
+                -153.5492857188
+            },
+            {
+                10.856994628925, 
+                84.812324523978, 
+                -155.0830078125
+            },
+            {
+                8.7739667892495, 
+                84.770797729419, 
+                -161.3584442672
+            },
+            {
+                6.2347407341342, 
+                84.687667846969, 
+                -166.3355560344
+            },
+            {
+                -0.124469071321, 
+                84.768295288084, 
+                -174.1401672812
+            },
+            {
+                8.2793130874379, 
+                84.713638305606, 
+                -176.1857452578
+            },
+            {
+                6.0676021575793, 
+                84.756492617461, 
+                -181.7793426672
+            },
+            {
+                10.827937126158, 
+                84.621856689452, 
+                -186.9273681625
+            },
+            {
+                5.6146516799676, 
+                84.698188781728, 
+                -188.2952880375
+            },
+            {
+                0.0196747094862, 
+                84.690971374572, 
+                -190.3208465172
+            },
+            {
+                -0.815279781899, 
+                84.649604797328, 
+                -204.0611725156
+            },
+            {
+                3.2201008796895, 
+                84.626678460688, 
+                -207.1465759438
+            },
+            {
+                -2.987565755116, 
+                84.842712402375, 
+                -210.5695800125
+            },
+            {
+                5.5206112861633, 
+                86.897384645469, 
+                -222.5555267844
+            },
+            {
+                8.6535882949891, 
+                84.031700134234, 
+                -244.9543609606
+            },
+            {
+                -0.103275327454, 
+                84.034362792875, 
+                -250.9776306138
+            },
+            {
+                9.0298557281414, 
+                84.043807983394, 
+                -271.0068359375
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Hug The Kid",
+            },
+            Map_Goto_Cord = {
+                {
+                    803.84692389125,
+                    0.7192066311833,
+                    -11.73253057207,
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Lonely Kid",
+            },
+            OOB_Goto_Cord = {
+                {
+                    803.84692389125,
+                    0.7192066311833,
+                    -11.73253057207,
+                },
+            },
+        },
+    },
+    {
+        "Storm",
+        C_Runner = {
+
+        },
+        S_Runner = {
+            {
+                7.1743726730346, 
+                265.93215942300, 
+                -244.1742285351
+            },
+            {
+                1.5070127248764, 
+                261.92361450193, 
+                -236.3896026113
+            },
+            {
+                11.426215171813, 
+                266.17758178710, 
+                -275.3578912109
+            },
+            {
+                20.687644958496, 
+                266.22225952148, 
+                -279.9749575195
+            },
+            {
+                29.395788192749, 
+                266.09494018556, 
+                -291.9837500000
+            },
+            {
+                35.689933776855, 
+                266.23931884766, 
+                -288.9327636718
+            },
+            {
+                52.191497802734, 
+                266.22885131839, 
+                -294.5979003906
+            },
+            {
+                60.197864532470, 
+                267.01519775396, 
+                -311.8089404296
+            },
+            {
+                60.197875976562, 
+                270.08026123048, 
+                -323.4586059570
+            },
+        },
+        AC_Runner = {
+            {
+                -28.98048348328, 
+                163.92942810094, 
+                -3.716169358047
+            },
+            {
+                -32.37358851172, 
+                179.11367797872, 
+                -42.92888648422
+            },
+            {
+                2.1932694911787, 
+                181.39451599194,
+                -101.6611128906
+            },
+            {
+                -3.364071848301, 
+                237.09844903125, 
+                -156.0381773438
+            },
+            {
+                -8.013846397902, 
+                241.50126894922, 
+                -187.7680813906
+            },
+            {
+                -3.352827362134, 
+                250.50790405438, 
+                -212.6380634375
+            },
+            {
+                6.4969210624682, 
+                266.37838745719, 
+                -246.4159310547
+            },
+        },
+        AK_Runner = {
+            {
+                -34.22817089844, 
+                178.97221374512, 
+                -42.34326171875
+            },
+            {
+                16.433668136568, 
+                211.35801696344, 
+                -120.6281967086
+            },
+            {
+                10.669450757695, 
+                238.93379211578, 
+                -129.4681701562
+            },
+            {
+                -8.880228042539, 
+                241.07540893988, 
+                -185.9519345312
+            },
+            {
+                6.7312259674027, 
+                266.41195671094, 
+                -247.1698455547
+            },
+            { 
+                61.076759338306, 
+                270.20559692281, 
+                -323.1916882031
+            },
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Storm Gate",
+                "Above The Pipe",
+                "Before The Sacrifice",
+            },
+            Map_Goto_Cord = {
+                {
+                    -15.93551870508, 
+                    136.72619620625, 
+                    79.754867553710
+                },
+                {
+                    11.890067100502, 
+                    238.93031311036, 
+                    -127.2434310986
+                },
+                {
+                    7.6405596733026, 
+                    266.50881958007, 
+                    -250.7771606425
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Eden Prisent 2nd Floor",
+                "Eden Prisent 1st Floor",
+                "Bloody Hell",
+                "Eden Edge",
+            },
+            OOB_Goto_Cord = {
+                {
+                    20.733329772922,
+                    189.83123779975,
+                    -118.3147277812
+                },
+                {
+                    21.479471206650,
+                    205.39353942094,
+                    -117.9585262812
+                },
+                {
+                    -1649.366088875,
+                    4425.2690996875,
+                    -596.9836428125
+                },
+                {
+                    616.824462890625,
+                    7.84097576141374,
+                    498.711822509656
+                },
+            },
+        },
+    },
+    {
+        "OrbitMid",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Eden View",
+                "Golden Temple",
+                "Walls",
+            },
+            OOB_Goto_Cord = {
+                {
+                    257.36862109375,
+                    1492.4382321875,
+                    587.96606445325
+                },
+                {
+                    219.76596065938,
+                    1427.7022705125,
+                    -101.5485458234
+                },
+                {
+                    84.792343139644,
+                    1697.5561523435,
+                    -12.76145811621
+                },
+            },
+        },
+    },
+    {
+        "OrbitEnd",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Heaven",
+            },
+            Map_Goto_Cord = {
+                {
+                    -48.60039532668, 
+                    2490.1948924875, 
+                    2313.5578613225
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+                "Galaxy",
+            },
+            OOB_Goto_Cord = {
+                {
+                    58.248046899075,
+                    4093.8208007815,
+                    1694.1834796875
+                },
+            },
+        },
+    },
+    {
+        "Credits",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "StormEvent_VoidSpace",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+
+            },
+            Map_Goto_Cord = {
+
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "CandleSpaceEnd",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+                "Elders Rock",
+                "Spirits Line",
+                "Home",
+            },
+            Map_Goto_Cord = {
+                {
+                    0.0813743775281, 
+                    0.9796712398053, 
+                    -2.644541740405
+                },
+                {
+                    0.3602703217114, 
+                    0.5224132537897, 
+                    62.018844604419
+                },
+                {
+                    -0.469871431266, 
+                    0.5016764998474, 
+                    239.07266235352
+                },
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+    {
+        "Storm_TheRingsOfAkhaten",
+        C_Runner = {
+
+        },
+        S_Runner = {
+
+        },
+        AC_Runner = {
+
+        },
+        Map_Goto = {
+            Map_Goto_Name = {
+            },
+            Map_Goto_Cord = {
+            },
+        },
+        OOB_Goto = {
+            OOB_Goto_Name = {
+
+            },
+            OOB_Goto_Cord = {
+
+            },
+        },
+    },
+}
+        end
+      end
+    end
+  end
+yellow = {
+    {
+        "[🌀]Teleport",
+        content = {
+            "[🌀]Magic Teleport",
+            "[⬆️]Breach Walls",
+            "[↗️]Breach Roofs",
+            "[⬇️]Breach Grounds",
+            "[💾]Saved Locations",
+            "[⬆️]Goto List",
+            "[🧭]Out Of Borders",
+            "[📝]Manual Coordinates",
+            "[🗄]Copy coordinate",
+            "[📌]Pin Position",
+            "[📌]Pin Y Coordinate",
+        }, 
+    },
+    {
+        "[🌀]Magic Teleport",
+        content = {
+
+        },
+    },
+    {
+        "[🔥]Burn",
+        content = {
+
+        },
+    },
+    {
+        "[🏃🏻‍♂️]Run",
+        content = {
+
+        },
+    },
+    {
+        "[🌕]Wing Energy",
+        content = {
+
+        },
+    },
+    {
+        "[🀄️]Absorb All",
+        content = {
+
+        },
+    },
+    {
+        "‍[️🧙]️Magic",
+        content = {
+
+        },
+    },
+    {
+        "[🦚]Wing",
+        content = {
+            "[🌟]Wing Count",
+            "[🌟]Drop Wing Buffs",
+            "[🃏]Cape Trick",
+            "[🃏]Invisible Cape",
+            "[🃏]Remove Cape",
+            "[🚀]Fast Flap",
+        },
+    },
+    {
+        "[🧺]Closets",
+        content = {
+            "[👖]Pants",
+            "[🎭]Masks",
+            "[👱]️Hairs",
+            "[🦚]Capes",
+            "[🎒]Props",
+        },                                     
+    },
+    {
+        "[👦🏼]Avatar Modes",
+        content = {
+            "[🏇]Running Enhancement",
+            "[🪂]Jumping Enhancement",
+            "[🏊🏻‍♂️]Diving Enchancement",
+            "[⚠️]Remove Movement Restriction",
+            "[🏃🏻‍♂️]Delay Effect",
+            "[🛫]Always Fly",
+            "[🛴]Scooter",
+            "[📣]Calls",
+        },
+    },
+    {
+        "[📸]Camera Modes",
+        content = {
+            "[🎥]Record Shared Memory",
+            "[📸]ScreenShot Resolution",
+            "[🖥]Realistic Graphics",
+            "[🌁]Valley Filter",
+            "[🔆]Brightness",
+        },
+    },
+    {
+        "[🗺]World Modes",
+        content = {
+            "[💨]Remove Wind[Method 1]",
+            "[💨]Remove Wind[Method 2]",
+            "[☁️]Remove Clouds",
+            "[🌊]Remove Home Water",
+            "[🚪]Remove Portals",
+            "[⏲]Game Speed",
+        },
+    },
+    {
+        "[🖥]UI Modes",
+        content = {
+            "[🧸]Icons & Borders Size",
+            "[🔘]Transparent Ui",
+            "[👒]Unlock Clothes and Emotes",
+            "[❤️]Unlock Friendly Nodes",
+            "[🛸]Unlimited Fireworks",                 
+            "[📡]Single Player Mode",
+        },
+    },           
+    {
+        "[🧝🏻]Players Menu",
+        content = {
+            "[🧨]Force Light",
+        },                                     
+    },
+    {
+        "[🎴]Move Objects",
+        content = {
+            "[🕯]Candles Snake",
+            "[🪆]Collect NPCs",
+        },
+    },
+    {
+        "[⚙]Settings",
+        content = {
+
+        },
+    },
+}
+magics = {
+    {
+        "[👖]","Pants Spells",
+        content = {
+            {
+                "Sword", 
+                -495233219
+            },
+            {
+                "Witch Body", 
+                969946279
+            },
+            {
+                "Rainbow",
+                1482655023
+            },
+        },
+    },
+    {
+        "[🎭]","Masks Spells",
+        content = {
+            {
+                "Weasel", 
+                784922793
+            },
+            {
+                "Fox", 
+                964659005
+            },
+            {
+                "Rhythm Actor", 
+                -218615327
+            },
+            {
+                "Ox Head", 
+                -849020465
+            },
+            {
+                "Rose", 
+                -938578505
+            },
+            {
+                "Red Face", 
+                -1636163586
+            },
+            {
+                "Spintrick", 
+                771982951
+            },
+            {
+                "Phoenix", 
+                144876107
+            },
+            {
+                "Tiger", 
+                475055967
+            },
+            {
+                "Oxygen", 
+                2857434492
+            },
+        },
+    },
+    {
+        "[👱]️","Head Spells",
+        content = {
+            {
+                "Rainbow Flower", 
+                2141511649
+            },
+            {
+                "Double Rainbow Flower",
+                -1014212311
+            },
+            {
+                "Rainbow Tassel", 
+                -290700605
+            },
+            {
+                "Coral Horns",
+                -347711956
+            },
+            {
+                "Pumpkin Hat", 
+                1046521292
+            },
+            {
+                "Witch Hat", 
+                1983755432
+            },
+            {
+                "Lion Hood", 
+                2093744529
+            },
+            {
+                "Doublebun", 
+                -2099997114
+            },
+            {
+                "Wool Hat", 
+                -823266018
+            },
+            {
+                "Blossom Hair", 
+                373243257
+            },
+            {
+                "Spintrick Hair", 
+                1059767859
+            },
+            {
+                "Antlers", 
+                1909998088
+            },
+            {
+                "Christmas Hat", 
+                -1409683913
+            },
+            {
+                "Leaf Tie", 
+                8361886
+            },
+            {
+                "Orange", 
+                -1616733323
+            },
+            {
+                "Hair Pin", 
+                4123817368
+            },
+            {
+                "Summer Hat", 
+                2052387583
+            },
+            {
+                "Bunny", 
+                -848739711
+            },
+            {
+                "Halloween Curles", 
+                116679863
+            },
+            {
+                "Spider Hair", 
+                -1760741911
+            },
+            {
+                "Halloween Pumpkin", 
+                125584301
+            },
+            {
+                "Halloween Horn", 
+                1123843208
+            },
+            {
+                "Witch Hat 2", 
+                4219181095
+            },
+            {
+                "Winter Hat", 
+                -2092825638
+            },
+            {
+                "Carp Hat", 
+                -1543558130
+            },
+            {
+                "Carp", 
+                551055685
+            },
+            {
+                "Flower Accessories", 
+                942365523
+            },
+            {
+                "Kizuna Ai Hair", 
+                2050094531
+            },
+            {
+                "Snowflake",
+                1372838509
+            },
+            {
+                "Summer Shell",
+                -171149928
+            },
+            {
+                "Rainbow Hat",
+                -521490982
+            },
+            {
+                "Diamond Earring",
+                -1590289609
+            },
+            {
+                "Rainbow Headphones",
+                -1769208928
+            },
+            {
+                "Sea Turtle",
+                1943995802
+            },
+            {
+                "Showlder Jellyfish",
+                329235560
+            }
+        },
+    },
+    {
+        "[🦚]","Capes Spells",
+        content = {
+            {
+                "Earth Day Cape", 
+                2079599063
+            },
+            {
+                "TGC Cape", 
+                540856305
+            },
+            {
+                "Bat Cape", 
+                625581156
+            },
+            {
+                "Web Cape", 
+                930203946
+            },
+            {
+                "Snowflake Cape", 
+                -784831205
+            },
+            {
+                "Christmas Red Cape", 
+                1306675982
+            },
+            {
+                "Christmas White Cape", 
+                1762827508
+            },
+            {
+                "Echantment Cape", 
+                -383842131
+            },
+            {
+                "Director Cape", 
+                -1623262339
+            },
+            {
+                "Petal Cape", 
+                -6043825
+            },
+            {
+                "Lightseekers Cape", 
+                1375571404
+            },
+            {
+                "Fortune Cape", 
+                -445538750
+            },
+            {
+                "Spintrick",
+                1031127004
+            },
+            {
+                "Blossom Cape", 
+                162066154
+            },
+            {
+                "Ocean Cape", 
+                329684861
+            },
+            {
+                "Postman Cape", 
+                -308941587
+            },
+            {
+                "Pheonix Cape", 
+                -1822337532
+            },
+            {
+                "Rainbow Cape", 
+                -195929339
+            },
+            {
+                "Yellow Scarf", 
+                -2087661926
+            },
+            {
+                "Asteroid Coat", 
+                1402240423
+            },
+            {
+                "White & Gold Cape", 
+                330655056
+            },
+            {
+                "Leaf Cape", 
+                769892976
+            },
+            {
+                "Carp Cape", 
+                573237039
+            },
+            {
+                "Turtle Cape", 
+                -700035318
+            },
+            {
+                "Wisteria Cape",
+                -1244390069
+            }
+        },
+    },
+    {
+        "[🎒]","Props Spells",
+        content = {
+            {
+                "Lantern", 
+                1319710173
+            },
+            {
+                "Table", 
+                256924066
+            },
+            {
+                "Swing", 
+                1064080243
+            },
+            {
+                "Seesaw", 
+                -2095749161
+            },
+            {
+                "Teaset", 
+                10058409
+            },
+            {
+                "Transparent Umbrella", 
+                1167393926
+            },
+            {
+                "Umbrella", 
+                -992017029
+            },
+            {
+                "Summer Umbrella", 
+                -1416755338
+            },
+            {
+                "Fox", 
+                -2057431024
+            },
+            {
+                "Wooden Chair", 
+                -1158710924
+            },
+            {
+                "Two Wooden Chairs", 
+                472595010
+            },
+            {
+                "Two Chairs",
+                -1866832203
+            },
+            {
+                "Broken Pipe",
+                -1419483218
+                
+            },
+            {
+                "Flame Column", 
+                160072902
+            },
+            {
+                "Recliner", 
+                2428135093
+            },
+            {
+                "Winter Piano", 
+                -1202427550
+            },
+            {
+                "Halloween Table", 
+                -797688127
+            },
+            {
+                "Snow Globe", 
+                1440439821
+            },
+            {
+                "Boat", 
+                303877523
+            },
+            {
+                "Horn", 
+                -359346310
+            },
+            {
+                "Harp", 
+                -1001892262
+            },
+            {
+                "Ultimate Harp", 
+                1275481440
+            },
+            {
+                "Tea Table", 
+                1598845731
+            },
+            {
+                "TGC Guitar", 
+                332997197
+            },
+            {
+                "Ultimate Guitar", 
+                970364197
+            },
+            {
+                "Ultimate HandPan", 
+                454864430
+            },
+            {
+                "Marshmallow Bonfire",
+                -1129614302
+            },
+            {
+                "Summer Tent",
+                1414743743
+            }
+        },
+    },
+    {
+        "[🔰]","Other Spells",
+        content = {
+            {
+                "Chibi Height",
+                -305102667
+            },
+            {
+                "Height Large 3x", 
+                891098028
+            },
+            {
+                "Height Small 3x",
+                1692428656
+            },
+            {
+                "Size Large 3x",
+                -1879316162
+            },
+            {
+                "Size Small 3x",
+                2142718166
+            },
+            {
+                "Glow", 
+                1097748727
+            },
+            {
+                "Energy", 
+                1750685908
+            },
+            {
+                "Anti Gravity", 
+                1860519737
+            },
+            {
+                "Goo Drain", 
+                383062578
+            },
+            {
+                "Drain", 
+                -1463943689
+            },
+            {
+                "Wax 2x", 
+                -1727483534
+            },
+            {
+                "Wing Gain", 
+                -1362469224
+            },
+            {
+                "Repellant Krill",
+                -932650381
+            },
+            {
+                "Carry", 
+                1405645877
+            },
+            {
+                "Bear Hug", 
+                1677246236
+            },
+            {
+                "Warp", 
+                998754260
+            },
+            {
+                "Hit",
+                2137753158
+            },
+            {
+                "Crab Shout", 
+                1725047129
+            },
+            {
+                "Jellyfish Shout", 
+                -957441587
+            },
+            {
+                "Manta Shout", 
+                1814753890
+            },
+            {
+                "Kizuna AI Shout", 
+                -1881863468
+            },
+            {
+                "Aquamarine Tail", 
+                1318288330
+            },
+            {
+                "Black Tail", 
+                -176902809
+            },
+            {
+                "Blue Tail", 
+                -1951801352
+            },
+            {
+                "Cyan Tail", 
+                1918290563
+            },
+            {
+                "Green Tail", 
+                637646527
+            },
+            {
+                "Magenta Tail", 
+                -1527316661
+            },
+            {
+                "Orange Tail", 
+                1237283438
+            },
+            {
+                "Pink Tail", 
+                470393304
+            },
+            {
+                "Purple Tail", 
+                -1071076330
+            },
+            {
+                "Red Tail", 
+                -1304862813
+            },
+            {
+                "Yellow Tail", 
+                -1354381164
+            },
+            {
+                "Rainbow Trail", 
+                147016038
+            },
+            {
+                "Crab Rock Trick", 
+                901504997
+            },
+            {
+                "Firework Stuff", 
+                227018419
+            },
+            {
+                "Ocean Necklace", 
+                -1938239955
+            },
+            {
+                "Red Scarf", 
+                70832281
+            },
+            {
+                "Teleport Isle Elder [Sparks Needed]",
+                103122035
+            },
+            {
+                "Teleport Sanctuary [Sparks Needed]",
+                598305233
+            },
+            {
+                "Teleport Prairie Elder [Sparks Needed]",
+                -1633629698
+            },
+            {
+                "Teleport Forest Cave [Sparks Needed]",
+                224110574
+            },
+            {
+                "Teleport Forest Elder [Sparks Needed]",
+                -1256468339
+            },
+            {
+                "Teleport Forgotten Ark [Sparks Needed]",
+                -210323960
+            },
+            {
+                "Teleport Hermit Valley [Sparks Needed]",
+                1660914074
+            },
+            {
+                "Teleport Valley Elder [Sparks Needed]",
+                248080515
+            },
+            {
+                "Teleport Wasteland Elder [Sparks Needed]",
+                -1172691679
+            },
+            {
+                "Teleport You & I [?]",
+                1153544860
+            },
+            {
+                "Timeline Birthday Crab [Sparks Needed]",
+                875460884
+            },
+            {
+                "Timeline Day & Night [Sparks Needed]",
+                539651423
+            },
+            {
+                "Timeline Nature Turtle [Sparks Needed]",
+                1212897503
+            },
+            {
+                "Timeline Oreo [Sparks Needed]",
+                959071590
+            },
+            {
+                "Krill Hat Buff",
+                -705906186
+            },
+      },
+    },
+}
+world = {
+    {
+        "[🏝]","Isle of Dawn",
+        content = {
+            {
+                "Isle",
+                "Dawn"
+            },
+            {
+                "Prophecy Cave",
+                "DawnCave"
+            },
+            {
+                "Trial of Water",
+                "Dawn_TrialsWater"
+            },
+            {
+                "Trial of Earth",
+                "Dawn_TrialsEarth"
+            },
+            {
+                "Trial of Air",
+                "Dawn_TrialsAir"
+            },
+            {
+                "Trial of Fire",
+                "Dawn_TrialsFire"
+            },
+        },
+    },
+    {
+        "[⛰]","Daylight Prairie",
+        content = {
+            {
+                "Butterfly Fields",
+                "Prairie_ButterflyFields" 
+            },
+            {
+                "Birds Nest",
+                "Prairie_NestAndKeeper"
+            },
+            {
+                "Sanctuary Island",
+                "Prairie_Island"
+            },
+            {
+                "Cave",
+                "Prairie_Cave"
+            },
+            {
+                "Village",
+                "Prairie_Village"
+            },
+            {
+                "8 Players Door",
+                "DayHubCave"
+            },
+            {
+                "Temple",
+                "DayEnd"
+            },
+
+        },
+    },
+    {
+        "[🏕]","Hidden Forest",
+        content = {
+            {
+                "Hidden Forest",
+                "Rain"
+            },
+            {
+                "Raining Forest",
+                "RainForest"
+            },
+            {
+                "Shelter",
+                "RainShelter"
+            },
+            {
+                "Cave",
+                "Rain_Cave"
+            },
+            {
+                "Middle Forest",
+                "RainMid"
+            },
+            {
+                "Assembly Base",
+                "Rain_BaseCamp"
+            },
+            {
+                "Wind Pathes",
+                "Skyway"
+            },
+            {
+                "Temple",
+                "RainEnd"
+            },
+        },
+    },
+    {
+        "[🗻]","Valley of Triumph",
+        content = {
+            {
+                "Valley",
+                "Sunset"
+            },
+            {
+                "Sliding Race",
+                "SunsetRace"
+            },
+            {
+                "Citadel",
+                "Sunset_Citadel"
+            },
+            {
+                "Flying Race",
+                "Sunset_FlyRace"
+            },
+            {
+                "Dream's Village",
+                "SunsetVillage"
+            },
+            {
+                "Yeti Cave",
+                "Sunset_YetiPark"
+            },
+            {
+                "Performance Theater",
+                "Sunset_Theater"
+            },
+            {
+                "Music Shop",
+                "SunsetVillage_MusicShop"
+            },
+            {
+                "Before Colosseum",
+                "SunsetEnd"
+            },
+            {
+                "Colosseum",
+                "SunsetColosseum"
+            },
+            {
+                "Temple",
+                "SunsetEnd2"
+            },
+        },
+    },
+    {
+        "[🏜]","Golden Wasteland",
+        content = {
+            {
+                "Social Space",
+                "DuskStart"
+            },
+            {
+                "Nintendo Park",
+                "Nintendo_CandleSpace"
+            },
+            {
+                "Abyss",
+                "Dusk_Triangle"
+            },
+            {
+                "Abyss Deep Water",
+                "Dusk_TriangleEnd"
+            },
+            {
+                "Wasteland",
+                "Dusk"
+            },
+            {
+                "Forgotten Ark",
+                "DuskOasis"
+            },
+            {
+                "Graveyard",
+                "DuskGraveyard"
+            },
+            {
+                "Sinking Ship",
+                "Dusk_CrabField"
+            },
+            {
+                "Krills Field",
+                "DuskMid"
+            },
+            {
+                "Temple",
+                "DuskEnd"
+            },
+        },
+    },
+    {
+        "[🛕]","Vault of Knowledge",
+        content = {
+            {
+                "Vault",
+                "Night"
+            },
+            {
+                "Archives",
+                "NightArchive"
+            },
+            {
+                "Mantas Field",
+                "Night2"
+            },
+            {
+                "Starlight Desert",
+                "NightDesert"
+            },
+            {
+                "JellyFish Beach",
+                "NightDesert_Beach"
+            },
+            {
+                "Jar Cave",
+                "Night_JarCave"
+            },
+            {
+                "Infinite Desert",
+                "Night_InfiniteDesert"
+            },
+            {
+                "Planets",
+                "NightDesert_Planets"
+            },
+            {
+                "Halloween Cave",
+                "Event_DaysOfMischief"
+            },
+            {
+                "Office",
+                "TGCOffice"
+            },
+            {
+                "Thunder",
+                "NightEnd"
+            }
+        },
+    },
+    {
+        "[🌋]","Storm",
+        content = {
+            {
+                "Storm Gate",
+                "StormStart"
+            },
+            {
+                "Krills Field",
+                "Storm"
+            },
+            {
+                "Sacrifice",
+                "StormEnd"
+            },
+            {
+                "Rebirth",
+                "OrbitMid"
+            },
+            {
+                "Ancestors Galaxy",
+                "OrbitEnd"
+            },
+            {
+                "Heaven",
+                "CandleSpaceEnd"
+            },
+            {
+                "Credits",
+                "Credits"
+            },
+            {
+                "Void of Shattering",
+                "StormEvent_VoidSpace"
+            },
+        },
+    },
+}
+----
+kj = {
+    dataTypes = {A = 127, B = 1, DBL = 64, D = 4, F = 16, Q = 32, W = 2, X = 8},
+    removePoint = function(int)
+        local str = tostring(int)
+        if string.find(str, '%.') then
+            return tonumber(string.sub(str, 1, string.find(str, '%.') - 1))
+        else
+            return tonumber(str)
+        end
+    end,
+    splitWord = function(str)
+        local z = 0
+        local array = {}
+        for i in string.gmatch(str, "[^%s]+") do 
+            z = z + 1
+            array[z] = i
+        end
+        return array
+    end,
+    dT = function(str)
+        for i, v in pairs(kj.dataTypes) do
+            if str == i then
+                return v, true
+            end
+        end
+    end,
+    userInput = function(str)
+        local bool, x = pcall(gg.prompt, {"..."}, {}, {str});
+        if bool then 
+            return x[1];
+        else
+            gg.toast("Please type properly");
+        end
+        return 0;
+    end,
+    statSwitch = function (bool)
+        if bool then
+            return "  -〘 ✅ 〙"
+        else
+            return "  -〘 ❌ 〙"
+        end
+    end,
+    statRev = function (str)
+        if str == "  -〘 ✅ 〙" then
+            return true
+        else
+            return false
+        end
+    end,
+    toggler = function (var)
+        if var then
+            return false
+        else
+            return true
+        end
+    end,
+    margin = function (par)
+        local temp = {}
+        local x
+        if type(par) == 'string' then
+            x = string.len(par)
+        elseif type(par) == 'number' then
+            x = par
+        else
+            return
+        end
+        for i = 1, x do
+            table.insert(temp, '-')
+        end
+        return table.concat(temp)
+    end,
+    post = function (array, int)
+        if int == nil then
+            int = 1
+        end
+        local n = '[➡️]Next'
+        local p = '[⬅️]Previous'
+        local e = '[🔚]Exit'
+        if array[int - 1] == nil then
+            p = nil
+        end
+        if array[int + 1] == nil then 
+            n = nil
+        end
+        local tear = gg.alert(array[int], e, n, p)
+        if tear == eye[1] then
+            return
+        elseif tear == eye[2] then
+            if array[int + 1] ~= nil then
+                kj.post(array, int + 1)
+            end
+        elseif tear == eye[3] then
+            if array[int - 1] ~= nil then
+                kj.post(array, int - 1)
+            end
+        end
+    end,
+    prepareMenu = function (array, bool)
+        local menu = {};
+        local x;
+        for i, v in pairs(array) do
+            if i < 10 then
+                x = 0;
+            else
+                x = "";
+            end
+            table.insert(menu, x .. i .. " | " .. v);
+        end
+        if bool then
+            table.insert(menu, 1, "[🔙]Back")
+        end
+        return menu;
+    end,
+    isFrozen = function(add)
+        if type(add) == 'number' then
+            local items = gg.getListItems()
+            for i, v in ipairs(items) do
+                if v.address == add then
+                    if v.freeze == true then
+                        return true
+                    elseif v.freeze == false then
+                        return false
+                    end
+                end
+            end
+        end
+    end,
+    setString = function(add, str, range)
+        local vars = {}
+        local bytes = gg.bytes(str)
+        if #bytes < range then
+            for i = 1, range - #bytes do
+                table.insert(bytes, 0)
+            end
+        end
+        for i = 1, range do
+            table.insert(vars, {
+                address = add + i - 1,
+                flags = kj.dT('B'),
+                value = bytes[i]
+            })
+        end
+        gg.setValues(vars)
+    end,
+    randomInjector = function(array)
+        local strs = {}
+        for i, v in ipairs(array) do
+            strs[i] = kj.drawString()
+        end
+        for i, v in ipairs(array) do
+            kj.setString(v, strs[i], string.len(strs[i]))
+        end
+    end,
+    drawString = function ()
+        local str = ''
+        for i = 0, 255 do
+            str = str .. string.char(math.random(1, 255));
+        end
+        return str
+    end,
+    tabs = function (times)
+        local str = ""
+        if not times then
+            return ""
+        end
+        for i = 1, times do
+            str = str .. "\t"
+        end
+        return str
+    end,
+    tableToString = function (array)
+        local str = " {\n"
+        for i, v in pairs(array) do
+            if type(i) == "string" then
+                str = str .. "\t\t" .. i .. " ="
+            end
+            if type(v) == "table" then
+                str = str .. kj.tableToString(v)
+            elseif type(v) == "boolean" then
+                str = str .. " " .. tostring(v)
+            elseif type(v) == 'string' then
+                str = str .. " " .. "'" .. tostring(v) .. "'"
+            else
+                str =  str .. " " .. v
+            end
+            str = str .. ",\n"
+        end
+        if str ~= '' then
+            str = string.sub(str, 1, string.len(str) - 1)
+        end 
+        str = str .. "\n}"
+        return str
+    end,
+    tableClone = function (array)
+        local temp = {}
+        for i, v in pairs(array) do
+            temp[i] = v
+        end
+        return temp
+    end,
+    getValue = function(add, flag)
+        if type(add) == 'number' then
+            local flag, bool = kj.dT(string.sub(flag, string.len(flag)))
+            if bool then
+                local var = {{
+                    address = add,
+                    flags = flag,
+                }}
+                return gg.getValues(var)[1].value
+            end
+        end
+    end,
+    findAddress = function(str, int1, int2, int3, int4)
+        gg.clearResults()
+        local flag, bool = kj.dT(string.sub(str, string.len(str)))
+        if bool then
+            str = string.sub(str, 1, string.len(str) - 1)
+            if pcall(gg.searchNumber, str, flag, false, 536870912, int1, int2, int3) then
+                local results = gg.getResults(gg.getResultCount())
+                if #results > 0 then
+                    local address = gg.getResults(gg.getResultCount())[int4].address
+                    gg.clearResults()
+                    return address, true
+                end
+            end
+        end
+    end,
+    setValue = function (add, int, bool)
+        local bfreeze
+        if bool then
+            bfreeze = true
+        else
+            bfreeze = false
+        end
+        local flag, bool = kj.dT(string.sub(int, string.len(int)))
+        if bool then
+            int = tonumber(string.sub(int, 1, string.len(int) - 1))
+            local var = {{
+                address = add,
+                flags = flag,
+                value = int,
+                freeze = bfreeze,
+            }}
+            gg.setValues(var)
+            if bfreeze then
+                gg.addListItems(var)
+            else
+                gg.removeListItems(var)
+            end
+        end
+    end,
+    setArm64 = function (add, str)
+        str = '~A8' .. str
+        gg.setValues({{
+            address = add,
+            value = str,
+            flags = kj.dT('D'),
+        }})
+    end,
+    compareArm64 = function (str, int)
+        local arm1 = kj.splitWord(str)
+        local arm2 = kj.splitWord(gg.disasm(gg.ASM_ARM64, 305419896, tonumber(int)))
+        for i, v in ipairs(arm1) do
+            if v ~= arm2[i] then
+                return false
+            end
+        end
+        return true
+    end,
+    switchArm64 = function (add, str1, str2, toast)
+        if kj.compareArm64(str1, kj.getValue(add, 'D')) then
+            kj.setArm64(add, str2)
+            if toast ~= nil then
+                toast = toast .. ": " .. "OFF"
+                gg.toast(toast)
+            end 
+            return ""
+        elseif kj.compareArm64(str2, kj.getValue(add, 'D')) then
+            kj.setArm64(add, str1)
+            if toast ~= nil then
+                toast = toast .. ": " .. "ON"
+                gg.toast(toast)
+            end 
+            return "  -〘 ✅ 〙", true
+        else
+            local temp = ''
+            if toast ~= nil then
+                temp = ': ' .. toast
+            end
+            gg.toast("No Match" .. temp)
+            return "", false
+        end
+    end,
+    switch = function(add, str1, str2, toast)
+        local flag_1 = string.sub(str1, string.len(str1))
+        local flag_2 = string.sub(str2, string.len(str2))
+        local int = kj.getValue(add, string.sub(str1, string.len(str1)))
+        str1 = tonumber(string.sub(str1, 1, string.len(str1) - 1))
+        str2 = tonumber(string.sub(str2, 1, string.len(str2) - 1))
+        if str1 == int then
+            kj.setValue(add, tostring(str2) .. flag_1)
+            if toast ~= nil then
+                toast = toast .. ": " .. "OFF"
+                gg.toast(toast)
+            end 
+            return "", false
+        elseif str2 == int then
+            kj.setValue(add, tostring(str1) .. flag_2)
+            if toast ~= nil then
+                toast = toast .. ": " .. "ON"
+                gg.toast(toast)
+            end
+            return "  -〘 ✅ 〙", true
+        else
+            local temp = ''
+            if toast ~= nil then
+                temp = ': ' .. toast
+            end
+            gg.toast("No Match" .. temp)
+            return "", false
+        end
+    end,
+    freezeSwitch = function(add, str, toast)
+        local flag = string.sub(str, string.len(str))
+        str = tonumber(string.sub(str, 1, string.len(str) - 1))
+        if kj.isFrozen(add) then
+            kj.setValue(add, tostring(str) .. flag)
+            if toast ~= nil then
+                toast = toast .. ": " .. "OFF"
+                gg.toast(toast)
+            end
+            return ""
+        else
+            kj.setValue(add, tostring(str) .. flag, true)
+            if toast ~= nil then
+                toast = toast .. ": " .. "ON"
+                gg.toast(toast)
+            end
+            return "  -〘 ✅ 〙"
+        end
+    end,
+    groupFreezeSwitch = function(array, toast, int)
+        if kj.isFrozen(array[1].address) then
+            gg.removeListItems(array)
+            if toast ~= nil then
+                toast = toast .. ": " .. "OFF"
+                gg.toast(toast)
+            end
+            return ""
+        else
+            for i, v in ipairs(array) do
+                v.freeze = true
+            end
+            if int == nil then
+                gg.setValues(array)
+                gg.addListItems(array)
+                if toast ~= nil then
+                    toast = toast .. ": " .. "ON"
+                    gg.toast(toast)
+                end
+            else
+                for i, v in ipairs(array) do
+                    gg.setValues(v)
+                    gg.addListItems(v)
+                    gg.sleep(int)
+                end
+                if toast ~= nil then
+                    toast = toast .. ": " .. "ON"
+                    gg.toast(toast)
+                end
+            end
+            return "  -〘 ✅ 〙"
+        end
+    end,
+}
+----
+function getLevel()
+    skidLevel = "";
+    local v = "";
+    for i = 0, 30, 1 do
+        v = string.char(kj.getValue(liboffsets.map + i, 'B'));
+        if v ~= "\"" then
+            skidLevel = skidLevel .. v;
+        else
+            break;
+        end
+    end
+    if kj.getValue(liboffsets.offline, 'D') == 1384120320 then
+        header = "Current level: " .. skidLevel
+        header = header .. "\n| [🔴]Offline";
+    else
+        header = "Current level: " .. skidLevel;
+    end
 end
-
-function change_map(mp)
-	setstr(player + offsets.portal_off, 30, '.' .. mp)
-	set_game_speed(10)
-	pmagic(8, 224110574, 0)
-	gg.sleep(1000)
-	set_game_speed(1)
-	setstr(player + offsets.portal_off, 30, '.Rain_Cave')
-	pmagic(8, 0)
+function getLevel_Cords()
+    for i, v in ipairs(scrSoul) do
+        if skidLevel == v[1] then
+            level_Cords = i
+            return level_Cords
+        end
+    end
+    level_Cords = #scrSoul
+    return level_Cords 
 end
-
-function setposit(mx,my,mz)
-	jh = {
-		{
-			address = coords['z'],
-			flags = gg.TYPE_FLOAT,
-			value = mx
-		},
-		{
-			address = coords['y'],
-			flags = gg.TYPE_FLOAT,
-			value = my
-		},
-		{
-			address = coords['x'],
-			flags = gg.TYPE_FLOAT,
-			value = mz
-		}
-	}
-	gg.setValues(jh)
+do
+ kio = {}
+   for i, v in ipairs(yellow) do
+      do
+        do
+        kio[i] = yellow[i][1]
+        end
+      end
+   end
 end
-
-function pmove(dis)
-	local x,y,z = getadd(coords['z'], gg.TYPE_FLOAT), getadd(coords['y'], gg.TYPE_FLOAT), getadd(coords['x'], gg.TYPE_FLOAT)
-	local radin = getadd(player_r, gg.TYPE_FLOAT)
-	
-	local ax = dis * math.sin(radin)
-	local az = dis * math.cos(radin)
-
-	setposit(x + ax,y,z + az)
+function setPosition(pos, bfreeze)
+    cords = {
+        {
+            address = emitoffsets.xpos,
+            flags = kj.dT('F'),
+            value = pos[1],
+            freeze = bfreeze,
+        },
+        {
+            address = emitoffsets.ypos,
+            flags = kj.dT('F'),
+            value = pos[2],
+            freeze = bfreeze,
+        },
+        {
+            address = emitoffsets.zpos,
+            flags = kj.dT('F'),
+            value = pos[3],
+            freeze = bfreeze,
+        },
+    }
+    gg.setValues(cords)
+    if bfreeze then
+        gg.addListItems(cords)
+    else
+        gg.removeListItems(cords)
+    end
 end
-
-function pmagic(arr,id,sil)
-	nn = {}
-	tgt = player + (offsets.magic + (0x30 * (arr-1)))
-
-	setadd(tgt,gg.TYPE_DWORD,id,false)
-
-	if id ~= 0 then
-		setadd(tgt + 0x8,gg.TYPE_DWORD,2139095040,false)
-		setadd(tgt + 0x28,gg.TYPE_DWORD,sil,false)
-		setadd(player + offsets.magic + 0xC00, gg.TYPE_DWORD, 12, true)
-	else
-		setadd(tgt + 0x8,gg.TYPE_DWORD,0,false)
-		setadd(tgt + 0x28,gg.TYPE_DWORD,0,false)
-		setadd(player + offsets.magic + 0xC00, gg.TYPE_DWORD, 12, false)
-	end
+function posOrders(cord)
+    ctime = 1500
+    if cord ~= nil then
+        if cord[4] == 1 then
+            hold()
+        end
+        if cord[5] == 1 then
+            bfreeze = true
+        else
+            bfreeze = false
+        end
+        if cord[4] == 2 then
+            if cord[5] == 2 then
+                ctime = 8000
+            end
+        else
+            ctime = 1500
+        end
+        pcall(setPosition, cord, bfreeze)
+    end
 end
-
-function dospell()
-	mlist = {}
-
-	for i, v in ipairs(magicsid) do
-		table.insert(mlist, v[1])
-	end
-
-	magicmenu = gg.choice(mlist, nil, "Choose spell:")
-
-	if magicmenu == nil then
-		return
-	end
-
-	if magicmenu == 1 then
-		slotmenu = gg.multiChoice(mslot, nil, "Choose slots to remove:")
-	else
-		slotmenu = gg.choice(mslot, nil, "Choose slot:")
-	end
-
-	if slotmenu == nil then
-		return
-	end
-
-	if magicmenu == 1 then
-		for i, v in pairs(slotmenu) do
-			mslot[i] = magicsid[magicmenu][1]
-			pmagic(i, magicsid[magicmenu][2], 0)
-		end
-	else
-		mslot[slotmenu] = magicsid[magicmenu][1]
-		pmagic(slotmenu, magicsid[magicmenu][2], 0)
-	end
+eye = {}
+for i = 1, 50 do
+   do
+      do
+        eye[i] = i;
+        yellowStar = kio;
+      end
+   end
+end kio = nil;
+function farm(type)
+    getLevel()
+    getLevel_Cords()
+    gg.setVisible(false)
+    if type == "c" then
+        for i, v in ipairs(scrSoul[level_Cords].C_Runner) do
+            gg.toast("Location: " .. i .. " :: " .. #scrSoul[level_Cords].C_Runner)
+            if pcall(posOrders, v) then
+                if i < #scrSoul[level_Cords].C_Runner then
+                    gg.sleep(ctime)
+                end
+                if gg.isVisible(true) then
+                    gg.setVisible(false)
+                    gg.toast('Running Cancelled')
+                    return
+                end
+            end
+        end
+    elseif type == "s" then
+        for i, v in ipairs(scrSoul[level_Cords].S_Runner) do
+            gg.toast("Location: " .. i .. " :: " .. #scrSoul[level_Cords].S_Runner)
+            if pcall(setPosition, v) then
+                if i < #scrSoul[level_Cords].S_Runner then
+                    gg.sleep(stime)
+                end
+                if gg.isVisible(true) then
+                    gg.setVisible(false)
+                    gg.toast('Running Cancelled')
+                    return
+                end
+            end
+        end
+    end
 end
-
-function show_candles(bool)
-	local xv = {}
-	for i = 0,512 do
-		if getadd(nentity + offsets.vcandles + (offsets.vcandles_dist * i) - 0x4,gg.TYPE_DWORD) ~= 0 then
-			if bool then
-				table.insert(xv,{address = nentity + offsets.vcandles + (offsets.vcandles_dist * i),flags = gg.TYPE_DWORD,value = 28673})
-			else
-				table.insert(xv,{address = nentity + offsets.vcandles + (offsets.vcandles_dist * i),flags = gg.TYPE_DWORD,value = 0})
-			end			
-		else
-			break;
-		end
-	end
-
-	gg.toast(#xv)
-	gg.setValues(xv)
+ do
+   do
+    back = {
+        "[🔙]Back",
+        "[👋]End" 
+    }
+    yellowStar = kj.prepareMenu(yellowStar);
+    table.insert(yellowStar, back[2])
+    for i, v in pairs(yellow) do
+        yellow[i].content = kj.prepareMenu(v.content, true);
+    end
+  end
 end
-
-function collect_waxes()
-	show_candles(true)
-	local b = false
-
-	if autoburn == off then
-		set_autoburn(true)
-		b = true
-	end
-	
-	gg.clearResults()
-
-	gg.setRanges(gg.REGION_C_ALLOC)
-
-	gg.searchNumber('h 00 00 60 40 00 00 00 00 00 00 80 BF 00 00 CD CD', gg.TYPE_BYTE, false, nil, nentity, player)
-	gg.refineNumber(-128)
-
-	local n = {}
-	local m = gg.getResults(gg.getResultCount())
-	local tmp={}
-
-	for i,v in pairs(m) do
-		table.insert(n,{address = v.address - 0xA,flags = gg.TYPE_FLOAT, value = 99999})
-	end
-
-	gg.setValues(n)
-	gg.clearResults()
-
-	gg.setRanges(old_ranges)
-
-	if b then
-		set_autoburn(false)
-	end
+function farmMenu()
+    getLevel();
+    STAY = farmMenu;
+    getLevel_Cords()
+    local content = {
+        " | [🕯]Auto Candle Run",
+          " | [⭐]Auto Star Run",
+            " | [🕯]Semi Candle Run",
+              " | [⭐]Semi Star Run",
+                " | [🌋]Eden Assistance",
+                  " | [🔖]Unlock Seasonal Quests",
+                    " | [ℹ️]Running Instructions",        
+    };
+    table.insert(content, 1, back[1]);       
+    if #scrSoul[level_Cords].C_Runner > 0 then
+        content[4] = " | [🕯]Semi Candle Run";
+    else
+        content[4] = nil;
+    end
+    if #scrSoul[level_Cords].S_Runner > 0 then
+        content[5] = " | [⭐]Semi Star Run";
+    else
+        content[5] = nil;
+    end
+    if scrSoul[level_Cords].AK_Runner then
+        content[6] = " | [🌋]Eden Assistance";
+    else
+        content[6] = nil;
+    end
+    local tear = gg.choice(content, nil, header);
+    if tear == eye[1] then 
+        return yellowTears();
+    elseif tear == eye[2] then
+        if gg.alert([[
+            [☣️]Do you want to auto Candle Run?
+            It is more recommended to use canvas for runnung
+            to avoid using too much magic while teleporting]],
+            'Go for it', 'Never mind') == eye[1] then
+            autoCr();
+        else
+            return farmMenu();
+        end
+    elseif tear == eye[3] then
+        if gg.alert([[
+            [☣️]Do you want to auto Star Run?
+            It is more recommended to use AutoWax for runnung
+            to avoid using too much magic while teleporting]],
+            'Go for it', 'Never mind') == eye[1] then
+            autoSr();
+        else
+            return farmMenu();
+        end
+    elseif tear == eye[4] then 
+        runChoice("c");
+    elseif tear == eye[5] then 
+        runChoice("s");
+    elseif tear == eye[6] then
+        edenAssist();
+    elseif tear == eye[7] then
+        if getQuests() then
+            if kj.getValue(gquests[7].address, 'D') ~= 7037807 then
+                modQuest(false);
+            else
+                modQuest(true);
+            end
+        end
+    elseif tear == eye[8] then 
+       kj.post(instructions.run);
+    end
+end dontRemove = "BY: Kiojeen";
+function hold()
+    gg.toast("Click on the GG icon to resume")
+    while true do 
+        if gg.isVisible(true) then
+            gg.setVisible(false)
+           break
+        end
+    end
 end
-
-function set_autoburn(b)
-	if b then
-		autoburn = on
-
-		for i, v in ipairs(candles) do
-			v.value = 1.0
-			v.freeze = true
-		end
-		
-		gg.setValues(candles)
-		gg.addListItems(candles)
-
-		for i, v in ipairs(plants) do
-			v.value = 0.0
-			v.freeze = true
-		end
-
-		gg.setValues(plants)
-		gg.addListItems(plants)
-
-	else
-		autoburn = off
-
-		for i, v in ipairs(candles) do
-			v.value = 0.0
-			v.freeze = false
-		end
-		
-		gg.setValues(candles)
-		gg.removeListItems(candles)
-
-		for i, v in ipairs(plants) do
-			v.value = 1.0
-			v.freeze = false
-		end
-
-		gg.setValues(plants)
-		gg.removeListItems(plants)
-	end
+do
+  do
+configz = kj.tableClone(configs)
+  cltypes = {
+    {
+            "pants", 
+        eye[1] - eye[1],
+    },
+    {
+            "masks",
+        eye[3] * eye[1],
+    },
+    {
+            "hairs", 
+        eye[1] + eye[1],
+    },
+    {
+            "capes", 
+        eye[9] - eye[8],
+    },
+    {
+            "props",
+        eye[2] * eye[4],
+    },
+}
+  end
 end
-
-function unlock_all(b)
-	if b then
-		cosmetics = on
-		setadd(bootloader + offsets.ptoemotes, gg.TYPE_DWORD, 1384120352, false)
-		setadd(bootloader + offsets.ptocloset, gg.TYPE_DWORD, 1384120352, false)
-	else
-		cosmetics = off
-		setadd(bootloader + offsets.ptoemotes, gg.TYPE_DWORD, -1186976888, false)
-		setadd(bootloader + offsets.ptocloset, gg.TYPE_DWORD, 446629856, false)
-	end
+function pStatueLocker() 
+    if SkidLock ~= skidLevel then
+    do
+      do
+        SkidLock = skidLevel statue = {}
+         statue.limit = #scrSoul[level_Cords].AK_Runner
+          statue.trace = 0
+         dontRemove = 'By: Kiojeen'
+        statue.realm = level_Cords
+      end
+    end
+  end
 end
-
-function set_cosmetic_lock(b)
-	if b then
-		cosmetic_lock = on
-
-		cur_cape = gg.getValues({
-			{address = player + offsets.cape2_off, flags = gg.TYPE_DWORD}
-		})[1].value
-		cur_world1 = get_map()
-
-		capeset(cur_cape, false)
-		cape_bckp = nil
-	else
-		cosmetic_lock = off
-		capeset(cur_cape, false)
-	end
+function edenAssist()
+    getLevel()
+    if not scrSoul[getLevel_Cords()].AK_Runner then
+        return farmMenu()
+    end
+    pStatueLocker()
+    STAY = edenAssist;
+    do
+      do
+        emenu = {
+            " | [➡️]Next Statue",
+              " | [⬅️]Previous Statue",
+                " | [🔥]Burn"  .. signs.burn,
+                  " | [🌕]Wing Energy" .. signs.wcharge,
+                    " | [🀄️]Absorb All",
+                      " | [⬆️]Breach Walls",
+                        " | [🌀]Teleport",
+                          " | [📃]Coordinates List",
+                            " | [🧭]Out Of Borders",
+        }
+        egoto = #emenu + 2
+        sign = {}
+      end
+    end
+      do
+        do
+        table.insert(emenu, back[1])
+        table.insert(emenu, SPLine)
+        for i, v in ipairs(scrSoul[level_Cords].Map_Goto.Map_Goto_Name) do
+            table.insert(emenu, i .. ". " .. 'To ' .. v)
+        end
+      end
+    if skidLevel ~= 'StormEnd' then
+        emenu[1], emenu[2] = nil, nil;
+    end
+    do
+      do
+        local tear = gg.choice(emenu, nil, header)
+        if tear == eye[1] then
+            statue_add()
+        elseif tear == eye[2] then
+            statue_sub()
+        elseif tear == eye[3] then
+            burner()
+        elseif tear == eye[4] then
+            wenergy()
+        elseif tear == eye[5] then
+            absorbStars() abswaxpro()
+        elseif tear == eye[6] then
+            bwall(configs.bdis)
+        elseif tear == eye[7] then
+            selectLevel('edenAssist()')
+        elseif tear == eye[8] then
+            cordlist('e')
+        elseif tear == eye[9] then
+            oobls('edenAssist')
+        elseif tear == eye[10] then
+            farmMenu()
+        elseif tear == eye[11] then
+            edenAssist()
+        elseif tear ~= nil then
+            pcall(setPosition, scrSoul[getLevel_Cords()].Map_Goto.Map_Goto_Cord[tear - egoto])
+        end
+      end
+    end
+  end
 end
-
-function propset(id, freeze)
-	if freeze == nil then
-		freeze = true
-	end
-
-	local n = gg.getValues({
-		{address = player + offsets.props_off, flags = gg.TYPE_DWORD}
-	})
-
-	n[1].value = id
-	n[1].freeze = freeze
-
-	gg.addListItems(n)
-	gg.setValues(n)
+function pStarLocker()
+    getLevel()
+    getLevel_Cords()
+    if SkidLock ~= skidLevel then
+    do
+      do
+        SkidLock = skidLevel star = {}
+         star.limit = #scrSoul[level_Cords].S_Runner
+          star.trace = 0
+         dontRemove = 'By: Kiojeen'
+        star.realm = level_Cords
+      end
+    end
+  end
 end
-
-function propmenu()
-	local plist = {}
-
-	for i, v in ipairs(propsid) do
-		table.insert(plist, v[2])
-	end
-
-	local pmenu = gg.choice(plist, nil, "Choose Prop:")
-
-	if pmenu == nil then
-		return
-	else
-		if prop_bckp == nil then
-			prop_bckp = getadd(player + offsets.props_off, gg.TYPE_DWORD)
-		end
-		
-		if pmenu == #propsid then
-			propset(prop_bckp, false)
-			prop_bckp = nil
-		else
-			propset(propsid[pmenu][1])
-		end
-	end
+function runChoice(rtype)
+    pStarLocker()
+    STAY = runChoice;
+    do
+  do
+    do crunMenu = {}
+    crunMenu = {
+        " | [🕯]Run",
+          " | [🕯]Absorb wax",
+            " | [💠]Absorb Fragments",
+              " | [🔥]Burn"  .. signs.burn,
+                " | [⬆️]Breach Walls",
+                  " | [🌕]Wing Energy" .. signs.wcharge,
+                    " | [🌀]Teleport",
+                      " | [📃]Coordinates List",
+                        " | [⭐]Semi Star Run",
+                          " | [🧭]Out Of Borders",
+    }
+    cgoto = #crunMenu + 2
+    sign = {}
+    end
+  end
 end
-
-function capeset(id, freeze)
-	if freeze == nil then
-		freeze = true
-	end
-
-	local n = gg.getValues({
-		{address = player + offsets.cape_off, flags = gg.TYPE_DWORD},
-		{address = player + offsets.cape2_off, flags = gg.TYPE_DWORD}
-	})
-
-	for i, v in ipairs(n) do
-		v.value = id
-		v.freeze = freeze
-	end
-
-	if freeze then
-		gg.addListItems(n)
-	else
-		gg.removeListItems(n)
-	end
-
-	gg.setValues(n)
+do
+  do
+    do srunMenu = {}
+    srunMenu = {
+        " | [➡️]Next Location",
+          " | [⬅️]Previous Location",
+            " | [⭐]Run",
+              " | [⭐]Absorb Stars",
+                " | [⬆️]Breach Walls",
+                  " | [🌕]Wing Energy" .. signs.wcharge,
+                    " | [🌀]Teleport",
+                      " | [📃]Coordinates List",
+                        " | [🕯]Semi Candle Run",
+                          " | [🧭]Out Of Borders",
+    }
+    sgoto = #srunMenu + 2
+    sign = {}
+    end
+      end
+        end
+    table.insert(crunMenu, back[1])
+    table.insert(crunMenu, SPLine)
+    table.insert(srunMenu, back[1])
+    table.insert(srunMenu, SPLine)
+    for i, v in ipairs(scrSoul[level_Cords].Map_Goto.Map_Goto_Name) do
+        if i < 10 then x = 0 else x = "" end
+        table.insert(crunMenu, x .. i .. " | " .. 'To ' .. v)
+        table.insert(srunMenu, x .. i .. " | " .. 'To ' .. v)
+    end
+    if #scrSoul[level_Cords].Map_Goto.Map_Goto_Name == 0 then
+        crunMenu[cgoto] = nil
+        srunMenu[sgoto] = nil
+    end
+    if type_ == nil then
+        type_ = rtype
+    end SkidLock = skidLevel
+    if #scrSoul[level_Cords].C_Runner > 0 then
+        cflag = true
+    else
+        cflag = false
+        type_ = "s"
+        srunMenu[9] = nil
+    end
+    if #scrSoul[level_Cords].S_Runner > 0 then
+        sflag = true
+    else
+        sflag = false
+        type_ = "c"
+        crunMenu[9] = nil
+    end  dontRemove = 'By: Kiojeen'
+    if sflag == false then
+        if cflag == false then
+        type_ = 'back'
+        end
+    end
+    local rCG = gg
+    if string.find(skidLevel, 'Race') == nil then
+        if skidLevel ~= 'SunsetColosseum' and skidLevel ~= 'SunsetEnd' then
+            crunMenu[3] = nil
+        end
+    end
+    if type_ == 'back' then 
+        yellowTears();
+    elseif type_ == "c" and cflag ~= false then
+        tear = rCG.choice(crunMenu, nil, header)
+        if tear == eye[1] then
+            farm("c")
+        elseif tear == eye[2] then
+            abswaxpro()
+        elseif tear == eye[3] then
+            absorbFrags()
+        elseif tear == eye[4] then
+            burner()
+        elseif tear == eye[5] then
+            bwall(configs.bdis)
+        elseif tear == eye[6] then
+            wenergy()
+        elseif tear == eye[7] then
+            selectLevel('runChoice(\'c\')')
+        elseif tear == eye[8] then
+            cordlist("c")
+        elseif tear == eye[9] then
+            type_ = eye[90] runChoice("s")
+        elseif tear == eye[10] then
+            oobls('runChoice')
+        elseif tear == eye[11] then
+            type_ = nil farmMenu()
+        elseif tear == eye[12] then
+            runChoice("c")
+        elseif tear ~= nil then
+            pcall(setPosition, scrSoul[getLevel_Cords()].Map_Goto.Map_Goto_Cord[tear - cgoto])
+        end
+        elseif type_ == "s" and sflag ~= false then
+        tear = rCG.choice(srunMenu, nil, header)
+        if  tear == eye[1] then
+            srun_add()
+        elseif tear == eye[2] then
+            srun_sub()
+        elseif tear == eye[3] then
+            farm("s")
+        elseif tear == eye[4] then
+            absorbStars()
+        elseif tear == eye[5] then
+            bwall(configs.bdis)
+        elseif tear == eye[6] then
+            wenergy()
+        elseif tear == eye[7] then
+            selectLevel('runChoice(\'s\')')
+        elseif tear == eye[8] then
+            cordlist("s")
+        elseif tear == eye[9] then
+            type_ = eye[90] runChoice("c")
+        elseif tear == eye[10] then
+            oobls('runChoice')
+        elseif tear == eye[11] then
+            type_ = nil farmMenu()
+        elseif tear == eye[12] then
+            runChoice("s")
+        elseif tear ~= nil then
+            pcall(setPosition, scrSoul[getLevel_Cords()].Map_Goto.Map_Goto_Cord[tear - sgoto])
+        end
+    end
 end
-
-function capemenu()
-	local clist = {}
-
-	for i, v in ipairs(capesid) do
-		table.insert(clist, v[2])
-	end
-
-	local cmenu = gg.choice(clist, nil, "Choose Cape:")
-
-	if cmenu ~= nil then
-		if cape_bckp == nil then
-			cape_bckp = getadd(player + offsets.cape_off, gg.TYPE_DWORD)
-		end
-
-		if cmenu == #clist then
-			capeset(cape_bckp, false)
-			cape_bckp = nil
-		else
-			capeset(capesid[cmenu][1], true)
-		end
-	end
+function yellowTears()
+    getLevel();
+    STAY = yellowTears;
+    local tear = gg.choice(yellowStar, nil, header);
+    current_menu = tear;
+    if tear == eye[1] then 
+        teleports();        
+    elseif tear == eye[2] then 
+        selectLevel("yellowTears()");
+    elseif tear == eye[3] then
+        burner();
+    elseif tear == eye[4] then 
+        farmMenu();
+    elseif tear == eye[5] then
+        wenergy();
+    elseif tear == eye[6] then  
+        absorbStars();
+        abswaxpro();    
+    elseif tear == eye[7] then   
+        magicF();
+    elseif tear == eye[8] then
+        wingmode();
+    elseif tear == eye[9] then  
+        closets();
+    elseif tear == eye[10] then 
+        avatarModes();
+    elseif tear == eye[11] then
+        cameraModes();   
+    elseif tear == eye[12] then
+        worldModes(); 
+    elseif tear == eye[13] then
+        UIModes();   
+    elseif tear == eye[14] then
+        Players();
+    elseif tear == eye[15] then
+        moveObjects();
+    elseif tear == eye[16] then
+        settings();
+    elseif tear == eye[17] then
+        os.exit();        
+    end
 end
-
-function nowind()
-	xy = {}
-
-	for i=0, 100 do
-		xk = nentity + offsets.wind_off + (i * 0x100)
-
-		if getadd(xk, gg.TYPE_DWORD) ~= 0 then
-			for y = 1, 14 do
-				table.insert(xy, {address = xk - (y * 0x4), flags = gg.TYPE_DWORD, value = 0})
-			end
-		end
-	end
-
-	gg.setValues(xy)
+function moveObjects()
+    getLevel();
+    STAY = moveObjects;
+    tear = gg.choice(yellow[current_menu].content, nil, header);
+    if tear == eye[1] then
+        yellowTears();
+    elseif tear == eye[2] then
+        drawcandles = kj.toggler(drawcandles)
+    elseif tear == eye[3] then
+        drawNPC()
+    end
 end
-
-function clamp(n, a, b)
-	if n < a then n = a
-	elseif n > b then n = b end
-
-	return n
+function wingmode()
+    STAY = wingmode;
+    getLevel();
+    local tear = gg.choice(yellow[current_menu].content, nil, header);
+    if tear == eye[1] then
+        yellowTears();
+    elseif tear == eye[2] then
+        wings = kj.getValue(emitoffsets.wings, 'Q');
+        tear = gg.prompt({'Set wings count: '}, {wings}, {'number'});
+        if tear ~= nil then
+            tear[1] = tonumber(tear[1]);
+            if type(tear[1]) == 'number' then
+                kj.setValue(emitoffsets.wings, tostring(tear[1]) .. 'Q');
+            else
+                gg.toast('Please put numbers only');
+            end
+        end
+    elseif tear == eye[3] then
+        doWdrop();
+    elseif tear == eye[4] then
+        capetrick = kj.toggler(capetrick);
+        if not capetrick then
+            kj.setValue(emitoffsets.wvisible, '1F');
+        end
+    elseif tear == eye[5] then
+        if kj.getValue(emitoffsets.wvisible, 'F') == 1 then
+            kj.setValue(emitoffsets.wvisible, '0F');
+            gg.toast('Invisible Wing: ON');
+        else
+            kj.setValue(emitoffsets.wvisible, '1F');
+            gg.toast('Invisible Wing: OFF');
+        end
+    elseif tear == eye[6] then
+        kj.freezeSwitch(emitoffsets.pcape, '0 D', 'Freezing NoCape');
+    elseif tear == eye[7] then
+        kj.switch(liboffsets.fastflap, '506761216 D', '520725538 D', 'Fast Flap');
+    end
+end   
+function doWdrop()
+    tear = gg.prompt({"[🌟]Drop Wing Buffs:"}, {0}, {'number'})
+    if tear ~= nil then
+        tear[1] = tonumber(tear[1])
+        if type(tear[1]) == 'number' then
+            kj.setValue(emitoffsets.pdamage, tostring(tear[1]) .. 'D')
+            if signs.wcharge ~= '' then
+                kj.setValue(emitoffsets.pdamage, '0D', true)  
+            end
+        else
+            gg.toast("Please type properly")
+        end
+    else
+        gg.toast("Please type properly")
+    end 
 end
-
-function getAction()
-	actionmenu = gg.choice({
-		"⬅️ Previous",
-		"➡️ Next",
-		"❌ EndHere!",
-		"🛑 ABORT!"
-	}, nil, "Choose action:")
-
-	if actionmenu == 1 then
-		return -1
-	elseif actionmenu == 2 then
-		return 1
-	elseif actionmenu == 3 then
-		return 0
-	elseif actionmenu == 4 then
-		return -999
-	end
+function treatSavedLocats()
+    local temp = {}
+    if #savedlocats > 0 then
+        for i, v in ipairs(savedlocats) do
+            table.insert(temp, {
+                Level_name = v.map,
+                Location_name = v.name,
+                x = v.cord[1],
+                y = v.cord[2],
+                z = v.cord[3]
+            })
+        end
+        return temp
+    else
+        return savedlocats
+    end
 end
-
-function FastCR(name)
-	local m = nil
-	local points = fastpoints[name]
-
-	local after = 3000
-	local skip_p = false
-	local skip = false
-
-	m = get_map()
-
-	for i, v in ipairs(points) do
-		if m ~= v.map then
-			change_map(v.map)
-		end
-
-		gg.sleep(3000)
-
-		m = get_map()
-
-		if m ~= v.map then
-			gg.toast("Please, enter "..name.." or be at Home and try again.")
-			return
-		end
-		break
-	end
-
-	for i, v in ipairs(points) do
-		skip_p = false
-		skip = false
-
-		if v.type == "tp" or v.type == "tp-mv" then 
-			while get_map() ~= v.map do
-				gg.sleep(2000)
-			end
-
-			change_map(v.to_map)
-
-			while get_map() ~= v.to_map do
-				gg.sleep(2000)
-			end 
-
-			if v.type == "tp" then
-				skip_p = true
-			end
-
-			gg.sleep(2000)
-			
-		elseif v.type == "mv" then
-			while get_map() ~= v.map do
-				gg.sleep(2000)
-			end
-
-			skip = v.skip
-
-			if skip then
-				gg.sleep(3000)
-			end
-		end
-
-		if skip_p ~= true then
-			gg.setValues({
-				{address = coords['x'], flags = gg.TYPE_FLOAT, value = v.x},
-				{address = coords['y'], flags = gg.TYPE_FLOAT, value = v.y},
-				{address = coords['z'], flags = gg.TYPE_FLOAT, value = v.z}
-			})
-		end
-
-		if skip ~= true then
-			collect_waxes()
-		end
-
-		gg.sleep(after)
-	end
+function settings()
+    STAY = settings;
+    local content = {
+        "[💨]Auto Wind Remove in OOBs menu: " .. kj.statSwitch(configs.awrob),
+        "[↕️]Breach distance: " .. configs.bdis,
+        "[📮]Debug Mode: " .. kj.statSwitch(configs.devmode),
+        "[🏠]Fast Return Home" .. kj.statSwitch(configs.fasthome),
+        "[🔁]Burn & Absorb[Method 2]" .. kj.statSwitch(configs.mumu),
+        "[🪲]Bypass Beta Restriction" .. kj.statSwitch(configs.pbeta),
+        "[🧙🏻‍♂️]Spells Sockets: " .. configs.sockets,
+        "[📤]Export Saved Locations",
+        "[📥]Import Locations",
+        "[🚮]Reset Settings",
+        "[🚮]Reset Saved Locations",
+        "[ℹ️]Description",
+    };
+    content = kj.prepareMenu(content, true);
+    local tear = gg.choice(content, nil, '[☣️]HellBoy' .. ' Settings ' .. hellboy);
+    if tear == eye[1] then
+        yellowTears();
+    elseif tear == eye[2] then
+        configs.awrob = kj.toggler(configs.awrob);
+    elseif tear == eye[3] then
+        tear = gg.prompt({"Choose the distance for Breach:"}, {7}, {'number'});
+        if tear ~= nil then
+            tear[1] = tonumber(tear[1]);
+            if type(tear[1]) == 'number' then
+                configs.bdis = tear[1];
+                saveconfigs();
+            else
+                gg.toast('Please put numbers only');
+            end
+        end
+    elseif tear == eye[4] then
+        if configs.devmode then
+            configs.devmode = false;
+            gg.hideUiButton();
+            saveconfigs();
+            return nodemode();
+        else 
+            configs.devmode = true
+            gg.showUiButton();
+            saveconfigs();
+            return demode();
+        end
+    elseif tear == eye[5] then
+        configs.fasthome = kj.toggler(configs.fasthome);
+        fastHome(configs.fasthome);
+        saveconfigs();
+    elseif tear == eye[6] then
+        configs.mumu = kj.toggler(configs.mumu);
+        saveconfigs();
+        if configs.mumu then
+            gg.toast("This option is not recomended");
+        end
+    elseif tear == eye[7] then
+        configs.pbeta = kj.toggler(configs.pbeta);
+        patchbeta(configs.pbeta);
+    elseif tear == eye[8] then
+        tear = gg.prompt({"Spells Sockets: [6; 20]"}, {6},{'number'});
+        if tear then
+            configs.sockets = tear[1];
+            saveconfigs();
+        end
+    elseif tear == eye[9] then
+        local dir = '/storage/emulated/0/Download/Hellboy-Locations.txt';
+        local file = io.open(dir, 'w');
+        file:write([[--Locations file generated by: Hellboy]] .. '\nlocal ela = true\n');
+        file:write('slocs_local = ' .. kj.tableToString(slocs));
+        file:close();
+        gg.alert('[📤]Output Saved Locations:\nFile name: ' .. 'Hellboy-Locations.txt' .. '\nDirectory: ' .. '/storage/emulated/0/Download');
+    elseif tear == eye[10] then
+        if not pcall(importOOBs) then
+            gg.toast('Something went wrong.');
+        end
+    elseif tear == eye[11] then
+        if gg.alert('[☣️]Do you want to reset the script settings?', 'Reset', 'Never mind') == eye[1] then
+            configs = {};
+            saveconfigs();
+            loadconfigs();
+            gg.toast('Settings are back to default');
+        else
+            settings();
+        end
+    elseif tear == eye[12] then
+        if gg.alert('[☣️]Do you want to reset the saved locations?', 'Reset', 'Never mind') == eye[1] then
+            slocs = {};
+            saveconfigs();
+            loadconfigs();
+            gg.toast('Saved locations were removed')
+        else
+            settings();
+        end
+    elseif tear == eye[13] then
+        kj.post(instructions.description);
+    end
 end
-
-function get_next_map(map)
-	local back = {}
-	local next = {}
-	local maps = {}
-	local mps = {}
-
-	if map == crpoints[1].map then
-		back = {name = crpoints[#crpoints].name, map = crpoints[#crpoints].map}
-		next = {name = crpoints[2].name, map = crpoints[2].map}
-		return {b = back, n = next}
-	elseif map == crpoints[#crpoints].map then
-		back = {name = crpoints[#crpoints - 1].name, map = crpoints[#crpoints - 1].map}
-		next = {name = crpoints[1].name, map = crpoints[1].map}
-		return {b = back, n = next}
-	else
-		for i, v in ipairs(crpoints) do
-			if indexof(mps, v.map) == -1 then
-				table.insert(mps, v.map)
-				table.insert(maps, {name = v.name, map = v.map})
-				gg.toast(v.map)
-			end
-		end
-
-		for i, v in ipairs(maps) do
-			if v.map == map then
-				back = {name = maps[i - 1].name, map = maps[i - 1].map}
-				next = {name = maps[i + 1].name, map = maps[i + 1].map}
-
-				if back ~= nil and next ~= nil then
-					return {b = back, n = next}
-				end
-			end
-		end
-	end
-
-	return nil
+function fastHome(bool)
+    if bool then
+        kj.setArm64(liboffsets.fasthome, [[NOP]])
+    else
+        kj.setArm64(liboffsets.fasthome, 'B.LT [PC,#0x194]')
+    end
 end
-
-function PointsEnd(map)
-	local n = get_next_map(map)
-	local mmenu = {
-		"⬅️|"..n.b.name,
-		"➡️|"..n.n.name,
-		"✔️| Done!"
-	}
-
-	if n ~= nil then
-		while true do
-			gg.setVisible(false)
-			action = gg.choice(mmenu, nil, "Current map: "..get_map_name().."\n (Teleport works only for YOU)")
-			
-			if action == nil then
-				while true do
-					if gg.isVisible(true) then
-						gg.setVisible(false)
-						break
-					end
-
-					gg.sleep(500)
-				end
-			else
-				break
-			end
-		end
-
-		if action == #mmenu then
-			gg.toast("Done!")
-		elseif action == 1 then
-			ChangeMapDoPoints(n.b.map)
-		elseif action == 2 then
-			ChangeMapDoPoints(n.n.map)
-		end
-
-	else
-		gg.toast("No Next Map Found")
-		return
-	end
+function patchbeta(bool)
+    if gg.getTargetPackage() == sky.beta.package then
+        if bool then
+            kj.setValue(guioffsets.pbeta, '101B')
+        else
+            kj.setValue(guioffsets.pbeta, '100B')
+        end
+    end
 end
-
-function ChangeMapDoPoints(map)
-	local cur_map = get_map()
-	change_map(map)
-
-	while cur_map ~= map do
-		gg.sleep(1000)
-		cur_map = get_map()
-	end
-
-	gg.sleep(1000)
-
-	while true do
-		if gg.isVisible(true) then
-			gg.setVisible(false)
-			break
-		end
-		gg.sleep(500)
-	end
-
-	DoPoints(make_points_list(map))
+function teleports()
+    STAY = teleports;
+    local tear = gg.choice(yellow[current_menu].content, nil, header);
+    if tear == eye[1] then 
+        yellowTears();
+    elseif tear == eye[2] then 
+        selectLevel('teleports()');
+    elseif tear == eye[3] then
+        bwall(configs.bdis); 
+    elseif tear == eye[4] then
+        setPosition({getPosition()[1], getPosition()[2] + configs.bdis, getPosition()[3]});
+    elseif tear == eye[5] then
+        setPosition({getPosition()[1], getPosition()[2] - configs.bdis, getPosition()[3]});
+    elseif tear == eye[6] then 
+        savelocat();
+    elseif tear == eye[7] then 
+        gotoMap();
+    elseif tear == eye[8] then 
+        oobls('teleports');
+    elseif tear == eye[9] then
+        if not pcall(coordinater, 'move') then
+            gg.toast("Please type properly");
+        end
+    elseif tear == eye[10] then 
+        coordinater('copy');
+    elseif tear == eye[11] then 
+        coordinater('freeze');
+    elseif tear == eye[12] then 
+        kj.freezeSwitch(emitoffsets.ypos, tostring(getPosition()[2]) .. 'F', 'Freezing Y Coordinate');
+    end
 end
-
-function DoPoints(points, cr_mode, use_candle)
-	local b = false
-
-	if settings.useautoburn then
-		if autoburn == off then
-			set_autoburn(true)
-			b = true
-		end
-	end
-
-	if use_candle == nil then
-		use_candle = false
-	end
-
-	if cr_mode == nil then
-		cr_mode = false
-	end
-
-	local bckp_values = gg.getValues({
-		{address = coords.x, flags = gg.TYPE_FLOAT},
-		{address = coords.y, flags = gg.TYPE_FLOAT},
-		{address = coords.z, flags = gg.TYPE_FLOAT},
-	})
-
-	local i = 1
-	local t = 0
-	local st = 250
-	local endt = 4000 
-
-	while i <= #points do
-		gg.toast(tostring(i).." / "..#points)
-	
-		if use_candle then
-			gg.setValues({{address = candle, flags = gg.TYPE_BYTE, value = 1}})
-		end
-	
-		gg.setValues({
-			{address = coords['x'], flags = gg.TYPE_FLOAT, value = points[i].x},
-			{address = coords['y'], flags = gg.TYPE_FLOAT, value = points[i].y},
-			{address = coords['z'], flags = gg.TYPE_FLOAT, value = points[i].z}
-		})
-	
-		if not(points[i].e == true) and not(i == #points) then
-			while true do
-				if gg.isVisible(true) then
-					gg.setVisible(false)
-					a = 1
-					break
-				else
-					gg.sleep(st)
-					t = t + st
-
-					if t >= endt then
-						gg.toast("Manual mode")
-						break
-					end
-				end
-			end
-
-			while t >= endt do
-				if gg.isVisible(true) then
-					gg.setVisible(false)
-
-					a = getAction()
-
-					if a ~= nil then
-						break
-					end
-				end
-			end
-
-			if a == -999 then
-				gg.setValues(bckp_values)
-				i = #points + 1
-			elseif a == 0 then
-				i = #points + 1
-			else
-				i = i + a
-				if a == -1 then
-					i = clamp(i, 1, #points)
-					if points[i].e == true then
-						i = i - 1
-					end
-				end
-			end
-
-			t = 0
-		else
-			i = i + 1
-			gg.sleep(100)
-		end
-	end
-
-	if b then
-		set_autoburn(false)
-	end
-
-	if use_candle then
-		gg.setValues({{address = candle, flags = gg.TYPE_BYTE, value = 0}})
-	end
-
-	PointsEnd(get_map())
+function coordinater(rspType)
+    ccor = getPosition()
+    cord = {}
+    xyz = "{" .. ccor[1] .. '; '.. ccor[2] .. '; ' .. ccor[3] .. "}"
+    if rspType == 'copy' then
+        gg.copyText(xyz)
+    elseif rspType == 'move' then
+        tear = gg.prompt({'Specifiy coordinates in form: {X ; Y ; Z}'}, {xyz}, {'number'})
+        if tear ~= nil then
+            if not pcall(setPosition, assert(load("return " .. tear[1]))()) then
+                gg.toast("Please type properly")
+            end
+        end
+    elseif rspType == 'freeze' then
+        kj.groupFreezeSwitch({
+            {
+                address = emitoffsets.xpos,
+                flags = kj.dT('F'),
+                value = getPosition()[1],
+            },
+            {
+                address = emitoffsets.ypos,
+                flags = kj.dT('F'),
+                value = getPosition()[2]
+            },
+            {
+                address = emitoffsets.zpos,
+                flags = kj.dT('F'),
+                value = getPosition()[3]
+            },
+        },'Pin Position')
+    end
 end
-
-function settingsmenu()
-	local smenu = gg.choice({
-		"Wall breach distance: "..settings.wdistance,
-		"Use Autoburn in AutoCR: "..sign(settings.useautoburn)
-	}, nil, "Settings:")
-
-	if smenu == nil then 
-		return
-	end
-
-	if smenu == 1 then
-		local wbd = gg.prompt({"Default distance: "..settings.wdistance}, {[1] = settings.wdistance}, {[1] = "number"})
-		if wbd ~= nil then
-			settings.wdistance = wbd[1]
-		end
-
-		gg.toast("Wall Breach distance: "..settings.wdistance)
-	elseif smenu == 2 then
-		settings.useautoburn = not(settings.useautoburn)
-		gg.toast("Use Autoburn in AutoCR: "..sign(settings.useautoburn))
-	end
+function gotoMap()
+    STAY = gotoMap;
+    local gtG = gg
+    getLevel()
+    getLevel_Cords()
+    gtMenu = {
+        Name = {},
+        Cord = {},
+    }
+    for i, v in ipairs(scrSoul[level_Cords].Map_Goto.Map_Goto_Name) do
+        table.insert(gtMenu.Cord, scrSoul[level_Cords].Map_Goto.Map_Goto_Cord[i])
+        table.insert(gtMenu.Name, i .. '. ' .. v)
+    end
+    table.insert(gtMenu.Name, back[1])
+    tear = gtG.choice(gtMenu.Name, nil, header)
+    if tear == #gtMenu.Name then teleports()
+    elseif tear ~= eye[69] then pcall(setPosition, gtMenu.Cord[tear])
+    end
 end
-
-function update()
-	if cosmetic_lock == on then
-		ccape2 = gg.getValues({
-			{address = player + offsets.cape2_off, flags = gg.TYPE_DWORD}
-		})[1].value
-
-		if cur_cape ~= ccape2 then
-			ccape = gg.getValues({
-				{address = player + offsets.cape_off, flags = gg.TYPE_DWORD}
-			})[1].value
-
-			if ccape == ccape2 then
-				wrld = get_map()
-				if cur_world1 ~= wrld then
-					capeset(cur_cape, false)
-					cur_world1 = wrld
-				end
-			else
-				capeset(ccape2, false)
-				cur_cape = ccape2
-			end
-		end
-	end
+function closets()   
+    STAY = closets;
+    local type = nil;
+    local tear = gg.choice(yellow[current_menu].content, nil, header);
+    if tear == eye[1] then 
+        yellowTears();
+    elseif tear ~= nil then
+        opencloset(cltypes[tear - 1][2]);
+    end
 end
-
-function start()
-	cr_mode = true
-	menu = gg.choice({
-		"[⬆️] Wall Breach: "..settings.wdistance,
-		"[⏭] Candle Run",
-		"[🌀] Teleporter",
-		"[🪑] Prop Hack",
-		"[🧣] Cape hack",
-		"[💫] Spells",
-		"[🎉] Fun!",
-		"[💨] No Wind Wall",
-		"[☀️] Collect Waxes",
-		"[✨] Other Hacks",
-		"[⚙️] Settings"
-		-- "!!! {Debug Features}"
-	}, nil, "Choose Hack:")
-
-	if menu == nil then
-		return
-	else
-		if menu == 1 then
-			pmove(settings.wdistance)
-		elseif menu == 2 then
-			cmode = gg.choice({
-				"[▶️] Semi-AutoCR",
-				"[⭐] Wing Light Run"
-			}, nil, "Current map: "..get_map_name())
-
-			if cmode == 1 then
-				local map = get_map()
-				local family = get_family_by_map(map)
-	
-				if family ~= nil then
-					if gg.alert("Do you want to CR "..get_map_name().."?", "Yes", "Cancel") == 1 then
-						DoPoints(make_points_list(map))
-					else
-						return
-					end
-				else
-					if map == "CandleSpace" then
-						gg.toast("You are at Home. Enter the portal first!")
-					else
-						gg.toast("CR Function unavailable for "..get_map_name())
-					end
-				end
-
-			elseif cmode == 2 then
-				gg.toast("Not yet available.")
-			end
-
-		elseif menu == 3 then
-			tpmenu = gg.choice({
-				"[⏩] Change Map",
-				"[🚩] Go to"
-			}, nil, "Current map: "..get_map_name())
-
-			if tpmenu == nil then
-				return
-			end
-
-			if tpmenu == 1 then
-				mps = {}
-				for i, v in ipairs(maps) do
-					table.insert(mps, v[1])
-				end
-	
-				local mpchoice = gg.choice(mps, nil, "Choose map that you want to teleport to")
-	
-				if mpchoice == nil then
-					return
-				else
-					change_map(maps[mpchoice][2])
-				end
-			elseif tpmenu == 2 then
-				local map = get_map()
-
-				ppoints = make_poisitions(map)
-
-				if ppoints ~= nil then
-					mp_names = get_names(ppoints)
-					place = gg.choice(mp_names, nil, "Where to go?")
-
-					if place == nil then
-						return
-					end
-
-					pos = get_pos_by_name(ppoints, mp_names[place])
-					setposit(pos.x, pos.y, pos.z)
-
-					gg.toast(place)
-				else
-					gg.toast("No place to go here.")
-				end
-			end
-
-		elseif menu == 4 then
-			propmenu()
-		elseif menu == 5 then
-			if cosmetic_lock == on then
-				gg.toast("You cannot use Cape Hack while Cosmetic Lock is Enabled (it will be possible in the future updates).")
-				return
-			end
-
-			capemenu()
-		elseif menu == 6 then
-			dospell()
-		elseif menu == 7 then
-			funmenu = gg.multiChoice({
-				inffire.." Infinity Fireworks 🎆",
-				fakesleep.." Fake sleeping 💤",
-			}, nil, "Fun stuffs:")
-
-			if funmenu == nil then
-				return
-			end
-
-			if funmenu[1] == true then
-				if inffire == on then
-					inffire = off
-					setadd(player + offsets.famount_off, gg.TYPE_DWORD, 5, false)
-				else
-					inffire = on
-					setadd(player + offsets.famount_off, gg.TYPE_DWORD, 5, true)
-				end
-			end
-
-			if funmenu[2] == true then
-				if fakesleep == on then
-					fakesleep = off
-					setadd(player + offsets.sleeping, gg.TYPE_DWORD, 1, false)
-				else
-					fakesleep = on
-					setadd(player + offsets.sleeping, gg.TYPE_DWORD, 257, true)
-				end
-			end
-
-		elseif menu == 8 then
-			nowind()
-		elseif menu == 9 then
-			collect_waxes()
-		elseif menu == 10 then
-			hackmenu = gg.multiChoice({
-				autoburn.." Autoburn 🔥",
-				cosmetics.." Unlock All Cosmetics & Emotes 🔓",
-				friendnode_unlock.." Unlock Friendship Nodes 🔓",
-				energy.." Unlimited Energy ♾️",
-				quick.." Quick Steps ⚡",
-				clouds.." Remove Clouds ☁️",
-				noknock.." No Knockdown 🚹"
-				-- cosmetic_lock.." Cosmetic Lock"
-			}, nil, "Select Hacks:")
-
-			if hackmenu == nil then
-				return
-			else
-				if hackmenu[1] then
-					if nentity_test then
-						if autoburn == off then
-							set_autoburn(true)
-							gg.toast("ON")
-						else
-							set_autoburn(false)
-							gg.toast("OFF")
-						end
-					else
-						gg.toast("Autoburn can't be activated due to internal error.")
-					end
-				end
-
-				if hackmenu[2] then
-					if cosmetics == on then
-						unlock_all(false)
-						gg.toast("OFF")
-					else
-						unlock_all(true)
-						gg.toast("ON")
-					end
-				end
-
-				if hackmenu[3] then
-					if friendnode_unlock == on then
-						friendnode_unlock = off
-						setadd(bootloader + offsets.ptofnodes, gg.TYPE_DWORD, 872415336, false)
-						gg.toast("OFF")
-					else
-						friendnode_unlock = on
-						setadd(bootloader + offsets.ptofnodes, gg.TYPE_DWORD, 1384120352, false)
-						gg.toast("ON")
-					end
-				end
-
-				if hackmenu[4] then
-					if energy == on then
-						energy = off
-						setadd(player + offsets.wing_charge, gg.TYPE_FLOAT, 14.0, false)
-
-						gg.toast("OFF")
-					else
-						energy = on
-						setadd(player + offsets.wing_charge, gg.TYPE_FLOAT, 14.0, true)
-
-						gg.toast("ON")
-					end
-				end
-
-				if hackmenu[5] then
-					if quick == on then
-						quick_results[1].value = '3.5'
-						gg.toast("OFF")
-						quick = off
-					else
-						quick_results[1].value = '200'
-						gg.toast("ON")
-						quick = on
-					end
-
-					gg.setValues(quick_results)
-				end
-
-				if hackmenu[6] then
-					if clouds == on then
-						clouds = off
-						clouds_results[1].value = 1
-						gg.toast("OFF")
-					else
-						clouds = on
-						clouds_results[1].value = 0
-						gg.toast("ON")
-					end
-
-					gg.setValues(clouds_results)
-				end
-
-				if hackmenu[7] then
-					if noknock == on then
-						noknock = off
-						setadd(player + offsets.pose, gg.TYPE_DWORD, 0, false)
-						gg.toast("OFF")
-					else
-						noknock = on
-						setadd(player + offsets.pose, gg.TYPE_DWORD, 0, true)
-						gg.toast("ON")
-					end
-				end
-			end
-		elseif menu == 11 then
-			settingsmenu()
-		elseif menu == 12 then
-			debugmenu = gg.choice({
-				"{Get map}",
-				"{Get map name}",
-				"{Show Coordinates}"
-			}, nil, "Test features. (might crash game)")
-
-			if debugmenu == 1 then
-				gg.toast(get_map())
-			elseif debugmenu == 2 then
-				gg.toast(get_map_name())
-			elseif debugmenu == 3 then
-				values = gg.getValues({
-					{address = coords['x'], flags = gg.TYPE_FLOAT},
-					{address = coords['y'], flags = gg.TYPE_FLOAT},
-					{address = coords['z'], flags = gg.TYPE_FLOAT},
-				})
-	
-				crds = {
-					x = tostring(values[1].value),
-					y = tostring(values[2].value),
-					z = tostring(values[3].value)
-				}
-				
-				gg.choice({
-					"X : "..crds['x'],
-					"Y : "..crds['y'],
-					"Z : "..crds['z']
-				})
-			end
-		end
-	end
+function opencloset(closet)
+    if closet ~= nil then
+        local temp = {
+            {
+                address = emitoffsets.closet - 60,
+                flags = kj.dT('D'),
+                value = 0,
+            },
+            {
+                address = emitoffsets.closet - 4,
+                flags = kj.dT('D'),
+                value = 0,
+            },
+        }
+        gg.setValues(temp)
+        table.insert(temp, {
+                address = emitoffsets.closet,
+                flags = kj.dT('D'),
+                value = closet,
+            })
+        gg.sleep(100)
+        if not pcall(gg.setValues, temp) then
+            gg.toast("Please type properly")
+        else
+            local temp = {
+                {
+                    address = emitoffsets.closet - 60,
+                    flags = kj.dT('D'),
+                    value = 1,
+                },
+                {
+                    address = emitoffsets.closet + 4,
+                    flags = kj.dT('D'),
+                    value = 1,
+                },
+            }
+            gg.setValues(temp)
+        end
+    end
+end                            
+shout = {
+    {
+        'Default Call', 
+        'ShoutDefault'
+    },
+    {
+        'LP Call',
+        'ShoutPrince'
+    },
+    {
+        'Crow Call',
+        'ShoutCrow'
+    },
+    {
+        'Turtle Call',
+        'ShoutTurtle'
+    },
+    {
+        'Kizuna Call',
+        'ShoutAi'
+    },
+    {
+        'Baby Manta',
+        'ShoutMantaBaby'
+    },
+    {
+        'Small Manta',
+        'ShoutMantaSmall',
+    },
+    {
+        'Big Manta',
+        'ShoutMantaBig'
+    },
+    {
+        'Double Manta',
+        'ShoutMantaDouble'
+    },
+    {
+        'Krill Shout',
+        'ShoutDuskCreature'
+    },
+    {
+        'Anonymous Call',
+        'ShoutShade'
+    },
+    {
+        'Anonymous Call 2',
+        'ShoutShadeRemote'
+    },
+    {
+        'Fragment Sound',
+        'ShoutFragment'
+    },
+    {
+        'Small Fish Call',
+        'ShoutSmallFish'
+    },
+}
+function avatarModes()
+    STAY = avatarModes;
+    local tear = gg.choice(yellow[current_menu].content, nil, '[👦🏼]Avatar Modes\n' .. kj.margin(15))
+    if tear == eye[1] then
+        return yellowTears();
+    elseif tear == eye[2] then 
+        pspeed()
+    elseif tear == eye[3] then
+        kj.switchArm64(liboffsets.pjump, [[FMOV S0, #0x40A00000]], [[FMAXNM S1, S1, S8]], 'Jumping Enhancement')
+    elseif tear == eye[4] then
+        if kj.getValue(liboffsets.pdive, 'D') == 505712640 then
+            kj.setValue(liboffsets.pdive, '-1119586048D')
+            gg.toast('Diving Enchancement: OFF')
+        else
+            kj.setValue(liboffsets.pdive, '505712640D')
+            gg.toast('Diving Enchancement: ON')
+        end
+    elseif tear == eye[5] then
+        kj.groupFreezeSwitch(dontgo, 'No Movement Restriction')
+    elseif tear == eye[6] then
+        kj.switchArm64(liboffsets.pdelay, [[MOV W0, #0x1]], 'CBZ W9, [PC,#0x60]', 'Delay Effect')
+    elseif tear == eye[7] then
+        kj.switchArm64(liboffsets.plain, [[MOV W0, #0x1]], 'CBZ W10, [PC,#0x14]', 'Always Fly')
+    elseif tear == eye[8] then
+        kj.switch(liboffsets.scooter, '506892288D', '1847647232D', 'Scooter')
+    elseif tear == eye[9] then
+        skidShouts()
+    end        
 end
-
-gg.toast("\n made by: gxost")
-
-while true do
-	if gg.isVisible(true) then
-		gg.setVisible(false)
-		start()
-	end
-
-	update()
-	gg.sleep(500)
+function cameraModes()
+    STAY = cameraModes;
+    local c_hw = '\t' .. kj.removePoint(kj.getValue(guioffsets.scrres, 'F')) .. '::' .. kj.removePoint(kj.getValue(guioffsets.scrres + 4, 'F'))
+    yellow[current_menu].content[3] = "02. [📸]ScreenShot Resolution" .. c_hw
+    local tear = gg.choice(yellow[current_menu].content, nil, '[📸]Camera Modes\n' .. kj.margin(15))
+    if tear == eye[1] then
+        yellowTears();
+    elseif tear == eye[2] then
+        kj.switch(guioffsets.meshared, '1D', '0D')
+    elseif tear == eye[3] then
+        sres()
+    elseif tear == eye[4] then
+        kj.switchArm64(liboffsets.realisim, [[MOV W0, #0x1]], 'CBZ  W8, [PC,#0x104]', 'Realistic Graphics')
+    elseif tear == eye[5] then
+        sunsetFilter()
+    elseif tear == eye[6] then
+        sGlow()
+    end        
 end
+function worldModes()
+    STAY = worldModes;
+    local tear = gg.choice(yellow[current_menu].content, nil, '[🗺]World Modes\n' .. kj.margin(15));
+    if tear == eye[1] then
+        yellowTears();
+    elseif tear == eye[2] then
+        kj.switch(liboffsets.winds, '505873376D', '1847778369D', 'Removing Wind')
+    elseif tear == eye[3] then
+        rwind() gg.toast('Wind Removed')
+    elseif tear == eye[4] then
+        kj.switch(liboffsets.rclouds, '0D', '1D', 'Removing Clouds')
+    elseif tear == eye[5] then
+        kj.switchArm64(liboffsets.rwater, [[FMOV S0, #0x40A00000]], [[FMOV S11, #0x3F000000]], 'Removing Water')
+    elseif tear == eye[6] then
+        kj.switchArm64(liboffsets.rportals, [[MOV W0, #0x1]], 'CBZ W8, [PC,#0x1C]', 'Removing Portals')
+    elseif tear == eye[7] then
+        setspeed()
+    end      
+end
+function UIModes()
+    STAY = UIModes;
+    local tear = gg.choice(yellow[current_menu].content, nil, '[🖥]UI Modes\n' .. kj.margin(15))
+    if tear == eye[1] then
+        yellowTears();
+    elseif tear == eye[2] then
+        setIconSize()
+    elseif tear == eye[3] then
+        tranUi()
+    elseif tear == eye[4] then
+        kj.switchArm64(liboffsets.unemote, [[MOV W0, #0x1]], 'LDR W8, [X28,#0x28]')
+        kj.switchArm64(liboffsets.uncloset, [[MOV W0, #0x1]], [[CSET W0, WZR, NE]], 'Unlocking Clothes & Emotes')
+    elseif tear == eye[5] then
+        kj.switchArm64(liboffsets.unnodes, [[MOV W0, #0x1]], 'CBZ W8, [PC,#0xC]', 'Unlocking Nodes')
+    elseif tear == eye[6] then
+        kj.switchArm64(liboffsets.unfirework, [[SUBS W11, W10, #0x0]], [[SUBS W10, W10, #0x1]], 'Unlimited Fireworks')
+    elseif tear == eye[7] then
+        kj.switch(liboffsets.offline, '1384120320D', '889192744D', 'Offline Mode')
+    end
+end           
+function sGlow(int)
+    if not int then
+        tear = gg.prompt({'[🔆]Brightness:'}, {1}, {'number'})
+        if tear ~= nil then
+            tear[1] = tonumber(tear[1])
+            if type(tear[1]) == 'number' then
+                int = tear[1]
+            else
+                gg.toast('Please put numbers only')
+            end
+        end 
+    end
+    if int then
+        kj.setValue(liboffsets.sglow, tostring(int) .. 'F')
+    end
+end
+function pspeed()
+    tear = gg.prompt({"Choose Running Speed:"}, {3.5}, {'number'})
+    if tear ~= nil then
+        tear[1] = tonumber(tear[1])
+        if type(tear[1]) == 'number' then
+            kj.setValue(liboffsets.pspeed, tostring(tear[1]) .. 'F')
+        else
+            gg.toast('Please put numbers only')
+        end
+    end 
+end
+function skidShouts()
+    temp = {}
+    for i, v in ipairs(shout) do
+        table.insert(temp, i .. '. ' .. '[📣]' .. v[1] )
+    end table.insert(temp, back[1])
+    tear = gg.choice(temp, nil, 'This replaces the Default Call')
+    if tear == #temp then
+        modemenu()
+    elseif tear ~= nil then 
+        kj.setString(liboffsets.honksound, '.' .. shout[tear][2], 19)
+        gg.toast(shout[tear][1] .. ' is the default call now')
+    end
+end
+function sunsetFilter()
+    getLevel()
+    local offsets = {}
+    for i = 0, 2 do
+        table.insert(offsets, guioffsets.sunsetfilter + 16 * i) 
+        if kj.getValue(offsets[i + 1], 'D') == 0 then
+            signs.veffect[i + 1] = "  -〘 ✅ 〙"
+        else
+            signs.veffect[i + 1] = ""
+        end
+    end
+    val = kj.getValue(offsets[3] + 16, 'D')
+    vfilters = {
+        'Dark Effect',
+        'Red Effect',
+        'White Effect',
+    }
+    local temp = {}
+    for i, v in ipairs(vfilters) do
+        table.insert(temp, '[🌁]' .. v .. signs.veffect[i])
+    end
+    tear = gg.choice(temp, nil, header)
+    for i, v in ipairs(vfilters) do
+        if tear == i then
+            signs.veffect[i] = kj.switch(offsets[i], '0D', tostring(val) .. 'D', vfilters[i])
+        end
+    end
+end
+function rwind()
+    windlist = {}
+    for i = 0, 100 do
+      do --\\By: Kiojeen
+        do --\\Ca-O Main.lua
+          for d = 1, 50 do
+            table.insert(windlist, {
+                address = guioffsets.winds - d + i * 256 ,
+                flags = kj.dT('D'),
+                value = 0
+            })
+          end
+        end
+      end
+    end
+    gg.setValues(windlist)
+end
+function setIconSize(size)
+    if size == nil then
+        tear = gg.prompt({'[🧸]Set icons size: Default is 1'}, {1}, {'number'}) 
+        if tear ~= nil then
+            size = tear[1]
+        end
+    end
+    if size ~= nil then
+        local uu = {
+            address = liboffsets.iconsize,
+            flags = kj.dT('F'),
+            value = size,
+        }
+        if not pcall(gg.setValues, {uu}) then
+            gg.toast("Please type properly")
+        end
+    end
+end
+function setspeed(speed)
+    if speed == nil then
+        tear = gg.prompt({'[⏲]Set Game Speed'}, {1}, {'number'})
+        if tear ~= nil then
+            speed = tear[1]
+        end
+    end
+    if speed ~= nil then
+        local uu = {
+            address = guioffsets.gamespeed,
+            flags = kj.dT('F'),
+            value = speed,
+        }
+        if not pcall(gg.setValues, {uu}) then
+            gg.toast("Please type properly")
+        end
+    end
+end
+function cordlist(type)
+    getLevel()
+    getLevel_Cords()
+    local cordls = {}
+    if type_ == nil then
+        type_ = type
+    end
+    if type_ == "c" then
+        for i, v in ipairs(scrSoul[level_Cords].C_Runner) do
+            local c = ''
+            if i < 10 then c = 0 end
+            if sign[i] == 1 then 
+                sign[i] = "✳️" 
+            elseif sign[i] == nil then 
+                sign[i] = '' end
+            table.insert(cordls, "- Candle Location: " .. "-[ " .. c .. i .. " ]- " .. sign[i])
+        end
+        table.insert(cordls, back[1])
+        local tear = gg.choice(cordls, nil, header)
+        if tear == #cordls then 
+            type_ = nil
+            runChoice('c')
+        elseif tear ~= nil then
+            pcall(setPosition, scrSoul[level_Cords].C_Runner[tear])
+            sign[tear] = 1
+            if gg.isVisible(true) then
+                gg.setVisible(false)
+            end
+            cordlist('s')
+        end
+    elseif type_ == "s" then
+        for i, v in ipairs(scrSoul[level_Cords].S_Runner) do
+            local c = ''
+            if i < 10 then c = 0 end
+            if sign[i] == 1 then 
+                sign[i] = "✳️" 
+            elseif sign[i] == nil then 
+                sign[i] = '' end
+            table.insert(cordls, "- Star Location: " .. "-[ " .. c .. i .. " ]- " .. sign[i])
+        end
+        table.insert(cordls, back[1])
+        local tear = gg.choice(cordls, nil, header)
+        if tear == #cordls then 
+            type_ = nil 
+            runChoice('s')
+        elseif tear ~= nil then
+            setPosition(scrSoul[level_Cords].S_Runner[tear])
+            sign[tear] = 1
+            if gg.isVisible(true) then
+                gg.setVisible(false)
+            end
+            cordlist('c')
+        end
+    elseif type_ == "e" then
+        for i, v in ipairs(scrSoul[level_Cords].AK_Runner) do
+            local c = ''
+            if i < 10 then c = 0 end
+            if sign[i] == 1 then 
+                sign[i] = "✳️" 
+            elseif sign[i] == nil then 
+                sign[i] = '' end
+            table.insert(cordls, "- Location: " .. "-[ " .. c .. i .. " ]- " .. sign[i])
+        end
+        table.insert(cordls, back[1])
+        local tear = gg.choice(cordls, nil, header)
+        if tear == #cordls then 
+            type_ = nil 
+            edenAssist()
+        elseif tear ~= nil then
+            setPosition(scrSoul[level_Cords].AK_Runner[tear])
+            sign[tear] = 1
+            if gg.isVisible(true) then
+                gg.setVisible(false)
+            end
+            cordlist('e')
+        end
+    end
+end
+function burner()
+    if not configs.mumu then
+        signs.burn = kj.switch(liboffsets.candles, '-721215457 D', '872415464 D', 'Burning')
+    end
+    if kj.isFrozen(flowers[32].address) then
+        if configs.mumu then
+            gg.removeListItems(candles)
+            signs.burn = ""
+            gg.toast('Burning: OFF')
+        end
+        gg.removeListItems(flowers)
+    else
+        if configs.mumu then
+            gg.setValues(candles)
+            gg.addListItems(candles)
+            signs.burn = "  -〘 ✅ 〙"
+            gg.toast('Burning: ON')
+        end
+        gg.setValues(flowers)
+        gg.addListItems(flowers)
+    end
+end
+function wenergy()
+ do
+   do
+    signs.wcharge = kj.freezeSwitch(emitoffsets.wcharge, '14 F', 'Wing Energy')
+    local fd, bool = kj.switch(liboffsets.wcharge, '505745408D', '505571328 D')
+        if bool or kj.statRev(signs.wcharge) then
+            kj.setValue(emitoffsets.pdamage, '0D', true)
+            kj.setValue(emitoffsets.wcharge + 36, '1F', true)
+        else
+            kj.setValue(emitoffsets.pdamage, '0D')
+            kj.setValue(emitoffsets.wcharge + 36, '1F')
+        end
+    end
+  end
+end
+function configSign()
+    do
+      do
+        if kj.getValue(liboffsets.candles, 'D') == -721215457 then
+            signs.burn = "  -〘 ✅ 〙"
+            gg.setValues(flowers)
+            gg.addListItems(flowers)
+            if configs.mumu then
+                gg.setValues(candles)
+                gg.addListItems(candles)
+            end
+        end
+      end
+    end
+     do
+       do
+        if not configs.mumu then
+            if kj.getValue(liboffsets.wcharge, 'D') == 505729024 then
+                signs.wcharge = "  -〘 ✅ 〙"
+                kj.setValue(emitoffsets.wcharge, '14 F', true)
+                kj.setValue(emitoffsets.pdamage, '0 D', true)
+            end
+        else
+            if kj.isFrozen(emitoffsets.wcharge) then
+                signs.wcharge = "  -〘 ✅ 〙"
+                kj.setValue(emitoffsets.wcharge, '14 F', true)
+                kj.setValue(emitoffsets.pdamage, '0 D', true)
+            end 
+        end
+      end
+    end
+ end
+function oobls(bto)
+    getLevel()
+    STAY = oobls;
+    if configs.awrob then
+        rwind()
+    end
+    if _bto_ == nil then
+        _bto_ = bto
+    end
+    if bto ~= nil then
+        _bto_ = bto
+    end
+    local oBG = gg
+    miniOOB = {}
+        do
+          do
+            table.insert(miniOOB, 1, "[💾]Pin Current Possition")
+            table.insert(miniOOB, 2, "[🏃🏻‍♂️]Goto Pinned Possition")
+            if SkidLock == nil then
+                SkidLock = skidLevel
+            end
+          end
+        end
+        for i, v in pairs(scrSoul) do
+            if v[1] == skidLevel then
+                for u, d in pairs(v.OOB_Goto.OOB_Goto_Name) do
+                    table.insert(miniOOB, u .. ". " .. d)
+                end
+                break
+            end
+        end
+    table.insert(miniOOB, back[1])
+    if SkidLock ~= skidLevel or svpo == nil then
+        SkidLock = skidLevel
+        miniOOB[2] = nil
+        svpo = eye[922]
+    end
+    tear = oBG.choice(miniOOB, nil, header)
+    if #miniOOB == 1 then
+        bp = 3
+    else
+        bp = #miniOOB
+    end
+    if tear == bp then 
+    load(_bto_ .. '()')()
+    elseif tear == eye[1] then svpo = getPosition()
+    zzz = "{" .. svpo[1] .. ', '.. svpo[2] .. ', ' .. svpo[3] .. "},"
+    print(zzz)
+    elseif tear == eye[2] then 
+        pcall(setPosition, svpo)
+    elseif tear ~= eye[336] then
+        getLevel()
+        for i, v in pairs(scrSoul) do
+            if skidLevel == v[1] then
+                pcall(setPosition, v.OOB_Goto.OOB_Goto_Cord[tear - eye[2]])
+                break
+            end
+        end
+    end
+end
+function getPosition()
+    coords = {
+        kj.getValue(emitoffsets.xpos, 'F'),
+        kj.getValue(emitoffsets.ypos, 'F'),
+        kj.getValue(emitoffsets.zpos, 'F'),
+    }
+    return coords
+end
+function sres()
+    local srsG = gg
+    def_width = kj.removePoint(kj.getValue(guioffsets.scrres + 1912, 'F'))
+    def_height = kj.removePoint(kj.getValue(guioffsets.scrres + 1916, 'F'))
+    tear = srsG.prompt({'[📸]Set screenshot resulotion\nChanging the graphics resets it\nWidth:', 'Height:'}, {def_width, def_height}, {'number', 'number'})
+    if tear ~= nil then
+        local uu = {
+            {
+                address = guioffsets.scrres,
+                flags = kj.dT('F'),
+                value = tear[1],
+            },
+            {
+                address = guioffsets.scrres + 4,
+                flags = kj.dT('F'),
+                value = tear[2],
+            },
+        }
+        if not pcall(srsG.setValues, uu) then
+            gg.toast("Please type properly")
+        end
+    end
+end
+function srun_add()
+    if star.trace ~= nil then 
+        if star.trace >= star.limit then 
+          star.trace = star.limit 
+        else 
+          star.trace = star.trace + eye[1] 
+        end
+        pcall(setPosition, scrSoul[star.realm].S_Runner[star.trace])
+        dontRemove = "By: Kiojeen"
+    end
+end
+function srun_sub()
+    if star.trace ~= nil then
+        if star.trace <= 1 then 
+          star.trace = 1 
+        else 
+            star.trace = star.trace - eye[1] 
+        end
+        pcall(setPosition, scrSoul[star.realm].S_Runner[star.trace])
+        dontRemove = "By: Kiojeen"
+    end 
+end
+function statue_add()
+    if statue.trace ~= nil then 
+        if statue.trace >= statue.limit then 
+          statue.trace = statue.limit 
+        else 
+            statue.trace = statue.trace + eye[1] 
+        end
+        pcall(setPosition, scrSoul[statue.realm].AK_Runner[statue.trace])
+        dontRemove = "By: Kiojeen"
+    end   
+end
+function statue_sub()
+    if statue.trace ~= nil then
+        if statue.trace <= 1 then 
+          statue.trace = 1 
+        else 
+          statue.trace = statue.trace - eye[1] 
+        end
+        pcall(setPosition, scrSoul[statue.realm].AK_Runner[statue.trace])
+        dontRemove = "By: Kiojeen"
+    end 
+end
+function bwall(bdis)
+    local temp = {
+        {
+            address = emitoffsets.xpos,
+            flags = kj.dT('F'),
+        },
+        {
+            address = emitoffsets.ypos,
+            flags = kj.dT('F'),
+        },
+        {
+            address = emitoffsets.zpos,
+            flags = kj.dT('F'),
+        },
+        {
+            address = emitoffsets.rad,
+            flags = kj.dT('F'),
+        },
+    }
+    local cords = gg.getValues(temp)
+    if pcall(setPosition, {
+        cords[1].value + bdis * math.sin(cords[4].value),
+        cords[2].value, 
+        cords[3].value + bdis * math.cos(cords[4].value)
+    }) then
+        gg.setVisible(false)
+    end
+  end
+function magicF()
+    STAY = magicF;
+    local content = {
+        "[🔮]Magic Spells",
+        "[✨]Sparks" .. kj.statSwitch(configs.ssparks),
+        "[✨]Shouts Loop",
+        "[🔁]Auto Capes",
+    };
+    content = kj.prepareMenu(content, true);
+    table.insert(content, "[❌]Remove All Spells");
+    local tear = gg.choice(content, nil, header);
+    if tear == eye[1] then
+        return yellowTears();
+    elseif tear == eye[2] then
+        return selectSpell();
+    elseif tear == eye[3] then
+        configs.ssparks = kj.toggler(configs.ssparks);
+        saveconfigs();
+        return magicF();
+    elseif tear == eye[4] then
+        local tear = gg.prompt({'[✨]Specify the number of shouts'}, {1}, {'number'});
+        if tear ~= nil then
+            tear[1] = tonumber(tear[1]);
+            if type(tear[1]) == 'number' then
+                for i = 1, tear[1] do
+                    setspell(1725047129, 7, true);
+                    gg.sleep(100);
+                end
+            else
+                gg.toast("Please type properly") ;
+            end
+            setspell(0, 7);
+        end
+    elseif tear == eye[5] then
+        capeauto = kj.toggler(capeauto);
+    elseif tear == eye[6] then
+        for i = 1, 20 do
+            setspell(0, i);
+        end dontRemove = "BY: Kiojeen";
+    end
+end
+function selectSpell()
+    STAY = selectSpell;
+    local content = {};
+    local msocket = {};
+    content[1] = {};
+    for i = 1, configs.sockets do
+        local cs = kj.getValue(emitoffsets.magic + i * distances.magx - distances.magx, 'D');
+        for d, u in ipairs(magics) do
+            for a, b in ipairs(u.content) do
+                if b[2] == cs then
+                    content[1][i] = "  " ..  u[1] .. b[1];
+                end
+            end
+        end
+        if content[1][i] == nil then
+            content[1][i] = "  [❌]None";
+        end
+        if i < 10 then o = 0; else o = ""; end
+        table.insert(msocket, "| [🔮]Spell [" .. o .. i .. "]: " .. content[1][i]);
+    end
+    table.insert(msocket, 1, back[1]);
+    table.insert(msocket, 2, "[❌]Remove All");
+    local tear = gg.choice(msocket, nil, "‍[️🧙]️Magic Spells: Only three are visible at a time");
+    if tear == eye[1] then
+        return magicF();
+    elseif tear == eye[2] then
+        for i = 1, 20 do
+            setspell(0, i);
+        end dontRemove = "BY: Kiojeen";
+    elseif tear ~= nil then
+        local x = tear - 2;
+        content[2] = {};
+        table.insert(content[2], 1, back[1]);
+        table.insert(content[2], 2, "[❌]Remove");
+        for i, v in ipairs(magics) do
+            table.insert(content[2], v[1] .. v[2]);
+        end
+        tear = gg.choice(content[2], nil, "[🔮]Spell [" .. x .. "]  |   " .. content[1][x]);
+        if tear == eye[1] then
+            return selectSpell();
+        elseif tear == eye[2] then
+            return setspell(0, x);
+        elseif tear ~= nil then
+            content[1] = {};
+            content[2] = {};
+            local y = tear - 2;
+            for i, v in ipairs(magics[y].content) do
+                content[1][i] = magics[y][1] .. v[1];
+                content[2][i] = v[2];
+            end
+            content[1] = kj.prepareMenu(content[1], true);
+            tear = gg.choice(content[1], nil, content[1][tear - 1]);
+            if tear == eye[1] then
+                selectSpell();
+            elseif tear ~= nil then
+                return setspell(content[2][tear - 1], x, configs.ssparks);
+            end
+        end
+    end                                           
+end
+mtracer = 0
+function autoCape()
+    if mtracer == #magics[4].content then
+        mtracer = 0
+    end
+    mtracer = mtracer + 1
+    setspell(magics[4].content[mtracer][2], 1)
+    if not capetrick then
+        gg.sleep(2000)
+    end
+end
+function lighter()
+    --Missing pshout
+    if kj.getValue(emitoffsets.pashout, 'D') == 1 then
+        setspell(-1463943689, 4)
+        gg.sleep(100)
+        setspell(0, 4, true)
+    end
+end
+function cptrick()
+    for i = 0, 1, 0.1 do
+        kj.setValue(emitoffsets.wvisible, tostring(i) .. 'F')
+        gg.sleep(100)
+    end
+    for i = 1, 0, -0.1 do
+        kj.setValue(emitoffsets.wvisible, tostring(i) .. 'F')
+        gg.sleep(100)
+    end
+end
+function setspell(id, socket, spark)
+    if spark then
+        vspark = 0;
+    else
+        vspark = 360;
+    end
+    local socket = socket * distances.magx - distances.magx;
+    gg.setValues({
+        {
+            address = emitoffsets.magic + distances.mcount,
+            flags = kj.dT('D'),
+            value = 20,
+        },
+        {
+            address = emitoffsets.magic + socket,
+            flags = kj.dT('D'),
+            value = id,
+        },
+        {
+            address = emitoffsets.magic + 12 + socket,
+            flags = kj.dT('D'),
+            value = -1,
+        },
+        {
+            address = emitoffsets.magic + 40 + socket,
+            flags = kj.dT('D'),
+            value = vspark,
+        },
+    })
+end
+function savelocat()
+    STAY = savelocat;
+    getLevel()
+    local name = {}
+    local remove = {}
+    local cord = {}
+    for i, v in ipairs(slocs) do
+        table.insert(name, i .. '. ' .. v.Level_name .. ': ' .. v.Location_name)
+        table.insert(remove, i .. '. ' .. v.Level_name .. ': ' .. v.Location_name)
+        table.insert(cord, {v.x, v.y, v.z})
+    end
+    table.insert(name, 1, "[📥]Add this location")
+    table.insert(name, 2, "[📝]Rename a location")
+    table.insert(name, 3, "[❌]Remove a location")
+    table.insert(name, back[1])
+    tear = gg.choice(name, nil, header)
+    if tear ==  #name then 
+        teleports()
+    elseif tear == eye[1] then
+        local temp = {}
+        local userinput = 'Location: ' .. #remove + 1
+        tear = gg.prompt({'[📥]Put a name:'}, {userinput}, {'text'})
+        if tear ~= nil then
+            userinput = tear[1]
+        end
+        temp = {
+            Level_name = skidLevel,
+            Location_name = userinput,
+            x = getPosition()[1],
+            y = getPosition()[2],
+            z = getPosition()[3]
+        }
+        table.insert(slocs, temp)
+        saveconfigs()
+        gg.toast('Success')
+    elseif tear == eye[2] then
+        local tear = gg.choice(remove, nil, header)
+        if tear ~= nil then
+            local userinput = slocs[tear].Location_name
+            local x = gg.prompt({'[📥]Put a name:'}, {userinput}, {'text'})
+            if x then
+                slocs[tear].location_name = x[1]
+                saveconfigs()
+                gg.toast('Success')
+            end
+        end
+    elseif tear == eye[3] then
+        local tear = gg.choice(remove, nil, header)
+        if tear ~= nil then
+            for i, v in ipairs(slocs) do
+                if tear == i then
+                    table.remove(slocs, i)
+                end
+            end
+            saveconfigs()
+        end
+    elseif tear ~= nil then
+        if skidLevel ~= slocs[tear - 3].Level_name then
+            setsmap(slocs[tear - 3].Level_name)
+            gg.sleep(3500)
+        end
+        setPosition(cord[tear - 3])
+    end
+end
+function getQuests()
+    if #gquests < 3 then
+        gg.setRanges(gg.REGION_OTHER| gg.REGION_C_ALLOC);
+        gquest = emitoffsets.gquest - 4;
+        gg.clearResults();
+        gg.searchNumber('812671252D;1819178294D::5', kj.dT('D'), false, gg.SIGN_EQUAL, gquest, gquest + 83528, 0);
+        gg.refineNumber('812671252', kj.dT('D'))
+        gquests = gg.getResults(gg.getResultsCount());
+        gg.clearResults();
+        for i, v in ipairs(gquests) do
+            v.address = v.address + 8;
+            table.remove(v, value);
+        end
+        gquests = gg.getValues(gquests);
+        if #gquests > 3 then
+            return true;
+        else
+            return false;
+        end
+    else
+        return true;
+    end
+end
+function modQuest(bool)
+    if getQuests() then
+    do
+      do
+        if #gquests > 3 then
+            if bool then
+                for i, v in ipairs(gquests) do
+                    v.value = 0
+                end
+                gg.setValues(gquests)
+                gg.toast('Unlock Quests: ON')
+            else
+                for i, v in ipairs(gquests) do
+                    v.value = 7037807
+                end
+                gg.setValues(gquests)
+                gg.toast('Unlock Quests: OFF')
+            end
+        elseif not getQuests() then
+            gg.toast('Failed')
+            return
+        end 
+      end
+    end     
+    elseif not getQuests() then
+    gg.toast('Failed')
+    return
+  end 
+end
+function Players()
+    STAY = Players;
+    local tear = gg.choice(yellow[current_menu].content, nil, "Be careful");
+    if tear == eye[1] then 
+        yellowTears();
+    elseif tear == eye[2] then
+        kj.groupFreezeSwitch(showCandle, "Force Candles");
+    end
+ end
+ function setsmap(str)
+    local temp = kj.getValue(guioffsets.gamespeed, "F")
+    tps = emitoffsets.mportal
+    kj.setString(tps, '.' .. str, 30)
+    setspeed(100)
+    setspell(224110574, 8, true)
+    gg.sleep(1500)
+    setspeed(temp)
+    kj.setString(tps, '.Rain_Cave', 30)
+    setspell(0, 8)
+ end
+function absorbFrags()
+    local uu = {}
+    for i = 0, 100 do
+        frags = guioffsets.frags + i * distances.frags
+        table.insert(uu, {
+            address = frags,
+            value = getPosition()[1],
+            flags = kj.dT('F'),
+        })
+        table.insert(uu, {
+            address = frags + 4,
+            value = getPosition()[2] + 0.5,
+            flags = kj.dT('F'),
+        })
+        table.insert(uu, {
+            address = frags + 8,
+            value = getPosition()[3],
+            flags = kj.dT('F'),
+        })
+        table.insert(uu, {
+            address = frags + 128,
+            value = getPosition()[1],
+            flags = kj.dT('F'),
+        })
+        table.insert(uu, {
+            address = frags + 4 + 128,
+            value = getPosition()[2] + 0.5,
+            flags = kj.dT('F'),
+        })
+        table.insert(uu, {
+            address = frags + 8 + 128,
+            value = getPosition()[3],
+            flags = kj.dT('F'),
+        })
+    end
+    gg.setValues(uu)
+end
+function absorbStars()
+    local temp = {}
+    for i = 0, 24 do
+        if kj.getValue(guioffsets.wbuff + distances.wbuff * i, 'D') == 1 then
+            table.insert(temp, {
+                address = guioffsets.wbuff + distances.wbuff * i,
+                flags = kj.dT('D'),
+                value = 4,
+            })    
+        end
+    end gg.setValues(temp)
+    gg.sleep(100)
+    for i, v in ipairs(temp) do
+      do
+        do
+        v.value = 8
+        end
+      end
+    end
+    gg.setValues(temp)
+  end
+function drawCandles()
+    for i = 0, 250 do
+    local candle = guioffsets.candlespos + i * distances.candlespos
+    local uu = {}
+        table.insert(uu, {
+            address = candle,
+            value = getPosition()[1],
+            flags = kj.dT('F'),
+        })
+        table.insert(uu, {
+            address = candle + 4,
+            value = getPosition()[2],
+            flags = kj.dT('F'),
+        })
+        table.insert(uu, {
+            address = candle + 8,
+            value = getPosition()[3],
+            flags = kj.dT('F'),
+        })
+        gg.setValues(uu)
+        if gg.isVisible(true) then
+            break
+        end
+    end
+end
+function getNPC()
+    local nc = {}
+    local nm = {}
+    local c = 0
+    local npc = emitoffsets.xpos + distances.xtonpc
+    for i = 0, 34 do
+        local na = npc + distances.npc * i
+        if kj.getValue(na, 'F') ~= 0 and kj.getValue(na + 12, 'F') == 0 then
+            c = c + 1
+            nc[c] = {}
+            table.insert(nc[c], {
+                address = na,
+                flags = kj.dT('F'),
+            })
+            table.insert(nc[c], {
+                address = na + 4,
+                flags = kj.dT('F'),
+            })
+            table.insert(nc[c], {
+                address = na + 8,
+                flags = kj.dT('F'),
+            })
+        end
+    end
+    for i, v in ipairs(nc) do
+        table.insert(nm, i .. '. ' .. 'NPC [Spirit/Character]')
+    end
+    return nc, nm
+ end
+ function drawNPC()
+    STAY = drawNPC;
+    getLevel();
+    local x, y = getNPC();
+    local description;
+    if #x < 1 then
+       description = "There are no NPCs here to move";
+       description = description .. '\n' .. kj.margin(40);
+    else
+       description = header;
+    end
+      do
+        do
+         table.insert(y, 1, back[1]);
+        end
+      end
+    local tear = gg.choice(y, nil, description);
+    if tear == eye[1] then 
+        moveObjects();
+    elseif tear ~= nil then
+       for i = 1, 3 do
+          x[tear - 1][i].value = getPosition()[i];
+       end
+       gg.setValues(x[tear - 1]);
+    end
+ end
+function abswaxpro()
+    kj.setValue(liboffsets.absorb, '506892288 D')
+    kj.setValue(liboffsets.mabsorb, '999999 F')
+    if configs.mumu then
+        absorbWax()
+    end
+    gg.sleep(1000)
+    kj.setValue(liboffsets.absorb, '1847647232 D')
+    kj.setValue(liboffsets.mabsorb, '3.5 F')
+end
+function importOOBs()
+    local dir = '/storage/emulated/0/Download/'
+    local tear = gg.prompt({'Choose the path for the coordinates file:'}, {dir}, {'file'})
+    if tear then
+        local _, file = pcall(io.open, tear[1])
+        if _ then
+            file = file:read("*a")
+            if string.len(file) < 4 then
+                return gg.toast('This is not a valid file.')
+            else
+                pcall(load(file))
+                if ela then
+                    ela = nil
+                    for i, v in pairs(slocs_local) do
+                        table.insert(slocs, v)
+                    end
+                    saveconfigs()
+                else
+                    return gg.toast('This is not a valid file.')
+                end
+            end
+        end
+        gg.toast('Success')
+    end
+end
+function absorbWax()
+    if signs.burn == "" then burner() gg.sleep(500) end
+    gg.setRanges(gg.REGION_OTHER| gg.REGION_C_ALLOC)
+    local fwx, bool = kj.findAddress('-1.0;3.5F::5 F', gui + 11204520, emit + 9123652, 1, 2)
+    if bool then
+        wx = {}
+        for i = 0, 400 do
+            if kj.getValue(fwx + i * 480, 'F') == 3.5 then
+                table.insert(wx, {
+                    address = fwx + i * 480,
+                    flags = kj.dT('F'),
+                    value = 99999
+                })
+            end
+        end
+        for i = 1, -100, -1 do
+            if kj.getValue(fwx + i * 480, 'F') == 3.5 then
+                table.insert(wx, {
+                    address = fwx + i * 480,
+                    flags = kj.dT('F'),
+                    value = 99999
+                })
+            end
+        end
+        gg.setValues(wx)
+    end
+end
+notranui = {
+    1082130432,
+    1084227584,
+    1065353216,
+    1065353216,
+    1084227584,
+    1086324736,
+    1073741824,
+    1073741824,
+    1086324736,
+    1088421888,
+    1077936128,
+    1082130432,
+    1090519040,
+    1091567616,
+    1084227584,
+    1086324736,
+    1092616192,
+    1093664768,
+    1088421888,
+    1090519040,
+    1094713344,
+    1095761920,
+    1091567616,
+    1091567616,
+    1095761920,
+    1096810496,
+    1092616192,
+    1092616192,
+    1096810496,
+    1097859072,
+    1093664768,
+    1084227584,
+    1091567616,
+    1092616192,
+    1086324736
+}
+function teaMake()
+do
+  do candles = {}
+    for i = 0, 650 do
+        table.insert(candles, {
+            address = guioffsets.candles + i * distances.candles, 
+            flags = kj.dT('F'),
+            value = 1,
+            freeze = true,        
+        })
+    end
+  end
+end
+ do
+   do flowers = {}
+    for i = 0, 350 do
+        table.insert(flowers, {
+            address = guioffsets.flowers + i * distances.flowers,
+            flags = kj.dT('F'),
+            value = 0,
+            freeze = true,         
+        })
+    end
+  end
+end
+   do
+     do showCandle = {}
+        for i = 0, 7, 1 do
+            table.insert(showCandle, {
+                address = guioffsets.pcandle + i * distances.pcandle, 
+                flags = kj.dT('D'), 
+                value = 1, 
+                freeze = true
+            })
+        end
+     end
+   end
+    do
+     do local temp = {}
+        for i, v in ipairs(notranui) do
+            table.insert(temp, {
+                address = liboffsets.uitran + i * 4,
+                flags = kj.dT('D'),
+                value = v
+            })
+        end
+        notranui = temp
+     end
+  end
+    do
+      do dontgo = {}
+        for i = 0, 1 do
+            table.insert(dontgo, {
+                address = guioffsets.unmovnt + i * 4,
+                flags = kj.dT('F'),
+                value = 1,
+            })
+        end
+      end
+    end
+end
+function selectLevel(bto)
+    getLevel()
+    if _bto_ == nil then
+        _bto_ = bto
+    end
+    if bto ~= nil then
+        _bto_ = bto
+    end
+    if _bto_ == "teleports()" or _bto_ == "yellowStar()" then
+        STAY = selectLevel;
+    end
+      do
+        do
+        realms = {}
+        table.insert(realms, "1 | [🏠]Home")
+            for i, v in ipairs(world) do
+                table.insert(realms, i + 1 .. " | " .. v[1] .. v[2])
+            end
+        end
+     end
+        do
+          do
+            table.insert(realms, 1, "[🔄]Refresh The Map")
+            table.insert(realms, back[1])
+          end
+        end
+    local tear = gg.choice(realms, nil, header)
+    if tear ~= nil then
+        fhdr = tear - 2
+        if tear == eye[1] then
+            local temp = getPosition()
+            setsmap(skidLevel)
+            gg.sleep(1000)
+            setPosition(temp)
+        elseif tear == eye[2] then 
+            setsmap("CandleSpace")
+        elseif tear == #realms then
+            load(_bto_)()
+        else
+            realms = {}
+            name = {}
+            for i, v in ipairs(world[tear - 2].content) do
+                table.insert(realms, world[tear - 2][1] ..  v[1])
+                table.insert(name, v[2])
+            end
+            table.insert(realms, back[1])
+            tear = gg.choice(realms, nil, world[fhdr][1] .. world[fhdr][2])
+            if tear == #realms then
+                selectLevel(_bto_)
+            elseif tear ~= nil then
+                setsmap(name[tear])
+            end
+        end
+    end
+end
+function tranUi()
+    if kj.getValue(liboffsets.uitran + 4, 'F') ~= 4 then
+        gg.setValues(notranui)
+        gg.toast('Transparent Ui: OFF')
+    else
+        local uu = {}
+        for i, v in ipairs(notranui) do
+            table.insert(uu, {
+                address = liboffsets.uitran + i * 4,
+                value = 0,
+                flags = kj.dT('F'),
+            })
+        end
+        gg.setValues(uu)
+        gg.toast('Transparent Ui: ON')
+    end
+end
+function acrholder()
+    if gg.isVisible(true) then
+        gg.setVisible(false)
+        tear = gg.choice({'[▶️]Resume Runnung', '[⏸]Pause Running', '[⏹]Stop Running'})
+        if tear == eye[1] then
+            return
+        elseif tear == eye[2] then
+            setspeed(1)
+            hold()
+            setspeed(100)
+        elseif tear == eye[3] then
+            do
+              do
+                kj.setValue(liboffsets.absorb, '1847647232 D')
+                  kj.setValue(liboffsets.mabsorb, '3.5 F')
+                 setoffline(offline)
+              end
+            end
+          return true
+        end
+    end
+end
+function asrholder()
+    if gg.isVisible(true) then
+        gg.setVisible(false)
+        tear = gg.choice({'[▶️]Resume Runnung', '[⏸]Pause Running', '[⏹]Stop Running'})
+        if tear == eye[1] then
+            return
+        elseif tear == eye[2] then
+            setspeed(1)
+            hold()
+            setspeed(100)
+        elseif tear == eye[3] then
+          return true
+        end
+    end
+end
+function autoCr()
+    gg.setVisible(false)
+    setoffline(true)
+    gg.sleep(500) 
+    if signs.burn == "" then 
+        burner() 
+        gg.sleep(500) 
+    end
+    if signs.wcharge == "" then
+        wenergy()
+    end
+    gg.toast('Click on the GG icon to stop')
+    kj.setValue(liboffsets.absorb, '506892288 D')
+    kj.setValue(liboffsets.mabsorb, '999999 F')
+    if configs.mumu then
+        absorbWax()
+    end
+    for i, v in ipairs(scrSoul) do
+        if #v.AC_Runner > 0 then
+            if acrholder() then
+                setspeed(1)
+                return
+            else
+                setsmap(v[1])
+                gg.sleep(3500)
+                setspeed(100)
+                getLevel()
+            end
+            if skidLevel == v[1] then
+                for d, u in ipairs(v.AC_Runner) do
+                    setPosition(u)
+                    if acrholder() then
+                        setspeed(1)
+                        return
+                    elseif d <= #v.AC_Runner then
+                        gg.sleep(1500)
+                    end
+                end
+                if configs.mumu then
+                    absorbWax()
+                end
+            end
+            setspeed(1)
+            gg.sleep(1000)
+        end
+    end
+     do
+      do
+        setoffline(false)
+        setsmap('SunsetRace')
+        gg.sleep(3500)
+        setspeed(100)
+        setPosition({
+            155.22377011656, 
+            935.01141357488, 
+            662.05700683535
+        })
+        gg.sleep(100)
+        kj.setValue(emitoffsets.ppose, '2D')
+        absorbFrags()
+        gg.sleep(5000)
+        gg.sleep(1)
+        gg.sleep(1000)
+     end
+    end
+     do
+      do
+        setsmap('SunsetEnd')
+        gg.sleep(3600)
+        setspeed(100)
+        absorbFrags()
+        gg.sleep(10000)
+      end
+     end
+      do
+       do
+        setsmap('Sunset_FlyRace')
+        gg.sleep(3500)
+        setspeed(100)
+        setPosition({
+            165.97737121203, 
+            1186.8894042659, 
+            398.89068603525
+        })
+        gg.sleep(100)
+        kj.setValue(emitoffsets.ppose, '2D')
+        absorbFrags()
+        gg.sleep(5000)
+        gg.sleep(1)
+        gg.sleep(1000)
+      end
+    end
+     do
+      do
+        setsmap('SunsetEnd')
+        gg.sleep(3600)
+        setspeed(100)
+        absorbFrags()
+        gg.sleep(12000)
+      end
+     end
+      do
+       do
+        setsmap('Dawn_TrialsEarth')
+        gg.sleep(3600)
+        setspeed(100)
+        setPosition({
+            1.5715955498335, 
+            128.15325927375, 
+            15.834683418226
+        })
+        gg.sleep(100)
+        kj.setValue(emitoffsets.ppose, '2D')
+        gg.sleep(10000)
+       end
+      end
+    setsmap('CandleSpace')
+    kj.setValue(liboffsets.absorb, '1847647232 D')
+    kj.setValue(liboffsets.mabsorb, '3.5 F')
+    setoffline(false)
+end
+local orbitStars = {
+    {
+        0.0319179810341, 
+        0.5430656075776, 
+        66.908210754353
+    },
+    {
+        -0.499208034485, 
+        0.6483629941908, 
+        82.449447631594
+    },
+    {
+        0.0974868680953, 
+        0.6134538650595, 
+        96.198089960938
+    },
+    {
+        0.4617929160494, 
+        0.6448607448184, 
+        109.19270324731
+    },
+    {
+        -0.390412921155, 
+        0.6044935068298, 
+        124.22509765625
+    },
+}
+function autoSr()
+    gg.setVisible(false)
+    for i, v in ipairs(scrSoul) do
+        if #v.S_Runner > 0 then
+            setspeed(100)
+            if asrholder() then
+                setspeed(1)
+                return
+            else
+                setsmap(v[1])
+                setspeed(1000)
+                gg.sleep(1000) 
+                absorbStars()
+                gg.sleep(3500) 
+            end
+        end
+    end
+    setsmap('Dawn_TrialsFire')
+    setspeed(1000)
+    gg.sleep(1000)
+    setPosition({
+        -12.39305686936,
+        50.221366882322,
+        -257.2058715825
+    })
+    burner()
+    kj.setValue(emitoffsets.ppose, '2D')
+    burner()
+    gg.sleep(5000)
+    absorbStars()
+    gg.sleep(1000)
+    setsmap('CandleSpaceEnd')
+    setspeed(1000)
+    gg.sleep(1000)
+    while true do
+        getLevel()
+        if skidLevel == 'CandleSpaceEnd' then
+            for i, v in ipairs(orbitStars) do
+                setPosition(v)
+                gg.sleep(1500)
+            end
+            break
+        end
+    end
+    setsmap('StormStart')
+    setspeed(1000)
+    gg.sleep(3000)
+    setsmap('CandleSpace')
+end
+function setoffline(bool)
+    if bool then
+        kj.setValue(liboffsets.offline, '1384120320D')
+        gg.toast('Offline Mode: ON')
+    else
+        kj.setValue(liboffsets.offline, '889192744D')
+        gg.toast('Offline Mode: OFF')
+    end
+end
+SPLine = kj.margin(70)
+print[[
+🪐╭╮╭━╮
+☄️┃┃┃╭╯╱╱╱╱╭╮
+🪐┃╰╯╯╭┳━━╮╰╋━━┳━━┳━╮
+☄️┃╭╮┃┣┫╭╮┃╭┫┃━┫┃━┫╭╮╮
+🪐┃┃┃╰┫┃╰╯┃┃┃┃━┫┃━┫┃┃┃
+☄️╰╯╰━┻┻━━╯┃┣━━┻━━┻╯╰╯
+🪐╱╱╱╱╱╱╱╱╭╯┃
+☄️╱╱╱╱╱╱╱╱╰━╯
+]]
+instructions = {
+    run = {
+        [[
+            [ℹ️]Running Instructions
+            ---------------------------------------------
+            [🕯]Auto Candle Run:
+            Collect Wax from the maps by teleporting and absorbing
+            the wax from the maps.
+        ]],
+        [[
+            [ℹ️]Running Instructions
+            ---------------------------------------------
+            [⭐]Auto Star Run:
+            Collect stars from the maps by teleporting and absorbing
+            the stars from the maps.
+        ]],
+        [[
+            [ℹ️]Running Instructions
+            ---------------------------------------------
+            [🕯]Semi Candle Run:
+            Collecting wax alone or with other players by changing
+            your coordinates to teleport to each candle/plant location.
+            You can cancel teleporting by clicking on gg icon.
+            This option won't show if the map you are in doesn't have candles.
+        ]],
+        [[
+            [ℹ️]Running Instructions
+            ---------------------------------------------
+            [⭐]Semi Star Run:
+            Collecting stars alone or with other players by changing
+            your coordinates to teleport to each star location.
+            This option won't show if the map you are in doesn't have stars.
+        ]],
+        [[
+            [ℹ️]Running Instructions
+            ---------------------------------------------             
+            [🔖]Unlock Seasonal Quests:
+            Unlock the seasonal quests on the guides trees.
+            After unlocking check the tree of the guide.
+        ]],
+    },
+    description = {
+        [[
+            [ℹ️]Hellboy Description
+            ---------------------------------------------
+            Hellboy is a free open source script.
+            The script is to modify 'Sky: Children of the light'
+            for it Live - Global version and sometimes the Beta version.
+            This script is not for sell and not to be stolen from.
+            You can get more informations by visiting the official discord sever
+            https://discord.gg/2AHfEQJggX
+        ]],
+    }
+}
+function offseter()
+    bootloader = gg.getRangesList("libBootloader.so")[1].start
+    emit = kj.getValue(bootloader + liboffsets.emitptr, 'Q')
+    gui = kj.getValue(bootloader + liboffsets.guiptr, 'Q')
+    offseters = {
+        {
+            address = emit,
+            flags = kj.dT('Q'),
+            name = 'emit',
+        },
+        {
+            address = gui,
+            flags = kj.dT('Q'),
+            name = 'gui',
+        },
+    }
+    for i, v in pairs(emitoffsets) do
+        emitoffsets[i] = emit + v
+    end
+    for i, v in pairs(guioffsets) do 
+        guioffsets[i] = gui + v
+    end
+    for i, v in pairs(liboffsets) do
+        liboffsets[i] = bootloader + v
+    end
+end
+function saveconfigs()
+    local cfgs = io.open('/sdcard/Hellboy.kj', 'w')
+    cfgs:write('configs = '.. kj.tableToString(configs))
+    cfgs:write('\nslocs = ' .. kj.tableToString(slocs))
+    cfgs:close()
+end
+function loadconfigs()
+    local cfgs = io.open('/sdcard/Hellboy.kj', 'r')
+    if cfgs == nil then
+        saveconfigs()
+        return
+    end
+    cfgs = cfgs:read("*a")
+    if cfgs == nil then
+        saveconfigs()
+    elseif cfgs ~= nil then
+        local bool, msg = pcall(load, cfgs)
+        if bool then
+            load(msg)()
+            for i, v in pairs(configz) do
+                if not configs[i] then
+                    configs[i] = v
+                    saveconfigs()
+                end
+            end
+        else
+            saveconfigs()
+        end
+    else
+        saveconfigs()
+    end
+end
+function vcompare(x, y, str)
+    if x ~= y then
+        if x > y then
+            gg.alert("Sky version mismatch\nWait for the script to be updated\nScript Version: Sky " .. str .. "[" .. y .. "]\nCurrent Version: Sky " .. str .. "[" .. x .. "]");
+        elseif y < x then
+            gg.alert("Sky version mismatch\nUpdate your game\nScript Version: Sky " .. str .. "[" .. y .. "]\nCurrent Version: Sky " .. str .. "[" .. x .. "]");
+        end
+        os.exit();
+    else 
+        return true;
+    end
+end
+function vcheck()
+    local package = gg.getTargetPackage();
+    local version = gg.getTargetInfo().versionCode;
+    local hellboy = "-[" .. debug.getinfo(launch).lastlinedefined + 1 .. "]-";
+    if string.find(package, 'com.tgc.sky.android.test') then
+        gg.toast('[Beta]HellBoy' .. hellboy);
+        if vcompare(version, sky.beta.version, "Beta") then
+            emitoffsets = kj.tableClone(bemitoffsets);
+            guioffsets = kj.tableClone(bguioffsets);
+            distances = kj.tableClone(bdistances);
+            liboffsets = kj.tableClone(bliboffsets); 
+        end
+    elseif string.find(package, 'com.tgc.sky.android.h') then
+        gg.toast('[Huawei]HellBoy' .. hellboy);
+        if vcompare(version, sky.huawei.version, "Huawei") then
+            emitoffsets = kj.tableClone(hemitoffsets);
+            guioffsets = kj.tableClone(hguioffsets);
+            distances = kj.tableClone(hdistances);
+            liboffsets = kj.tableClone(hliboffsets);
+        end
+    elseif string.find(package, 'com.tgc.sky.android') then
+        gg.toast('[Live]HellBoy' .. hellboy)
+        if vcompare(version, sky.live.version, "Live") then
+            emitoffsets = kj.tableClone(lemitoffsets);
+            guioffsets = kj.tableClone(lguioffsets);
+            distances = kj.tableClone(ldistances);
+            liboffsets = kj.tableClone(lliboffsets);
+        end
+    else
+        gg.alert("Sky package mismatch\nSelect the right process\nCurrent process: " .. package);
+        os.exit();
+    end
+end
+function vacuum()
+    bemitoffsets = nil;
+    bguioffsets = nil;
+    bdistances = nil;
+    bliboffsets = nil;
+    hemitoffsets = nil;
+    hguioffsets = nil;
+    hdistances = nil;
+    hliboffsets = nil;
+    lemitoffsets = nil;
+    lguioffsets = nil;
+    ldistances = nil;
+    lliboffsets = nil;
+    sky = nil;
+    vcheck = nil;
+    vcompare = nil;
+    startUpTrigger = nil;
+    teaMake = nil;
+    configz = nil;
+end
+function noUiTrigger()
+    if capeauto then
+        autoCape()
+    end
+    if capetrick then
+        cptrick()
+    end
+    if drawcandles then
+        drawCandles()
+    end
+    if lighterauto then
+        lighter()
+    end
+end
+function startUpTrigger()
+  gg.setVisible(false)
+  if not pcall(loadconfigs) then
+      kj.post({
+    [[[☣️]Your Configs are corrupted.
+    ---------------------------------------------
+      The script will reset them
+      Your old Configs will be saved to your Download folder.
+      You can find your Saved Locations there and put them
+      back manually in your configs.
+    ]]})
+      local hotLoad = io.open('/sdcard/Hellboy.kj', 'r')
+      hotLoad = hotLoad:read("*a")
+      local hotSave = io.open('/storage/emulated/0/Download/Hellboy-Corrupted Settings.txt', 'w')
+      hotSave:write(hotLoad)
+      hotSave:close()
+      configs = configz
+      slocs = {}
+      saveconfigs()
+  end
+  vcheck()
+    do
+      do
+        offseter()
+        teaMake()
+        patchbeta(configs.pbeta)
+      end
+    end
+    do
+      do
+        fastHome(configs.fasthome)
+          kj.setValue(liboffsets.mtprst, '-721215457D')  
+         kj.setValue(guioffsets.mesharedptr, tostring(emitoffsets.tomshptr) .. "Q") 
+      end
+    end
+     do
+       do
+          kj.setValue(liboffsets.mtpmrt, '-721215457D') 
+         kj.setValue(liboffsets.mtpcol, '1385007177D')  
+      end
+    end
+    do
+      do
+         kj.setValue(liboffsets.mtpcol + 4, '1923902505D')
+        kj.setValue(liboffsets.mtpcol + 8, '1384123754D')
+      end
+    end
+    do
+      do
+        configSign()        
+        kj.setString(liboffsets.kjrights, dontRemove, 13)
+      end
+    end
+ end
+function launch()
+    startUpTrigger()
+    vacuum();  
+    function demode()
+        while true do
+            if gg.isClickedUiButton() then
+                gg.addListItems(offseters)
+                STAY();
+            end
+            noUiTrigger()
+        end
+    end
+    function nodemode()
+        while true do
+            if gg.isVisible(true) then
+                gg.setVisible(false)
+                STAY();
+            end
+            noUiTrigger()
+        end
+    end
+    function handlers()
+        if configs.devmode then
+            gg.showUiButton()
+            demode()
+        else
+            gg.hideUiButton()
+            nodemode()
+        end
+    end
+    while true do
+        if gg.isVisible(true) then
+            gg.setVisible(false)
+            getLevel()
+            break
+        end
+    end
+    yellowTears()
+    handlers()
+end
+launch()
